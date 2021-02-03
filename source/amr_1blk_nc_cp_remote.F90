@@ -149,17 +149,17 @@
 
        if (no_permanent_guardcells) Then
 
-       unk_n1(1:nvarcorn,id1:id1+il,jd1:jd1+jl,                        & 
-                                        kd1:kd1+kl,idest)              & 
-          =  gt_unk_n(1:nvarcorn,is1:is1+il,js1:js1+jl,                & 
-                                 ks1:ks1+kl,                           & 
+       unk_n1(id1:id1+il,jd1:jd1+jl,                        & 
+                                        kd1:kd1+kl,1:nvarcorn,idest)              & 
+          =  gt_unk_n(is1:is1+il,js1:js1+jl,                & 
+                                 ks1:ks1+kl,1:nvarcorn,                           & 
                                  remote_block)
        Else ! no_permanent_guardcells
 
-       unk_n1(1:nvarcorn,id1:id1+il,jd1:jd1+jl,                        & 
-                                        kd1:kd1+kl,idest)              & 
-          =  unk_n(1:nvarcorn,is1:is1+il,js1:js1+jl,                   & 
-                              ks1:ks1+kl,                              & 
+       unk_n1(id1:id1+il,jd1:jd1+jl,                        & 
+                                        kd1:kd1+kl,1:nvarcorn,idest)              & 
+          =  unk_n(is1:is1+il,js1:js1+jl,                   & 
+                              ks1:ks1+kl,1:nvarcorn,                              & 
                               remote_block)
 
        End If ! End If (no_permanent_guardcells)
@@ -217,7 +217,7 @@
           Do ivar=1,ngcell_on_nc
            ivar_next = gcell_on_nc_pointer(ivar)
 
-           unk_n1(ivar_next,ii,jj,kk,idest) =                          & 
+           unk_n1(ii,jj,kk,ivar_next,idest) =                          & 
                      temprecv_buf(index+ivar)
           End Do  ! End Do ivar=1,ngcell_on_nc
 
@@ -230,7 +230,7 @@
 
 #ifdef DEBUG
          Write(*,*) 'pe ',mype,' unpacked recv for unk_n1 ',i,j,k,     & 
-            unk_n1(1:nvarcorn,ii,jj,kk,idest),' index ',index+1
+            unk_n1(ii,jj,kk,1:nvarcorn,idest),' index ',index+1
 #endif /* DEBUG */
 
         End Do  ! End Do i = ia,ib

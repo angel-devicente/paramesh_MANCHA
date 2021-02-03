@@ -126,7 +126,7 @@
       do j = ja , jb 
       do i = ia , ib
         do n=1,nedges
-          S_buffer(index) = bedge_facex_y(n,i,j,k,lb)
+          S_buffer(index) = bedge_facex_y(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -138,7 +138,7 @@
       do j = ja , jb
       do i = ia , ib
         do n=1,nedges
-          S_buffer(index) = bedge_facex_z(n,i,j,k,lb)
+          S_buffer(index) = bedge_facex_z(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -174,7 +174,7 @@
       do j = ja , jb
       do i = ia , ib
         do n=1,nedges
-          S_buffer(index) = bedge_facey_x(n,i,j,k,lb)
+          S_buffer(index) = bedge_facey_x(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -186,7 +186,7 @@
       do j = ja , jb
       do i = ia , ib
         do n=1,nedges
-          S_buffer(index) = bedge_facey_z(n,i,j,k,lb)
+          S_buffer(index) = bedge_facey_z(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -227,7 +227,7 @@
       do j = ja , jb
       do i = ia , ib
         do n=1,nedges
-          S_buffer(index) = bedge_facez_x(n,i,j,k,lb)
+          S_buffer(index) = bedge_facez_x(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -238,7 +238,7 @@
       do j = ja , jb
       do i = ia , ib
         do n=1,nedges
-          S_buffer(index) = bedge_facez_y(n,i,j,k,lb)
+          S_buffer(index) = bedge_facez_y(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -271,7 +271,7 @@
       endif
       do i = ia , ib
         do n=1,nedges
-          S_buffer(index) = bedge_facez_x(n,i,j,k,lb)
+          S_buffer(index) = bedge_facez_x(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -291,7 +291,7 @@
       endif
       do i = ia , ib
         do n=1,nedges
-          S_buffer(index) = bedge_facey_x(n,i,j,k,lb)
+          S_buffer(index) = bedge_facey_x(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -321,7 +321,7 @@
       endif
       do j = ja , jb
         do n=1,nedges
-          S_buffer(index) = bedge_facex_y(n,i,j,k,lb)
+          S_buffer(index) = bedge_facex_y(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -341,7 +341,7 @@
       endif
       do j = ja , jb
         do n=1,nedges
-          S_buffer(index) = bedge_facez_y(n,i,j,k,lb)
+          S_buffer(index) = bedge_facez_y(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -371,7 +371,7 @@
       endif
       do k = ka , kb
         do n=1,nedges
-          S_buffer(index) = bedge_facex_z(n,i,j,k,lb)
+          S_buffer(index) = bedge_facex_z(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -391,7 +391,7 @@
       endif
       do k = ka , kb
         do n=1,nedges
-          S_buffer(index) = bedge_facey_z(n,i,j,k,lb)
+          S_buffer(index) = bedge_facey_z(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo

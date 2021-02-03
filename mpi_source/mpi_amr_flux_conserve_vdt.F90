@@ -206,12 +206,12 @@
           End If  ! End If (neigh(1,iface,lb) >= 1)
 
           If (cnodetype == 1) Then
-            If (iface == 1) flux_x(:,1,:,:,lb)=ttflux_x(:,1,:,:,lb)
-            If (iface == 2) flux_x(:,2,:,:,lb)=ttflux_x(:,2,:,:,lb)
-            If (iface == 3) flux_y(:,:,1,:,lb)=ttflux_y(:,:,1,:,lb)
-            If (iface == 4) flux_y(:,:,2,:,lb)=ttflux_y(:,:,2,:,lb)
-            If (iface == 5) flux_z(:,:,:,1,lb)=ttflux_z(:,:,:,1,lb)
-            If (iface == 6) flux_z(:,:,:,2,lb)=ttflux_z(:,:,:,2,lb)
+            If (iface == 1) flux_x(1,:,:,:,lb)=ttflux_x(1,:,:,:,lb)
+            If (iface == 2) flux_x(2,:,:,:,lb)=ttflux_x(2,:,:,:,lb)
+            If (iface == 3) flux_y(:,1,:,:,lb)=ttflux_y(:,1,:,:,lb)
+            If (iface == 4) flux_y(:,2,:,:,lb)=ttflux_y(:,2,:,:,lb)
+            If (iface == 5) flux_z(:,:,1,:,lb)=ttflux_z(:,:,1,:,lb)
+            If (iface == 6) flux_z(:,:,2,:,lb)=ttflux_z(:,:,2,:,lb)
           End If
 
         End Do  ! End Do iface=1,nfaces
@@ -287,23 +287,23 @@
             If (remote_pe == mype .and. remote_block <= lnblocks) Then
 
             If (jf == 1) Then
-               flux_x(1:nfluxes,1,:,:,lb) =                            &
-                 flux_x(1:nfluxes,2,:,:,remote_block)
+               flux_x(1,:,:,1:nfluxes,lb) =                            &
+                 flux_x(2,:,:,1:nfluxes,remote_block)
             ElseIf (jf == 2) Then
-               flux_x(1:nfluxes,2,:,:,lb) =                            &
-                 flux_x(1:nfluxes,1,:,:,remote_block)
+               flux_x(2,:,:,1:nfluxes,lb) =                            &
+                 flux_x(1,:,:,1:nfluxes,remote_block)
             ElseIf (jf == 3) Then
-               flux_y(1:nfluxes,:,1,:,lb) =                            &
-                 flux_y(1:nfluxes,:,2,:,remote_block)
+               flux_y(:,1,:,1:nfluxes,lb) =                            &
+                 flux_y(:,2,:,1:nfluxes,remote_block)
             ElseIf (jf == 4) Then
-               flux_y(1:nfluxes,:,2,:,lb) =                            &
-                 flux_y(1:nfluxes,:,1,:,remote_block)
+               flux_y(:,2,:,1:nfluxes,lb) =                            &
+                 flux_y(:,1,:,1:nfluxes,remote_block)
             ElseIf (jf == 5) Then
-               flux_z(1:nfluxes,:,:,1,lb) =                            &
-                 flux_z(1:nfluxes,:,:,2,remote_block)
+               flux_z(:,:,1,1:nfluxes,lb) =                            &
+                 flux_z(:,:,2,1:nfluxes,remote_block)
             ElseIf (jf == 6) Then
-               flux_z(1:nfluxes,:,:,2,lb) =                            &
-                 flux_z(1:nfluxes,:,:,1,remote_block)
+               flux_z(:,:,2,1:nfluxes,lb) =                            &
+                 flux_z(:,:,1,1:nfluxes,remote_block)
             End If  
 
             Else ! If (remote_pe
@@ -343,7 +343,7 @@
                Do j = ja,jb
                   Do i = ia,ib
                      Do n=1,nfluxes
-                        recvarxf(n,i,j,k) = temprecv_buf(index)
+                        recvarxf(i,j,k,n) = temprecv_buf(index)
                         index  = index + 1
                      End Do
                   End Do
@@ -381,7 +381,7 @@
                      Do j = ja,jb
                         Do i = ia,ib
                            Do n=1,nfluxes
-                              recvaryf(n,i,j,k) =                      & 
+                              recvaryf(i,j,k,n) =                      & 
                                    temprecv_buf(index)
                               index  = index + 1
                            End Do
@@ -421,7 +421,7 @@
                      Do j = ja,jb
                         Do i = ia,ib
                            Do n=1,nfluxes
-                              recvarzf(n,i,j,k) =                      & 
+                              recvarzf(i,j,k,n) =                      & 
                                    temprecv_buf(index)
                               index  = index + 1
                            End Do
@@ -435,17 +435,17 @@
             End If  ! End If (ndim == 3)
 
             If (jf == 1) Then
-               flux_x(1:nfluxes,1,:,:,lb) = recvarxf(1:nfluxes,2,:,:)
+               flux_x(1,:,:,1:nfluxes,lb) = recvarxf(2,:,:,1:nfluxes)
             ElseIf (jf == 2) Then
-               flux_x(1:nfluxes,2,:,:,lb) = recvarxf(1:nfluxes,1,:,:)
+               flux_x(2,:,:,1:nfluxes,lb) = recvarxf(1,:,:,1:nfluxes)
             ElseIf (jf == 3) Then
-               flux_y(1:nfluxes,:,1,:,lb) = recvaryf(1:nfluxes,:,2,:)
+               flux_y(:,1,:,1:nfluxes,lb) = recvaryf(:,2,:,1:nfluxes)
             ElseIf (jf == 4) Then
-               flux_y(1:nfluxes,:,2,:,lb) = recvaryf(1:nfluxes,:,1,:)
+               flux_y(:,2,:,1:nfluxes,lb) = recvaryf(:,1,:,1:nfluxes)
             ElseIf (jf == 5) Then
-               flux_z(1:nfluxes,:,:,1,lb) = recvarzf(1:nfluxes,:,:,2)
+               flux_z(:,:,1,1:nfluxes,lb) = recvarzf(:,:,2,1:nfluxes)
             ElseIf (jf == 6) Then
-               flux_z(1:nfluxes,:,:,2,lb) = recvarzf(1:nfluxes,:,:,1)
+               flux_z(:,:,2,1:nfluxes,lb) = recvarzf(:,:,1,1:nfluxes)
             End If
 
             End If  ! End If (remote_pe == mype .and. remote_block <= lnblocks)

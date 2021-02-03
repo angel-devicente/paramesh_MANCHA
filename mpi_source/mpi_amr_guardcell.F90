@@ -238,20 +238,20 @@
        l_force_consist = .True.
        If (lfc) Then
         Do lb = 1,lnblocks
-           gt_facevarx(:,1,:,:,lb) = facevarx(:,1+nguard_npgs,:,:,lb)
-           gt_facevarx(:,2,:,:,lb) =                                   & 
-                facevarx(:,nxb+1+nguard_npgs,:,:,lb)
+           gt_facevarx(1,:,:,:,lb) = facevarx(1+nguard_npgs,:,:,:,lb)
+           gt_facevarx(2,:,:,:,lb) =                                   & 
+                facevarx(nxb+1+nguard_npgs,:,:,:,lb)
           If (ndim >= 2) Then
-           gt_facevary(:,:,1,:,lb) =                                   & 
-                   facevary(:,:,1+nguard_npgs*k2d,:,lb)
-           gt_facevary(:,:,1+k2d,:,lb) =                               & 
-                facevary(:,:,nyb+(1+nguard_npgs)*k2d,:,lb)
+           gt_facevary(:,1,:,:,lb) =                                   & 
+                   facevary(:,1+nguard_npgs*k2d,:,:,lb)
+           gt_facevary(:,1+k2d,:,:,lb) =                               & 
+                facevary(:,nyb+(1+nguard_npgs)*k2d,:,:,lb)
           End if
           If (ndim == 3) Then
-           gt_facevarz(:,:,:,1,lb) =                                   & 
-                   facevarz(:,:,:,1+nguard_npgs*k3d,lb)
-           gt_facevarz(:,:,:,1+k3d,lb) =                               & 
-                facevarz(:,:,:,nzb+(1+nguard_npgs)*k3d,lb)
+           gt_facevarz(:,:,1,:,lb) =                                   & 
+                   facevarz(:,:,1+nguard_npgs*k3d,:,lb)
+           gt_facevarz(:,:,1+k3d,:,lb) =                               & 
+                facevarz(:,:,nzb+(1+nguard_npgs)*k3d,:,lb)
           End if
         End do  ! end do lb = 1, lnblocks
        End if   ! end if (lfc)
@@ -362,8 +362,8 @@
            If (iopt == 1) Then
              Do ivar=1,nvar
                If (int_gcell_on_cc(ivar)) Then
-                 unk(ivar,id:iu,jd:ju,kd:ku,lb) =                      & 
-                  unk1(ivar,id:iu,jd:ju,kd:ku,1)
+                 unk(id:iu,jd:ju,kd:ku,ivar,lb) =                      & 
+                  unk1(id:iu,jd:ju,kd:ku,ivar,1)
                Endif
              Enddo
            Else
@@ -376,22 +376,22 @@
           If (lfc) Then
            Do ivar = 1,nfacevar
             If (int_gcell_on_fc(1,ivar)) Then
-             facevarx( ivar,id+ip1+ilp:iu+ip2+iup,                     & 
-                            jd:ju,kd:ku,lb) =                          & 
-             facevarx1( ivar,id+ip1+ilp:iu+ip2+iup,                    & 
-                             jd:ju,kd:ku,1)
+             facevarx(id+ip1+ilp:iu+ip2+iup,                     & 
+                            jd:ju,kd:ku, ivar,lb) =                          & 
+             facevarx1(id+ip1+ilp:iu+ip2+iup,                    & 
+                             jd:ju,kd:ku, ivar,1)
             End if
             If (ndim > 1) Then
              If (int_gcell_on_fc(2,ivar)) Then
-              facevary( ivar,id:iu,jd+jp1+jlp:ju+jp2+jup,              & 
-                             kd:ku,lb) =                               & 
-              facevary1(ivar,id:iu,jd+jp1+jlp:ju+jp2+jup,              & 
-                              kd:ku,1)
+              facevary(id:iu,jd+jp1+jlp:ju+jp2+jup,              & 
+                             kd:ku, ivar,lb) =                               & 
+              facevary1(id:iu,jd+jp1+jlp:ju+jp2+jup,              & 
+                              kd:ku,ivar,1)
              End if
              If (ndim == 3) Then
               If (int_gcell_on_fc(3,ivar)) Then
-               facevarz( ivar,id:iu,jd:ju,kd+kp1+klp:ku+kp2+kup,lb) =  & 
-                facevarz1(ivar,id:iu,jd:ju,kd+kp1+klp:ku+kp2+kup,1)
+               facevarz(id:iu,jd:ju,kd+kp1+klp:ku+kp2+kup, ivar,lb) =  & 
+                facevarz1(id:iu,jd:ju,kd+kp1+klp:ku+kp2+kup,ivar,1)
               End if
              End if  ! end if (ndim == 3)
             End if   ! end if (ndim > 1)
@@ -402,17 +402,17 @@
            Do ivar = 1, nvaredge
             If (ndim > 1) Then
              If (int_gcell_on_ec(1,ivar)) Then
-              unk_e_x( ivar,id:iu,jd+jp1:ju+jp2,kd+kp1:ku+kp2,lb) =    & 
-              unk_e_x1(ivar,id:iu,jd+jp1:ju+jp2,kd+kp1:ku+kp2,1)
+              unk_e_x(id:iu,jd+jp1:ju+jp2,kd+kp1:ku+kp2, ivar,lb) =    & 
+              unk_e_x1(id:iu,jd+jp1:ju+jp2,kd+kp1:ku+kp2,ivar,1)
              End if
              If (int_gcell_on_ec(2,ivar)) Then
-              unk_e_y( ivar,id+ip1:iu+ip2,jd:ju,kd+kp1:ku+kp2,lb) =    & 
-              unk_e_y1(ivar,id+ip1:iu+ip2,jd:ju,kd+kp1:ku+kp2,1)
+              unk_e_y(id+ip1:iu+ip2,jd:ju,kd+kp1:ku+kp2, ivar,lb) =    & 
+              unk_e_y1(id+ip1:iu+ip2,jd:ju,kd+kp1:ku+kp2,ivar,1)
              End If
              If (ndim == 3) Then
               If (int_gcell_on_ec(3,ivar)) Then
-               unk_e_z( ivar,id+ip1:iu+ip2,jd+jp1:ju+jp2,kd:ku,lb) =   & 
-               unk_e_z1(ivar,id+ip1:iu+ip2,jd+jp1:ju+jp2,kd:ku,1)
+               unk_e_z(id+ip1:iu+ip2,jd+jp1:ju+jp2,kd:ku, ivar,lb) =   & 
+               unk_e_z1(id+ip1:iu+ip2,jd+jp1:ju+jp2,kd:ku,ivar,1)
               End If
              End If ! End If (ndim == 3)
             End If  ! End If (ndim > 1)
@@ -422,14 +422,14 @@
           If (lnc) Then
            Do ivar = 1, nvarcorn
             If (int_gcell_on_nc(ivar)) Then
-             unk_n( ivar,                                              & 
+             unk_n(                                              & 
                  id+ip1:iu+ip2,                                        & 
                  jd+jp1:ju+jp2,                                        & 
-                 kd+kp1:ku+kp2,lb) =                                   & 
-                  unk_n1(ivar,                                         & 
+                 kd+kp1:ku+kp2, ivar,lb) =                                   & 
+                  unk_n1(                                         & 
                          id+ip1:iu+ip2,                                & 
                          jd+jp1:ju+jp2,                                & 
-                         kd+kp1:ku+kp2,1)
+                         kd+kp1:ku+kp2,ivar,1)
             End If ! End If (int_gcell_on_nc(ivar))
            End Do  ! End Do ivar = 1, nvarcorn
           End If   ! Dnd If (lnc)

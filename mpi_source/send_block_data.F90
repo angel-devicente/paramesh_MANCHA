@@ -266,7 +266,7 @@
 
                 If (nvar > 0) Then
                 Call MPI_SSEND (                                       & 
-         unk(1,is_unk,js_unk,ks_unk,point_to(lb)),                     & 
+         unk(is_unk,js_unk,ks_unk,1,point_to(lb)),                     & 
                                 1,                                     & 
                                 unk_int_type,                          & 
                                 new_loc(2,lb),                         & 
@@ -277,7 +277,7 @@
 
 !---------------send facevariables
                 If (nfacevar > 0) Then
-                Call MPI_SSEND (facevarx(1,is_facex,js_facex,ks_facex, &
+                Call MPI_SSEND (facevarx(is_facex,js_facex,ks_facex,1, &
                                 point_to(lb)),                         & 
                                 1,                                     & 
                                 facex_int_type,                        & 
@@ -286,7 +286,7 @@
                                 MPI_COMM_WORLD,                        & 
                                 ierr)
                 If (ndim >= 2) Then
-                Call MPI_SSEND (facevary(1,is_facey,js_facey,ks_facey, &
+                Call MPI_SSEND (facevary(is_facey,js_facey,ks_facey,1, &
                                 point_to(lb)),                         & 
                                 1,                                     & 
                                 facey_int_type,                        & 
@@ -296,7 +296,7 @@
                                 ierr)
                 End If
                 If (ndim == 3) Then
-                Call MPI_SSEND (facevarz(1,is_facez,js_facez,ks_facez, &
+                Call MPI_SSEND (facevarz(is_facez,js_facez,ks_facez,1, &
                                 point_to(lb)),                         & 
                                 1,                                     & 
                                 facez_int_type,                        & 
@@ -310,7 +310,7 @@
 
 !---------------send edge variables
                 If (nvaredge > 0) Then
-                Call MPI_SSEND (unk_e_x(1,is_edgex,js_edgex,ks_edgex,  &
+                Call MPI_SSEND (unk_e_x(is_edgex,js_edgex,ks_edgex,1,  &
                                 point_to(lb)),                         & 
                                 1,                                     & 
                                 edgex_int_type,                        & 
@@ -319,7 +319,7 @@
                                 MPI_COMM_WORLD,                        & 
                                 ierr)
                 If (ndim >= 2) Then
-                Call MPI_SSEND (unk_e_y(1,is_edgey,js_edgey,ks_edgey,  &
+                Call MPI_SSEND (unk_e_y(is_edgey,js_edgey,ks_edgey,1,  &
                                 point_to(lb)),                         & 
                                 1,                                     & 
                                 edgey_int_type,                        & 
@@ -329,7 +329,7 @@
                                 ierr)
                 End If
                 If (ndim == 3) Then
-                Call MPI_SSEND (unk_e_z(1,is_edgez,js_edgez,ks_edgez,  &
+                Call MPI_SSEND (unk_e_z(is_edgez,js_edgez,ks_edgez,1,  &
                                 point_to(lb)),                         & 
                                 1,                                     & 
                                 edgez_int_type,                        & 
@@ -343,7 +343,7 @@
 !---------------send corner variables
                 If (nvarcorn > 0) Then
                 Call MPI_SSEND (                                       &
-                        unk_n(1,is_unkn,js_unkn,ks_unkn,point_to(lb)), & 
+                        unk_n(is_unkn,js_unkn,ks_unkn,1,point_to(lb)), & 
                                 1,                                     & 
                                 unkn_int_type,                         & 
                                 new_loc(2,lb),                         & 
@@ -356,7 +356,7 @@
                Else
 
                 If (nvar > 0) Then
-                Call MPI_SSEND (unk(1,is_unk,js_unk,ks_unk,lb),        & 
+                Call MPI_SSEND (unk(is_unk,js_unk,ks_unk,1,lb),        & 
                                 1,                                     & 
                                 unk_int_type,                          & 
                                 new_loc(2,lb),                         & 
@@ -368,7 +368,7 @@
 !---------------send facevariables
                 If (nfacevar > 0) Then
                 Call MPI_SSEND (                                       &
-                            facevarx(1,is_facex,js_facex,ks_facex,lb), & 
+                            facevarx(is_facex,js_facex,ks_facex,1,lb), & 
                                 1,                                     & 
                                 facex_int_type,                        & 
                                 new_loc(2,lb),                         & 
@@ -377,7 +377,7 @@
                                 ierr)
                 If (ndim >= 2) Then
                 Call MPI_SSEND (                                       &
-                            facevary(1,is_facey,js_facey,ks_facey,lb), & 
+                            facevary(is_facey,js_facey,ks_facey,1,lb), & 
                                 1,                                     & 
                                 facey_int_type,                        & 
                                 new_loc(2,lb),                         & 
@@ -387,7 +387,7 @@
                 End If
                 If (ndim == 3) Then
                 Call MPI_SSEND (                                       &
-                            facevarz(1,is_facez,js_facez,ks_facez,lb), & 
+                            facevarz(is_facez,js_facez,ks_facez,1,lb), & 
                                 1,                                     & 
                                 facez_int_type,                        & 
                                 new_loc(2,lb),                         & 
@@ -400,7 +400,7 @@
 !---------------send edge variables
                 If (nvaredge > 0) Then
                 Call MPI_SSEND (                                       &
-                             unk_e_x(1,is_edgex,js_edgex,ks_edgex,lb), & 
+                             unk_e_x(is_edgex,js_edgex,ks_edgex,1,lb), & 
                                 1,                                     & 
                                 edgex_int_type,                        & 
                                 new_loc(2,lb),                         & 
@@ -409,7 +409,7 @@
                                 ierr)
                 If (ndim >= 2) Then
                 Call MPI_SSEND (                                       &
-                             unk_e_y(1,is_edgey,js_edgey,ks_edgey,lb), & 
+                             unk_e_y(is_edgey,js_edgey,ks_edgey,1,lb), & 
                                 1,                                     & 
                                 edgey_int_type,                        & 
                                 new_loc(2,lb),                         & 
@@ -419,7 +419,7 @@
                 End If
                 If (ndim == 3) Then
                 Call MPI_SSEND (                                       &
-                             unk_e_z(1,is_edgez,js_edgez,ks_edgez,lb), & 
+                             unk_e_z(is_edgez,js_edgez,ks_edgez,1,lb), & 
                                 1,                                     & 
                                 edgez_int_type,                        & 
                                 new_loc(2,lb),                         & 
@@ -431,7 +431,7 @@
 
 !---------------send corner variables
                 If (nvarcorn > 0) Then
-                Call MPI_SSEND (unk_n(1,is_unkn,js_unkn,ks_unkn,lb),   & 
+                Call MPI_SSEND (unk_n(is_unkn,js_unkn,ks_unkn,1,lb),   & 
                                 1,                                     & 
                                 unkn_int_type,                         & 
                                 new_loc(2,lb),                         & 
@@ -451,55 +451,55 @@
              If (free(lb)) Then
 
                If (nvar > 0) Then
-      unk(:,is_unk:ie_unk,js_unk:je_unk,ks_unk:ke_unk,new_loc(1,lb)) = & 
-          unk(:,is_unk:ie_unk,js_unk:je_unk,ks_unk:ke_unk,point_to(lb))
+      unk(is_unk:ie_unk,js_unk:je_unk,ks_unk:ke_unk,:,new_loc(1,lb)) = & 
+          unk(is_unk:ie_unk,js_unk:je_unk,ks_unk:ke_unk,:,point_to(lb))
                End If
 
 !--------------move facevars
                If (nfacevar > 0) Then
-                  facevarx(:,is_facex:ie_facex,js_facex:je_facex,      &
-                             ks_facex:ke_facex,new_loc(1,lb)) =        & 
-                       facevarx(:,is_facex:ie_facex,js_facex:je_facex, &
-                                  ks_facex:ke_facex,point_to(lb))
+                  facevarx(is_facex:ie_facex,js_facex:je_facex,      &
+                             ks_facex:ke_facex,:,new_loc(1,lb)) =        & 
+                       facevarx(is_facex:ie_facex,js_facex:je_facex, &
+                                  ks_facex:ke_facex,:,point_to(lb))
                   If (ndim >= 2) Then
-                  facevary(:,is_facey:ie_facey,js_facey:je_facey,      &
-                             ks_facey:ke_facey,new_loc(1,lb)) =        & 
-                       facevary(:,is_facey:ie_facey,js_facey:je_facey, &
-                                  ks_facey:ke_facey,point_to(lb))
+                  facevary(is_facey:ie_facey,js_facey:je_facey,      &
+                             ks_facey:ke_facey,:,new_loc(1,lb)) =        & 
+                       facevary(is_facey:ie_facey,js_facey:je_facey, &
+                                  ks_facey:ke_facey,:,point_to(lb))
                   End If
                   If (ndim == 3) Then
-                  facevarz(:,is_facez:ie_facez,js_facez:je_facez,      &
-                             ks_facez:ke_facez,new_loc(1,lb)) =        & 
-                       facevarz(:,is_facez:ie_facez,js_facez:je_facez, &
-                                  ks_facez:ke_facez,point_to(lb))
+                  facevarz(is_facez:ie_facez,js_facez:je_facez,      &
+                             ks_facez:ke_facez,:,new_loc(1,lb)) =        & 
+                       facevarz(is_facez:ie_facez,js_facez:je_facez, &
+                                  ks_facez:ke_facez,:,point_to(lb))
                   End If
                End If  ! End If (nfacevar > 0)
 
 !--------------move edgevars
                If (nvaredge > 0) Then
-                  unk_e_x(:,is_edgex:ie_edgex,js_edgex:je_edgex,       &
-                            ks_edgex:ke_edgex,new_loc(1,lb)) =         & 
-                       unk_e_x(:,is_edgex:ie_edgex,js_edgex:je_edgex,  &
-                                 ks_edgex:ke_edgex,point_to(lb))
+                  unk_e_x(is_edgex:ie_edgex,js_edgex:je_edgex,       &
+                            ks_edgex:ke_edgex,:,new_loc(1,lb)) =         & 
+                       unk_e_x(is_edgex:ie_edgex,js_edgex:je_edgex,  &
+                                 ks_edgex:ke_edgex,:,point_to(lb))
                   If (ndim >= 2) Then
-                  unk_e_y(:,is_edgey:ie_edgey,js_edgey:je_edgey,       &
-                            ks_edgey:ke_edgey,new_loc(1,lb)) =         & 
-                       unk_e_y(:,is_edgey:ie_edgey,js_edgey:je_edgey,  &
-                                 ks_edgey:ke_edgey,point_to(lb))
+                  unk_e_y(is_edgey:ie_edgey,js_edgey:je_edgey,       &
+                            ks_edgey:ke_edgey,:,new_loc(1,lb)) =         & 
+                       unk_e_y(is_edgey:ie_edgey,js_edgey:je_edgey,  &
+                                 ks_edgey:ke_edgey,:,point_to(lb))
                   End If
                   If (ndim == 3) Then
-                  unk_e_z(:,is_edgez:ie_edgez,js_edgez:je_edgez,       &
-                            ks_edgez:ke_edgez,new_loc(1,lb)) =         & 
-                       unk_e_z(:,is_edgez:ie_edgez,js_edgez:je_edgez,  &
-                                 ks_edgez:ke_edgez,point_to(lb))
+                  unk_e_z(is_edgez:ie_edgez,js_edgez:je_edgez,       &
+                            ks_edgez:ke_edgez,:,new_loc(1,lb)) =         & 
+                       unk_e_z(is_edgez:ie_edgez,js_edgez:je_edgez,  &
+                                 ks_edgez:ke_edgez,:,point_to(lb))
                   End If
                End If  ! End If (nvaredge > 0)
 
                If (nvarcorn > 0) Then
-                  unk_n(:,is_unkn:ie_unkn,js_unkn:je_unkn,             &
-                          ks_unkn:ke_unkn,new_loc(1,lb)) =             & 
-                       unk_n(:,is_unkn:ie_unkn,js_unkn:je_unkn,        &
-                               ks_unkn:ke_unkn,point_to(lb))
+                  unk_n(is_unkn:ie_unkn,js_unkn:je_unkn,             &
+                          ks_unkn:ke_unkn,:,new_loc(1,lb)) =             & 
+                       unk_n(is_unkn:ie_unkn,js_unkn:je_unkn,        &
+                               ks_unkn:ke_unkn,:,point_to(lb))
                End If
 
                test(point_to(lb)) = -1
@@ -507,55 +507,55 @@
              Else
 
                If (nvar > 0) Then
-      unk(:,is_unk:ie_unk,js_unk:je_unk,ks_unk:ke_unk,new_loc(1,lb)) = & 
-         unk(:,is_unk:ie_unk,js_unk:je_unk,ks_unk:ke_unk,lb)
+      unk(is_unk:ie_unk,js_unk:je_unk,ks_unk:ke_unk,:,new_loc(1,lb)) = & 
+         unk(is_unk:ie_unk,js_unk:je_unk,ks_unk:ke_unk,:,lb)
                End If
 
 !--------------move facevars
                If (nfacevar > 0) Then
-                  facevarx(:,is_facex:ie_facex,js_facex:je_facex,      &
-                             ks_facex:ke_facex,new_loc(1,lb)) =        & 
-                       facevarx(:,is_facex:ie_facex,js_facex:je_facex, &
-                                  ks_facex:ke_facex,lb)
+                  facevarx(is_facex:ie_facex,js_facex:je_facex,      &
+                             ks_facex:ke_facex,:,new_loc(1,lb)) =        & 
+                       facevarx(is_facex:ie_facex,js_facex:je_facex, &
+                                  ks_facex:ke_facex,:,lb)
                   If (ndim >= 2) Then
-                  facevary(:,is_facey:ie_facey,js_facey:je_facey,      &
-                             ks_facey:ke_facey,new_loc(1,lb)) =        & 
-                       facevary(:,is_facey:ie_facey,js_facey:je_facey, &
-                                  ks_facey:ke_facey,lb)
+                  facevary(is_facey:ie_facey,js_facey:je_facey,      &
+                             ks_facey:ke_facey,:,new_loc(1,lb)) =        & 
+                       facevary(is_facey:ie_facey,js_facey:je_facey, &
+                                  ks_facey:ke_facey,:,lb)
                   End If
                   If (ndim == 3) Then
-                  facevarz(:,is_facez:ie_facez,js_facez:je_facez,      &
-                             ks_facez:ke_facez,new_loc(1,lb)) =        & 
-                       facevarz(:,is_facez:ie_facez,js_facez:je_facez, &
-                                  ks_facez:ke_facez,lb)
+                  facevarz(is_facez:ie_facez,js_facez:je_facez,      &
+                             ks_facez:ke_facez,:,new_loc(1,lb)) =        & 
+                       facevarz(is_facez:ie_facez,js_facez:je_facez, &
+                                  ks_facez:ke_facez,:,lb)
                   End If
                End If
 
 !--------------move edgevars
                If (nvaredge > 0) Then
-                  unk_e_x(:,is_edgex:ie_edgex,js_edgex:je_edgex,       &
-                            ks_edgex:ke_edgex,new_loc(1,lb)) =         & 
-                       unk_e_x(:,is_edgex:ie_edgex,js_edgex:je_edgex,  &
-                                 ks_edgex:ke_edgex,lb)
+                  unk_e_x(is_edgex:ie_edgex,js_edgex:je_edgex,       &
+                            ks_edgex:ke_edgex,:,new_loc(1,lb)) =         & 
+                       unk_e_x(is_edgex:ie_edgex,js_edgex:je_edgex,  &
+                                 ks_edgex:ke_edgex,:,lb)
                   If (ndim >= 2) Then
-                  unk_e_y(:,is_edgey:ie_edgey,js_edgey:je_edgey,       &
-                            ks_edgey:ke_edgey,new_loc(1,lb)) =         & 
-                       unk_e_y(:,is_edgey:ie_edgey,js_edgey:je_edgey,  &
-                                 ks_edgey:ke_edgey,lb)
+                  unk_e_y(is_edgey:ie_edgey,js_edgey:je_edgey,       &
+                            ks_edgey:ke_edgey,:,new_loc(1,lb)) =         & 
+                       unk_e_y(is_edgey:ie_edgey,js_edgey:je_edgey,  &
+                                 ks_edgey:ke_edgey,:,lb)
                   End If
                   If (ndim == 3) Then
-                  unk_e_z(:,is_edgez:ie_edgez,js_edgez:je_edgez,       &
-                            ks_edgez:ke_edgez,new_loc(1,lb)) =         &  
-                       unk_e_z(:,is_edgez:ie_edgez,js_edgez:je_edgez,  &
-                                 ks_edgez:ke_edgez,lb)
+                  unk_e_z(is_edgez:ie_edgez,js_edgez:je_edgez,       &
+                            ks_edgez:ke_edgez,:,new_loc(1,lb)) =         &  
+                       unk_e_z(is_edgez:ie_edgez,js_edgez:je_edgez,  &
+                                 ks_edgez:ke_edgez,:,lb)
                   End If
                End If  ! End If (nvaredge > 0)
 
                If (nvarcorn > 0) Then
-               unk_n(:,is_unkn:ie_unkn,js_unkn:je_unkn,                &
-                        ks_unkn:ke_unkn,new_loc(1,lb)) =               &
-                 unk_n(:,is_unkn:ie_unkn,js_unkn:je_unkn,              &
-                         ks_unkn:ke_unkn,lb)
+               unk_n(is_unkn:ie_unkn,js_unkn:je_unkn,                &
+                        ks_unkn:ke_unkn,:,new_loc(1,lb)) =               &
+                 unk_n(is_unkn:ie_unkn,js_unkn:je_unkn,              &
+                         ks_unkn:ke_unkn,:,lb)
                End If
 
                free(lb) = .True.
@@ -600,55 +600,55 @@
                test(point_to(lb)) = 1
 
                If (nvar > 0) Then
-       unk(:,is_unk:ie_unk,js_unk:je_unk,ks_unk:ke_unk,point_to(lb)) = & 
-               unk(:,is_unk:ie_unk,js_unk:je_unk,ks_unk:ke_unk,lb)
+       unk(is_unk:ie_unk,js_unk:je_unk,ks_unk:ke_unk,:,point_to(lb)) = & 
+               unk(is_unk:ie_unk,js_unk:je_unk,ks_unk:ke_unk,:,lb)
                End If
 
 !--------------move facevars
                If (nfacevar > 0) Then
-                  facevarx(:,is_facex:ie_facex,js_facex:je_facex,      &
-                             ks_facex:ke_facex,point_to(lb)) =         & 
-                       facevarx(:,is_facex:ie_facex,js_facex:je_facex, &
-                                  ks_facex:ke_facex,lb)
+                  facevarx(is_facex:ie_facex,js_facex:je_facex,      &
+                             ks_facex:ke_facex,:,point_to(lb)) =         & 
+                       facevarx(is_facex:ie_facex,js_facex:je_facex, &
+                                  ks_facex:ke_facex,:,lb)
                   If (ndim >= 2) Then
-                  facevary(:,is_facey:ie_facey,js_facey:je_facey,      &
-                             ks_facey:ke_facey,point_to(lb)) =         & 
-                       facevary(:,is_facey:ie_facey,js_facey:je_facey, &
-                                  ks_facey:ke_facey,lb)
+                  facevary(is_facey:ie_facey,js_facey:je_facey,      &
+                             ks_facey:ke_facey,:,point_to(lb)) =         & 
+                       facevary(is_facey:ie_facey,js_facey:je_facey, &
+                                  ks_facey:ke_facey,:,lb)
                   End If
                   If (ndim == 3) Then
-                  facevarz(:,is_facez:ie_facez,js_facez:je_facez,      &
-                             ks_facez:ke_facez,point_to(lb)) =         & 
-                       facevarz(:,is_facez:ie_facez,js_facez:je_facez, &
-                                  ks_facez:ke_facez,lb)
+                  facevarz(is_facez:ie_facez,js_facez:je_facez,      &
+                             ks_facez:ke_facez,:,point_to(lb)) =         & 
+                       facevarz(is_facez:ie_facez,js_facez:je_facez, &
+                                  ks_facez:ke_facez,:,lb)
                   End If
                End If  ! End If (nfacvar > 0)
 
 !--------------move edgevars
                If (nvaredge > 0) Then
-                  unk_e_x(:,is_edgex:ie_edgex,js_edgex:je_edgex,       &
-                            ks_edgex:ke_edgex,point_to(lb)) =          & 
-                       unk_e_x(:,is_edgex:ie_edgex,js_edgex:je_edgex,  &
-                                 ks_edgex:ke_edgex,lb)
+                  unk_e_x(is_edgex:ie_edgex,js_edgex:je_edgex,       &
+                            ks_edgex:ke_edgex,:,point_to(lb)) =          & 
+                       unk_e_x(is_edgex:ie_edgex,js_edgex:je_edgex,  &
+                                 ks_edgex:ke_edgex,:,lb)
                   If (ndim >= 2) Then
-                  unk_e_y(:,is_edgey:ie_edgey,js_edgey:je_edgey,       &
-                            ks_edgey:ke_edgey,point_to(lb)) =          & 
-                       unk_e_y(:,is_edgey:ie_edgey,js_edgey:je_edgey,  &
-                                 ks_edgey:ke_edgey,lb)
+                  unk_e_y(is_edgey:ie_edgey,js_edgey:je_edgey,       &
+                            ks_edgey:ke_edgey,:,point_to(lb)) =          & 
+                       unk_e_y(is_edgey:ie_edgey,js_edgey:je_edgey,  &
+                                 ks_edgey:ke_edgey,:,lb)
                   End If
                   If (ndim == 3) Then
-                  unk_e_z(:,is_edgez:ie_edgez,js_edgez:je_edgez,       &
-                            ks_edgez:ke_edgez,point_to(lb)) =          & 
-                       unk_e_z(:,is_edgez:ie_edgez,js_edgez:je_edgez,  &
-                                 ks_edgez:ke_edgez,lb)
+                  unk_e_z(is_edgez:ie_edgez,js_edgez:je_edgez,       &
+                            ks_edgez:ke_edgez,:,point_to(lb)) =          & 
+                       unk_e_z(is_edgez:ie_edgez,js_edgez:je_edgez,  &
+                                 ks_edgez:ke_edgez,:,lb)
                   End If
                End If  ! End If (nvaredge > 0)
 
                If (nvarcorn > 0) Then
-               unk_n(:,is_unkn:ie_unkn,js_unkn:je_unkn,                &
-                       ks_unkn:ke_unkn,point_to(lb)) =                 &
-                 unk_n(:,is_unkn:ie_unkn,js_unkn:je_unkn,              &
-                         ks_unkn:ke_unkn,lb)
+               unk_n(is_unkn:ie_unkn,js_unkn:je_unkn,                &
+                       ks_unkn:ke_unkn,:,point_to(lb)) =                 &
+                 unk_n(is_unkn:ie_unkn,js_unkn:je_unkn,              &
+                         ks_unkn:ke_unkn,:,lb)
                End If
 
                free(lb) = .True.

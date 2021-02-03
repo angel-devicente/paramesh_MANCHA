@@ -192,8 +192,8 @@
                kk = (k-nguard0*k3d)/2+nguard0*k3d+1
                do j=1+nguard0,nyb+nguard0,2
                  jj = (j-nguard0)/2+nguard0+1
-                 bedge_facex_y(:,i,jj+joff,kk+koff, & 
-     &                                    lb) = recvarx1e(:,i,j,k)
+                 bedge_facex_y(i,jj+joff,kk+koff,:, & 
+     &                                    lb) = recvarx1e(i,j,k,:)
                enddo
              enddo
 
@@ -202,8 +202,8 @@
                  kk = (k-nguard0*k3d)/2+nguard0*k3d+1
                  do j=1+nguard0,nyb+nguard0+1,2
                    jj = (j-nguard0)/2+nguard0+1
-                   bedge_facex_z(:,i,jj+joff,kk+koff, & 
-     &                                    lb) = recvarx2e(:,i,j,k)
+                   bedge_facex_z(i,jj+joff,kk+koff,:, & 
+     &                                    lb) = recvarx2e(i,j,k,:)
                  enddo
                enddo
              endif
@@ -222,8 +222,8 @@
                kk = (k-nguard0*k3d)/2+nguard0*k3d+1
                do i=1+nguard0,nxb+nguard0,2
                  ii = (i-nguard0)/2+nguard0+1
-                 bedge_facey_x(:,ii+ioff,j,kk+koff, & 
-     &                                    lb) = recvary1e(:,i,j,k)
+                 bedge_facey_x(ii+ioff,j,kk+koff,:, & 
+     &                                    lb) = recvary1e(i,j,k,:)
                enddo
              enddo
 
@@ -232,8 +232,8 @@
                  kk = (k-nguard0*k3d)/2+nguard0*k3d+1
                  do i=1+nguard0,nxb+nguard0+1,2
                    ii = (i-nguard0)/2+nguard0+1
-                   bedge_facey_z(:,ii+ioff,j,kk+koff, & 
-     &                                    lb) = recvary2e(:,i,j,k)
+                   bedge_facey_z(ii+ioff,j,kk+koff,:, & 
+     &                                    lb) = recvary2e(i,j,k,:)
                  enddo
                enddo
              endif
@@ -251,16 +251,16 @@
                jj = (j-nguard0)/2+nguard0+1
                do i=1+nguard0,nxb+nguard0,2
                  ii = (i-nguard0)/2+nguard0+1
-                 bedge_facez_x(:,ii+ioff,jj+joff,k, & 
-     &                                    lb) = recvarz1e(:,i,j,k)
+                 bedge_facez_x(ii+ioff,jj+joff,k,:, & 
+     &                                    lb) = recvarz1e(i,j,k,:)
                enddo
              enddo
              do j=1+nguard0,nyb+nguard0,2
                jj = (j-nguard0)/2+nguard0+1
                do i=1+nguard0,nxb+nguard0+1,2
                  ii = (i-nguard0)/2+nguard0+1
-                 bedge_facez_y(:,ii+ioff,jj+joff,k, & 
-     &                                    lb) = recvarz2e(:,i,j,k)
+                 bedge_facez_y(ii+ioff,jj+joff,k,:, & 
+     &                                    lb) = recvarz2e(i,j,k,:)
                enddo
              enddo
 

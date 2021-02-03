@@ -145,11 +145,11 @@
              if (remote_pe == mype .and. remote_block <= lnblocks) then 
 
               if(icoord.eq.1) then
-                recvarxf(1:nfluxes,:,:,:) = flux_x(1:nfluxes,:,:,:,remote_block)
+                recvarxf(:,:,:,1:nfluxes) = flux_x(:,:,:,1:nfluxes,remote_block)
               elseif(icoord.eq.2) then
-                recvaryf(1:nfluxes,:,:,:) = flux_y(1:nfluxes,:,:,:,remote_block)
+                recvaryf(:,:,:,1:nfluxes) = flux_y(:,:,:,1:nfluxes,remote_block)
               elseif(icoord.eq.3) then
-                recvarzf(1:nfluxes,:,:,:) = flux_z(1:nfluxes,:,:,:,remote_block)
+                recvarzf(:,:,:,1:nfluxes) = flux_z(:,:,:,1:nfluxes,remote_block)
               endif
 
              else ! if (remote_pe
@@ -182,7 +182,7 @@
                    do j = ja,jb
                       do i = ia,ib
                          do n=1,nfluxes
-                            recvarxf(n,i,j,k) = temprecv_buf(index)
+                            recvarxf(i,j,k,n) = temprecv_buf(index)
                             index  = index + 1
                          enddo
                       enddo
@@ -220,7 +220,7 @@
                       do j = ja,jb
                          do i = ia,ib
                             do n=1,nfluxes
-                               recvaryf(n,i,j,k) = & 
+                               recvaryf(i,j,k,n) = & 
      &                             temprecv_buf(index)
                                index  = index + 1
                             enddo
@@ -260,7 +260,7 @@
                       do j = ja,jb
                          do i = ia,ib
                             do n=1,nfluxes
-                               recvarzf(n,i,j,k) = & 
+                               recvarzf(i,j,k,n) = & 
      &                              temprecv_buf(index)
                                index  = index + 1
                             enddo
@@ -305,9 +305,9 @@
            do j=1+nguard0*k2d,nyb+nguard0*k2d,2
              jj = (j-nguard0*k2d)/2+nguard0*k2d+1
              do ivar=1,nfluxes
-               ttflux_x(ivar,i,jj+joff,kk+koff,lb) =  & 
-     &                 ttflux_x(ivar,i,jj+joff,kk+koff,lb) + & 
-     &                               bndtempx1(ivar,i,j,k)
+               ttflux_x(i,jj+joff,kk+koff,ivar,lb) =  & 
+     &                 ttflux_x(i,jj+joff,kk+koff,ivar,lb) + & 
+     &                               bndtempx1(i,j,k,ivar)
              enddo
            enddo
          enddo
@@ -326,9 +326,9 @@
            do i=1+nguard0,nxb+nguard0,2
              ii = (i-nguard0)/2+nguard0+1
              do ivar=1,nfluxes
-               ttflux_y(ivar,ii+ioff,j,kk+koff,lb)= & 
-     &                 ttflux_y(ivar,ii+ioff,j,kk+koff,lb) + & 
-     &                               bndtempy1(ivar,i,j,k)
+               ttflux_y(ii+ioff,j,kk+koff,ivar,lb)= & 
+     &                 ttflux_y(ii+ioff,j,kk+koff,ivar,lb) + & 
+     &                               bndtempy1(i,j,k,ivar)
              enddo
            enddo
          enddo
@@ -346,9 +346,9 @@
            do i=1+nguard0,nxb+nguard0,2
              ii = (i-nguard0)/2+nguard0+1
              do ivar=1,nfluxes
-               ttflux_z(ivar,ii+ioff,jj+joff,k,lb)= & 
-     &                 ttflux_z(ivar,ii+ioff,jj+joff,k,lb) + & 
-     &                               bndtempz1(ivar,i,j,k)
+               ttflux_z(ii+ioff,jj+joff,k,ivar,lb)= & 
+     &                 ttflux_z(ii+ioff,jj+joff,k,ivar,lb) + & 
+     &                               bndtempz1(i,j,k,ivar)
              enddo
            enddo
          enddo

@@ -167,15 +167,15 @@
                          cx = 1.-dx
 
 !------------------------compute interpolated values at location (i,j,k)
-                         facevarx1(ivar,i,j,k,idest) =                 & 
-                                dz*( dy*( dx*recv(ivar,i1,j1,k1) +     & 
-                                cx*recv(ivar,i1p,j1,k1))  +            & 
-                                cy*( dx*recv(ivar,i1,j1p,k1) +         & 
-                                cx*recv(ivar,i1p,j1p,k1) ) ) +         & 
-                                cz*( dy*( dx*recv(ivar,i1,j1,k1p) +    & 
-                                cx*recv(ivar,i1p,j1,k1p))  +           & 
-                                cy*( dx*recv(ivar,i1,j1p,k1p) +        & 
-                                cx*recv(ivar,i1p,j1p,k1p) ) )
+                         facevarx1(i,j,k,ivar,idest) =                 & 
+                                dz*( dy*( dx*recv(i1,j1,k1,ivar) +     & 
+                                cx*recv(i1p,j1,k1,ivar))  +            & 
+                                cy*( dx*recv(i1,j1p,k1,ivar) +         & 
+                                cx*recv(i1p,j1p,k1,ivar) ) ) +         & 
+                                cz*( dy*( dx*recv(i1,j1,k1p,ivar) +    & 
+                                cx*recv(i1p,j1,k1p,ivar))  +           & 
+                                cy*( dx*recv(i1,j1p,k1p,ivar) +        & 
+                                cx*recv(i1p,j1p,k1p,ivar) ) )
 
                    End Do  ! End Do i=icl,icu+iface_off
              End Do  ! End Do j=jcl,jcu
@@ -199,15 +199,15 @@
                          dx = prol_dx(i)
                          cx = 1.-dx
 !------------------------compute interpolated values at location (i,j,k)
-                         facevary1(ivar,i,j,k,idest) =                 & 
-                                dz*( dy*( dx*recv(ivar,i1,j1,k1) +     & 
-                                cx*recv(ivar,i1p,j1,k1))  +            & 
-                                cy*( dx*recv(ivar,i1,j1p,k1) +         & 
-                                cx*recv(ivar,i1p,j1p,k1) ) ) +         & 
-                                cz*( dy*( dx*recv(ivar,i1,j1,k1p) +    & 
-                                cx*recv(ivar,i1p,j1,k1p))  +           & 
-                                cy*( dx*recv(ivar,i1,j1p,k1p) +        & 
-                                cx*recv(ivar,i1p,j1p,k1p) ) )
+                         facevary1(i,j,k,ivar,idest) =                 & 
+                                dz*( dy*( dx*recv(i1,j1,k1,ivar) +     & 
+                                cx*recv(i1p,j1,k1,ivar))  +            & 
+                                cy*( dx*recv(i1,j1p,k1,ivar) +         & 
+                                cx*recv(i1p,j1p,k1,ivar) ) ) +         & 
+                                cz*( dy*( dx*recv(i1,j1,k1p,ivar) +    & 
+                                cx*recv(i1p,j1,k1p,ivar))  +           & 
+                                cy*( dx*recv(i1,j1p,k1p,ivar) +        & 
+                                cx*recv(i1p,j1p,k1p,ivar) ) )
                                 
                    End Do  ! End Do i=icl,icu
              End Do  ! End Do j=jcl,jcu+iface_off
@@ -232,15 +232,15 @@
                          cx = 1.-dx
 
 !------------------------compute interpolated values at location (i,j,k)
-                         facevarz1(ivar,i,j,k,idest) =                 & 
-                                dz*( dy*( dx*recv(ivar,i1,j1,k1) +     & 
-                                cx*recv(ivar,i1p,j1,k1))  +            & 
-                                cy*( dx*recv(ivar,i1,j1p,k1) +         & 
-                                cx*recv(ivar,i1p,j1p,k1) ) ) +         & 
-                                cz*( dy*( dx*recv(ivar,i1,j1,k1p) +    & 
-                                cx*recv(ivar,i1p,j1,k1p))  +           & 
-                                cy*( dx*recv(ivar,i1,j1p,k1p) +        & 
-                                cx*recv(ivar,i1p,j1p,k1p) ) )
+                         facevarz1(i,j,k,ivar,idest) =                 & 
+                                dz*( dy*( dx*recv(i1,j1,k1,ivar) +     & 
+                                cx*recv(i1p,j1,k1,ivar))  +            & 
+                                cy*( dx*recv(i1,j1p,k1,ivar) +         & 
+                                cx*recv(i1p,j1p,k1,ivar) ) ) +         & 
+                                cz*( dy*( dx*recv(i1,j1,k1p,ivar) +    & 
+                                cx*recv(i1p,j1,k1p,ivar))  +           & 
+                                cy*( dx*recv(i1,j1p,k1p,ivar) +        & 
+                                cx*recv(i1p,j1p,k1p,ivar) ) )
 
                    End Do  ! End Do i=icl,icu
              End Do  ! End Do j=jcl,jcu

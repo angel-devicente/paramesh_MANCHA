@@ -112,7 +112,7 @@
         If (nvar > 0) then
           Do ivar=1,nvar
           If (int_gcell_on_cc(ivar)) Then
-            gt_unk(ivar,:,:,:,lb) = unk(ivar,:,:,:,lb)
+            gt_unk(:,:,:,ivar,lb) = unk(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_cc(ivar))
           End Do  ! End Do ivar=1,nvar
         End If  ! End If (nvar > 0) 
@@ -121,16 +121,16 @@
         If (nfacevar > 0) Then
           Do ivar=1,nfacevar
           If (int_gcell_on_fc(1,ivar)) Then
-            gt_facevarx(ivar,:,:,:,lb) =  & 
-               facevarx(ivar,:,:,:,lb)
+            gt_facevarx(:,:,:,ivar,lb) =  & 
+               facevarx(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_fc)
           End Do  ! End Do ivar=1,nfacevar
 
           If (ndim >= 2) Then
           Do ivar=1,nfacevar
           If (int_gcell_on_fc(2,ivar)) Then
-            gt_facevary(ivar,:,:,:,lb) =  & 
-               facevary(ivar,:,:,:,lb)
+            gt_facevary(:,:,:,ivar,lb) =  & 
+               facevary(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_fc(2,ivar))
           End Do  ! End Do ivar=1,nfacevar
           End If  ! End if (ndim >= 2)
@@ -138,8 +138,8 @@
           If (ndim == 3) Then
           Do ivar=1,nfacevar
           If (int_gcell_on_fc(3,ivar)) Then
-            gt_facevarz(ivar,:,:,:,lb) =  & 
-               facevarz(ivar,:,:,:,lb)
+            gt_facevarz(:,:,:,ivar,lb) =  & 
+               facevarz(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_fc(3,ivar))
           End Do  ! End Do ivar=1,nfacevar
           End If  ! End If (ndim == 3)
@@ -150,21 +150,21 @@
           If (ndim > 1) Then
           Do ivar=1,nvaredge
           If (int_gcell_on_ec(1,ivar)) Then
-           gt_unk_e_x(ivar,:,:,:,lb) =  & 
-              unk_e_x(ivar,:,:,:,lb)
+           gt_unk_e_x(:,:,:,ivar,lb) =  & 
+              unk_e_x(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_ec(1,ivar))
           End Do  ! End Do ivar=1,nvaredge
           Do ivar=1,nvaredge
           If (int_gcell_on_ec(2,ivar)) Then
-           gt_unk_e_y(ivar,:,:,:,lb) =  & 
-              unk_e_y(ivar,:,:,:,lb)
+           gt_unk_e_y(:,:,:,ivar,lb) =  & 
+              unk_e_y(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_ec(2,ivar))
           End Do  ! End Do ivar=1,nvaredge
           If (ndim == 3) Then
           Do ivar=1,nvaredge
           If (int_gcell_on_ec(3,ivar)) Then
-           gt_unk_e_z(ivar,:,:,:,lb) =  & 
-              unk_e_z(ivar,:,:,:,lb)
+           gt_unk_e_z(:,:,:,ivar,lb) =  & 
+              unk_e_z(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_ec(3,ivar))
           End Do  ! End Do ivar=1,nvaredge
           End If  ! End If (ndim == 2)
@@ -175,7 +175,7 @@
         If (nvarcorn > 0) Then
           Do ivar=1,nvarcorn
           If (int_gcell_on_nc(ivar)) Then
-            gt_unk_n(ivar,:,:,:,lb) = unk_n(ivar,:,:,:,lb)
+            gt_unk_n(:,:,:,ivar,lb) = unk_n(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_nc(ivar))
           End Do  ! End Do ivar=1,nvarcorn
         End If  ! End If (nvarcorn > 0) 
@@ -191,7 +191,7 @@
           If (nvar > 0) Then
           Do ivar=1,nvar
           If (int_gcell_on_cc(ivar)) then
-            gt_unk(ivar,:,:,:,lb) = unk(ivar,:,:,:,lb)
+            gt_unk(:,:,:,ivar,lb) = unk(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_cc(ivar))
           End Do  ! End Do ivar=1,nvar
           End If  ! End If (nvar > 0)
@@ -200,20 +200,20 @@
           If(nfacevar > 0) Then
           Do ivar=1,nfacevar
           If (int_gcell_on_fc(1,ivar)) Then
-            gt_facevarx(ivar,:,:,:,lb) = facevarx(ivar,:,:,:,lb)
+            gt_facevarx(:,:,:,ivar,lb) = facevarx(:,:,:,ivar,lb)
           End If  ! If (int_gcell_on_fc(1,ivar))
           End Do  ! End Do ivar=1,nfacevar
           If (ndim >= 2) Then
           Do ivar=1,nfacevar
           If (int_gcell_on_fc(2,ivar)) then
-            gt_facevary(ivar,:,:,:,lb) = facevary(ivar,:,:,:,lb)
+            gt_facevary(:,:,:,ivar,lb) = facevary(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_fc(2,ivar))
           End Do  ! End Do ivar=1,nfacevar
           End If  ! End If (nvar >= 2)
           If (ndim == 3) Then
           Do ivar=1,nfacevar
           If (int_gcell_on_fc(3,ivar)) Then
-            gt_facevarz(ivar,:,:,:,lb) = facevarz(ivar,:,:,:,lb)
+            gt_facevarz(:,:,:,ivar,lb) = facevarz(:,:,:,ivar,lb)
           End If  ! If (int_gcell_on_fc(3,ivar))
           End Do  ! End Do ivar=1,nfacevar
           End If  ! End If (ndim == 3)
@@ -224,18 +224,18 @@
           If (ndim > 1) Then
           Do ivar=1,nvaredge
           If (int_gcell_on_ec(1,ivar)) Then
-            gt_unk_e_x(ivar,:,:,:,lb) = unk_e_x(ivar,:,:,:,lb)
+            gt_unk_e_x(:,:,:,ivar,lb) = unk_e_x(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_ec(i,ivar)
           End Do  ! End Do ivar=1,nvaredge
           Do ivar=1,nvaredge
           If (int_gcell_on_ec(2,ivar)) Then
-            gt_unk_e_y(ivar,:,:,:,lb) = unk_e_y(ivar,:,:,:,lb)
+            gt_unk_e_y(:,:,:,ivar,lb) = unk_e_y(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_ec(2,ivar))
           End Do  ! End Do ivar=1,nvaredge
           If (ndim == 3) Then
           Do ivar=1,nvaredge
           If (int_gcell_on_ec(3,ivar)) Then
-            gt_unk_e_z(ivar,:,:,:,lb) = unk_e_z(ivar,:,:,:,lb)
+            gt_unk_e_z(:,:,:,ivar,lb) = unk_e_z(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_ec(3,ivar)
           End Do  ! End Do ivar=1,nvaredge
           End If  ! End If (ndim == 3)
@@ -246,7 +246,7 @@
           If (nvarcorn > 0) Then
           Do ivar=1,nvarcorn
           If (int_gcell_on_nc(ivar)) Then
-            gt_unk_n(ivar,:,:,:,lb) = unk_n(ivar,:,:,:,lb)
+            gt_unk_n(:,:,:,ivar,lb) = unk_n(:,:,:,ivar,lb)
           End If  ! End If (int_gcell_on_nc(ivar))
           End Do  ! End Do ivar=1,nvarcorn
           End If  ! End If (nvarcorn > 0)
@@ -286,19 +286,19 @@
 
           Do ivar=1,nfacevar
           If (int_gcell_on_fc(1,ivar)) Then
-            gt_facevarx(ivar,1,:,:,lb) = facevarx(ivar,1+nguard0,:,:,lb)
-            gt_facevarx(ivar,2,:,:,lb) =                               & 
-                                   facevarx(ivar,nxb+1+nguard0,:,:,lb)
+            gt_facevarx(1,:,:,ivar,lb) = facevarx(1+nguard0,:,:,ivar,lb)
+            gt_facevarx(2,:,:,ivar,lb) =                               & 
+                                   facevarx(nxb+1+nguard0,:,:,ivar,lb)
           End if  ! End If (int_gcell_on_fc(1,ivar))
           End Do  ! End Do ivar=1,nfacevar
 
           If (ndim >= 2) Then
           Do ivar=1,nfacevar
           If (int_gcell_on_fc(2,ivar)) Then
-            gt_facevary(ivar,:,1,:,lb) =                               & 
-                                     facevary(ivar,:,1+nguard0*k2d,:,lb)
-            gt_facevary(ivar,:,1+k2d,:,lb) =                           & 
-                               facevary(ivar,:,nyb+(1+nguard0)*k2d,:,lb)
+            gt_facevary(:,1,:,ivar,lb) =                               & 
+                                     facevary(:,1+nguard0*k2d,:,ivar,lb)
+            gt_facevary(:,1+k2d,:,ivar,lb) =                           & 
+                               facevary(:,nyb+(1+nguard0)*k2d,:,ivar,lb)
           End If  ! End If (int_gcell_on_fc(2,ivar))
           End Do  ! End Do ivar=1,nfacevar
           End If  ! End If If (ndim >= 2)
@@ -306,10 +306,10 @@
           If (ndim == 3) Then
           Do ivar=1,nfacevar
           If (int_gcell_on_fc(3,ivar)) Then
-            gt_facevarz(ivar,:,:,1,lb) =                              & 
-                                   facevarz(ivar,:,:,1+nguard0*k3d,lb)
-            gt_facevarz(ivar,:,:,1+k3d,lb) =                          & 
-                             facevarz(ivar,:,:,nzb+(1+nguard0)*k3d,lb)
+            gt_facevarz(:,:,1,ivar,lb) =                              & 
+                                   facevarz(:,:,1+nguard0*k3d,ivar,lb)
+            gt_facevarz(:,:,1+k3d,ivar,lb) =                          & 
+                             facevarz(:,:,nzb+(1+nguard0)*k3d,ivar,lb)
           End If  ! End If (int_gcell_on_fc(3,ivar))
           End Do  ! End Do ivar=1,nfacevar
           End If  ! If (ndim == 3)

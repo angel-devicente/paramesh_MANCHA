@@ -362,7 +362,7 @@
                 (mod(ii,2)  ==  0 .and. mod(nguard,2) .ne. 0)) Then
                ! this point is on parent's face
                ! and does not need to be interpolated
-               f_intx(ii,j,k) = recv(ivar,i,j,k)
+               f_intx(ii,j,k) = recv(i,j,k,ivar)
             Else
                If (ii < nguard + nxb/2) then
                   iw = 1
@@ -375,7 +375,7 @@
 
                Do ipar = imin,imax
                   f_intx(ii,j,k) = f_intx(ii,j,k) +                    & 
-                     weight_half(iw,ipar-i,order)*recv(ivar,ipar,j,k)
+                     weight_half(iw,ipar-i,order)*recv(ipar,j,k,ivar)
                End Do
                ! update parent index
                i = i + 1
@@ -390,7 +390,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  unk_e_y1(ivar,i,j,k,idest) = f_intx(i,j,k)
+                  unk_e_y1(i,j,k,ivar,idest) = f_intx(i,j,k)
                End Do  ! End Do i = ifmin,ifmax
             End Do  ! End Do j = jfmin,jfmax
          End Do  ! End Do k = kfmin,kfmax
@@ -472,7 +472,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  unk_e_y1(ivar,i,j,k,idest) = f_inty(i,j,k)
+                  unk_e_y1(i,j,k,ivar,idest) = f_inty(i,j,k)
                End Do  ! End Do i = ifmin,ifmax
             End Do  ! End Do j = jfmin,jfmax
          End Do  ! End Do k = kfmin,kfmax
@@ -497,13 +497,13 @@
 
          Do kk = kfmin,kfmax
             
-            unk_e_y1(ivar,i,j,kk,idest) = 0.
+            unk_e_y1(i,j,kk,ivar,idest) = 0.
             
             If ((mod(kk,2) .ne. 0 .and. mod(nguard,2)  ==  0) .or.   & 
                 (mod(kk,2)  ==  0 .and. mod(nguard,2) .ne. 0)) Then
                ! this point is on parent's face
                ! and does not need to be interpolated
-               unk_e_y1(ivar,i,j,kk,idest) = f_inty(i,j,k)
+               unk_e_y1(i,j,kk,ivar,idest) = f_inty(i,j,k)
             Else
                If (kk < nguard + nzb/2) Then
                   kw = 1
@@ -515,8 +515,8 @@
                kmax = imaxh(kw,order) + k
 
                Do kpar = kmin,kmax
-                  unk_e_y1(ivar,i,j,kk,idest) =                      & 
-                       unk_e_y1(ivar,i,j,kk,idest) +                 & 
+                  unk_e_y1(i,j,kk,ivar,idest) =                      & 
+                       unk_e_y1(i,j,kk,ivar,idest) +                 & 
                        weight_half(kw,kpar-k,order)*f_inty(i,j,kpar)
                End Do  ! End Do kpar = kmin,kmax
                ! update parent index
@@ -568,7 +568,7 @@
                 (mod(jj,2)  ==  0 .and. mod(nguard,2) .ne. 0)) Then
                ! this point is on the parent's face
                ! and does not need to be interpolated
-               f_inty(i,jj,k) = recv(ivar,i,j,k)
+               f_inty(i,jj,k) = recv(i,j,k,ivar)
             Else
                If (jj < nguard + nyb/2) Then
                   jw = 1
@@ -581,7 +581,7 @@
 
                Do jpar = jmin,jmax
                   f_inty(i,jj,k) = f_inty(i,jj,k) +                    & 
-                      weight_half(jw,jpar-j,order)*recv(ivar,i,jpar,k)
+                      weight_half(jw,jpar-j,order)*recv(i,jpar,k,ivar)
                End Do  ! End Do jpar = jmin,jmax
                ! update parent index
                j = j + 1
@@ -596,7 +596,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  unk_e_x1(ivar,i,j,k,idest) = f_inty(i,j,k)
+                  unk_e_x1(i,j,k,ivar,idest) = f_inty(i,j,k)
                End Do  ! End Do i = ifmin,ifmax
             End Do  ! End Do j = jfmin,jfmax
          End Do  ! End Do k = kfmin,kfmax
@@ -678,7 +678,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  unk_e_x1(ivar,i,j,k,idest) = f_intx(i,j,k)
+                  unk_e_x1(i,j,k,ivar,idest) = f_intx(i,j,k)
                End Do  ! End Do i = ifmin,ifmax
             End Do  ! End Do j = jfmin,jfmax
          End Do  ! End Do k = kfmin,kfmax
@@ -703,13 +703,13 @@
          
          Do kk = kfmin,kfmax
 
-            unk_e_x1(ivar,i,j,kk,idest) = 0.
+            unk_e_x1(i,j,kk,ivar,idest) = 0.
 
             If ((mod(kk,2) .ne. 0 .and. mod(nguard,2)  ==  0) .or.  & 
                 (mod(kk,2)  ==  0 .and. mod(nguard,2) .ne. 0)) then
                ! this point is on the parent's face
                ! and does not need to be interpolated
-               unk_e_x1(ivar,i,j,kk,idest) = f_intx(i,j,k)
+               unk_e_x1(i,j,kk,ivar,idest) = f_intx(i,j,k)
             Else
 
                If (kk < nguard + nzb/2) Then
@@ -722,8 +722,8 @@
                kmax = imaxh(kw,order) + k
 
                Do kpar = kmin,kmax
-                  unk_e_x1(ivar,i,j,kk,idest) =                      & 
-                       unk_e_x1(ivar,i,j,kk,idest) +                 & 
+                  unk_e_x1(i,j,kk,ivar,idest) =                      & 
+                       unk_e_x1(i,j,kk,ivar,idest) +                 & 
                        weight_half(kw,kpar-k,order)*f_intx(i,j,kpar)
                End Do  ! End Do kpar = kmin,kmax
                ! update parent index
@@ -775,7 +775,7 @@
                 (mod(ii,2)  ==  0 .and. mod(nguard,2) .ne. 0)) Then
                ! this point is on parent's face
                ! and does not need to be interpolated
-               f_intx(ii,j,k) = recv(ivar,i,j,k)
+               f_intx(ii,j,k) = recv(i,j,k,ivar)
             Else
                If (ii < nguard + nxb/2) Then
                   iw = 1
@@ -788,7 +788,7 @@
 
                Do ipar = imin,imax
                   f_intx(ii,j,k) = f_intx(ii,j,k) +                    & 
-                       weight_half(iw,ipar-i,order)*recv(ivar,ipar,j,k)
+                       weight_half(iw,ipar-i,order)*recv(ipar,j,k,ivar)
                End Do  ! End Do ipar = imin,imax
                ! update parent index
                i = i + 1
@@ -803,7 +803,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  unk_e_z1(ivar,i,j,k,idest) = f_intx(i,j,k)
+                  unk_e_z1(i,j,k,ivar,idest) = f_intx(i,j,k)
                End Do  ! End Do i = ifmin,ifmax
             End Do  ! End Do j = jfmin,jfmax
          End Do  ! End Do k = kfmin,kfmax
@@ -884,7 +884,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  unk_e_z1(ivar,i,j,k,idest) = f_intz(i,j,k)
+                  unk_e_z1(i,j,k,ivar,idest) = f_intz(i,j,k)
                End Do  ! End Do i = ifmin,ifmax
             End Do  ! End Do j = jfmin,jfmax
          End Do  ! End Do k = kfmin,kfmax
@@ -911,13 +911,13 @@
          
          Do jj = jfmin,jfmax
 
-            unk_e_z1(ivar,i,jj,k,idest) = 0.
+            unk_e_z1(i,jj,k,ivar,idest) = 0.
 
             If ((mod(jj,2) .ne. 0 .and. mod(nguard,2)  ==  0) .or.   & 
                 (mod(jj,2)  ==  0 .and. mod(nguard,2) .ne. 0)) Then
                ! this point is on parent's face
                ! and does not need to be interpolated
-               unk_e_z1(ivar,i,jj,k,idest) = f_intz(i,j,k) 
+               unk_e_z1(i,jj,k,ivar,idest) = f_intz(i,j,k) 
             Else
                If (jj < nguard + nyb/2) Then
                   jw = 1
@@ -929,8 +929,8 @@
                jmax = imaxh(jw,order) + j
 
                Do jpar = jmin,jmax
-                  unk_e_z1(ivar,i,jj,k,idest) =                      & 
-                       unk_e_z1(ivar,i,jj,k,idest) +                 & 
+                  unk_e_z1(i,jj,k,ivar,idest) =                      & 
+                       unk_e_z1(i,jj,k,ivar,idest) +                 & 
                        weight_half(jw,jpar-j,order)*f_intz(i,jpar,k)
                End Do  ! End Do jpar = jmin,jmax
                ! update parent index

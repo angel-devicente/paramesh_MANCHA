@@ -93,9 +93,9 @@
           Do j=1+nguard0,nyb+nguard0,2
             Do i=1,2
 !-------------y pointing edge first
-              recvarx1e(:,i,j,k) = (                                   & 
-                        recvarx1e(:,i,j,k) +                           & 
-                        recvarx1e(:,i,j+1,k) )*fact
+              recvarx1e(i,j,k,:) = (                                   & 
+                        recvarx1e(i,j,k,:) +                           & 
+                        recvarx1e(i,j+1,k,:) )*fact
             End Do
           End Do
         End Do
@@ -105,9 +105,9 @@
             Do j=1+nguard0,nyb+nguard0+1,2
               Do i=1,2
 !---------------z pointing edge 
-                recvarx2e(:,i,j,k) = (                                 & 
-                          recvarx2e(:,i,j,k) +                         & 
-                          recvarx2e(:,i,j,k+k3d) )*fact
+                recvarx2e(i,j,k,:) = (                                 & 
+                          recvarx2e(i,j,k,:) +                         & 
+                          recvarx2e(i,j,k+k3d,:) )*fact
               End Do
             End Do
           End Do
@@ -120,9 +120,9 @@
             Do j=1,2
               Do i=1+nguard0,nxb+nguard0+1,2
 !---------------z pointing edge first
-                recvary2e(:,i,j,k) = (                                 & 
-                          recvary2e(:,i,j,k) +                         & 
-                          recvary2e(:,i,j,k+k3d) )*fact
+                recvary2e(i,j,k,:) = (                                 & 
+                          recvary2e(i,j,k,:) +                         & 
+                          recvary2e(i,j,k+k3d,:) )*fact
               End Do
             End Do
           End Do
@@ -132,9 +132,9 @@
           Do j=1,2
             Do i=1+nguard0,nxb+nguard0,2
 !-------------x pointing edge
-              recvary1e(:,i,j,k) = (                                   & 
-                        recvary1e(:,i,j,k) +                           & 
-                        recvary1e(:,i+1,j,k) )*fact
+              recvary1e(i,j,k,:) = (                                   & 
+                        recvary1e(i,j,k,:) +                           & 
+                        recvary1e(i+1,j,k,:) )*fact
             End Do
           End Do
         End Do
@@ -145,9 +145,9 @@
           Do j=1+nguard0,nyb+nguard0+1,2
             Do i=1+nguard0,nxb+nguard0,2
 !-------------x pointing edge first
-              recvarz1e(:,i,j,k) = (                                   & 
-                        recvarz1e(:,i,j,k) +                           & 
-                        recvarz1e(:,i+1,j,k) )*fact
+              recvarz1e(i,j,k,:) = (                                   & 
+                        recvarz1e(i,j,k,:) +                           & 
+                        recvarz1e(i+1,j,k,:) )*fact
             End Do
           End Do
         End Do
@@ -156,9 +156,9 @@
           Do j=1+nguard0,nyb+nguard0,2
             Do i=1+nguard0,nxb+nguard0+1,2
 !-------------y pointing edge
-              recvarz2e(:,i,j,k) = (                                   & 
-                        recvarz2e(:,i,j,k) +                           & 
-                        recvarz2e(:,i,j+1,k) )*fact
+              recvarz2e(i,j,k,:) = (                                   & 
+                        recvarz2e(i,j,k,:) +                           & 
+                        recvarz2e(i,j+1,k,:) )*fact
             End Do
           End Do
         End Do

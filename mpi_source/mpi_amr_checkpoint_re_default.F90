@@ -151,29 +151,29 @@
       Real    :: coordt(mdim,maxblocks_tr)
       Real    :: work_blockt(maxblocks_tr)
       Real    :: bnd_boxt(2,mdim,maxblocks_tr)
-      Real    :: unkt(nvar,il_bnd:iu_bnd,jl_bnd:ju_bnd,kl_bnd:ku_bnd)
-      Real    :: facevarxt(nbndvar,il_bnd:iu_bnd+1,jl_bnd:ju_bnd,      & 
-                           kl_bnd:ku_bnd)
-      Real    :: facevaryt(nbndvar,il_bnd:iu_bnd,jl_bnd:ju_bnd+k2d,    & 
-                           kl_bnd:ku_bnd)
-      Real    :: facevarzt(nbndvar,il_bnd:iu_bnd,jl_bnd:ju_bnd,        & 
-                           kl_bnd:ku_bnd+k3d)
-      Real    :: unk_nt(nbndvarc,                                      & 
+      Real    :: unkt(il_bnd:iu_bnd,jl_bnd:ju_bnd,kl_bnd:ku_bnd,nvar)
+      Real    :: facevarxt(il_bnd:iu_bnd+1,jl_bnd:ju_bnd,      & 
+                           kl_bnd:ku_bnd,nbndvar)
+      Real    :: facevaryt(il_bnd:iu_bnd,jl_bnd:ju_bnd+k2d,    & 
+                           kl_bnd:ku_bnd,nbndvar)
+      Real    :: facevarzt(il_bnd:iu_bnd,jl_bnd:ju_bnd,        & 
+                           kl_bnd:ku_bnd+k3d,nbndvar)
+      Real    :: unk_nt(                                      & 
                         il_bnd:iu_bnd+1,                               & 
                         jl_bnd:ju_bnd+k2d,                             & 
-                        kl_bnd:ku_bnd+k3d)
-      Real    :: unk_e_xt(nbndvare,                                    & 
+                        kl_bnd:ku_bnd+k3d,nbndvarc)
+      Real    :: unk_e_xt(                                    & 
                           il_bnd:iu_bnd,                               & 
                           jl_bnd:ju_bnd+k2d,                           & 
-                          kl_bnd:ku_bnd+k3d)
-      Real    :: unk_e_yt(nbndvare,                                    & 
+                          kl_bnd:ku_bnd+k3d,nbndvare)
+      Real    :: unk_e_yt(                                    & 
                           il_bnd:iu_bnd+1,                             & 
                           jl_bnd:ju_bnd,                               & 
-                          kl_bnd:ku_bnd+k3d)
-      Real    :: unk_e_zt(nbndvare,                                    & 
+                          kl_bnd:ku_bnd+k3d,nbndvare)
+      Real    :: unk_e_zt(                                    & 
                           il_bnd:iu_bnd+1,                             & 
                           jl_bnd:ju_bnd+k2d,                           & 
-                          kl_bnd:ku_bnd)
+                          kl_bnd:ku_bnd,nbndvare)
       Real,Allocatable :: CS_buffer1(:), CR_buffer1(:)
       Real,Allocatable :: CS_buffer2(:), CR_buffer2(:)
       Logical :: l_move_solution, l_with_guardcells2
@@ -366,12 +366,12 @@
                  Do iz=1+kl0*ion_c,1+ku0*ion_c
                  Do iy=1+jl0*ion_c,1+ju0*ion_c
                  Do ix=1+il0*ion_c,1+iu0*ion_c
-                   Read (iunit1) unk(ivar,ix,iy,iz,block_no)
+                   Read (iunit1) unk(ix,iy,iz,ivar,block_no)
                  End Do
                  End Do
                  End Do
                  Else
-                   unk(ivar,:,:,:,block_no) = 0.
+                   unk(:,:,:,ivar,block_no) = 0.
                  End If
                  End Do
                End If
@@ -382,12 +382,12 @@
                  Do iz = 1+kl0*ion_f,1+ku0*ion_f
                  Do iy = 1+jl0*ion_f,1+ju0*ion_f
                  Do ix = 1+il0*ion_f,1+(iu0+1)*ion_f
-                   Read (iunit1) facevarx(ivar,ix,iy,iz,block_no)
+                   Read (iunit1) facevarx(ix,iy,iz,ivar,block_no)
                  End Do
                  End Do
                  End Do
                  Else
-                   facevarx(ivar,:,:,:,block_no) = 0.
+                   facevarx(:,:,:,ivar,block_no) = 0.
                  End If
                  End Do
 
@@ -396,12 +396,12 @@
                  Do iz = 1+kl0*ion_f,1+ku0*ion_f
                  Do iy = 1+jl0*ion_f,1+(ju0+k2d)*ion_f
                  Do ix = 1+il0*ion_f,1+iu0*ion_f
-                   Read (iunit1) facevary(ivar,ix,iy,iz,block_no)
+                   Read (iunit1) facevary(ix,iy,iz,ivar,block_no)
                  End Do
                  End Do
                  End Do
                  Else
-                   facevary(ivar,:,:,:,block_no) = 0.
+                   facevary(:,:,:,ivar,block_no) = 0.
                  End If
                  End Do
 
@@ -410,12 +410,12 @@
                  Do iz = 1+kl0*ion_f,1+(ku0+k3d)*ion_f
                  Do iy = 1+jl0*ion_f,1+ju0*ion_f
                  Do ix = 1+il0*ion_f,1+iu0*ion_f
-                   Read (iunit1) facevarz(ivar,ix,iy,iz,block_no)
+                   Read (iunit1) facevarz(ix,iy,iz,ivar,block_no)
                  End Do
                  End Do
                  End Do
                  Else
-                   facevarz(ivar,:,:,:,block_no) = 0.
+                   facevarz(:,:,:,ivar,block_no) = 0.
                  End If
                  End Do
                End If  ! End If (nvar_chk_fc > 0) 
@@ -426,12 +426,12 @@
                  Do iz = 1+kl0*ion_e,1+(ku0+k3d)*ion_e
                  Do iy = 1+jl0*ion_e,1+(ju0+k2d)*ion_e
                  Do ix = 1+il0*ion_e,1+iu0*ion_e
-                   Read (iunit1) unk_e_x(ivar,ix,iy,iz,block_no)
+                   Read (iunit1) unk_e_x(ix,iy,iz,ivar,block_no)
                  End Do
                  End Do
                  End Do
                  Else
-                   unk_e_x(ivar,:,:,:,block_no) = 0.
+                   unk_e_x(:,:,:,ivar,block_no) = 0.
                  End If
                  End Do
 
@@ -440,12 +440,12 @@
                  Do iz = 1+kl0*ion_e,1+(ku0+k3d)*ion_e
                  Do iy = 1+jl0*ion_e,1+ju0*ion_e
                  Do ix = 1+il0*ion_e,1+(iu0+1)*ion_e
-                   Read (iunit1) unk_e_y(ivar,ix,iy,iz,block_no)
+                   Read (iunit1) unk_e_y(ix,iy,iz,ivar,block_no)
                  End Do
                  End Do
                  End Do
                  Else
-                   unk_e_y(ivar,:,:,:,block_no) = 0.
+                   unk_e_y(:,:,:,ivar,block_no) = 0.
                  End If
                  End Do
 
@@ -454,12 +454,12 @@
                  Do iz = 1+kl0*ion_e,1+ku0*ion_e
                  Do iy = 1+jl0*ion_e,1+(ju0+k2d)*ion_e
                  Do ix = 1+il0*ion_e,1+(iu0+1)*ion_e
-                   Read (iunit1) unk_e_z(ivar,ix,iy,iz,block_no)
+                   Read (iunit1) unk_e_z(ix,iy,iz,ivar,block_no)
                  End Do
                  End Do
                  End Do
                  Else
-                   unk_e_z(ivar,:,:,:,block_no) = 0.
+                   unk_e_z(:,:,:,ivar,block_no) = 0.
                  End If
                  End Do
                End If  ! End If (nvar_chk_ec > 0)
@@ -470,12 +470,12 @@
                  Do iz = 1+kl0*ion_n,1+(ku0+k3d)*ion_n
                  Do iy = 1+jl0*ion_n,1+(ju0+k2d)*ion_n
                  Do ix = 1+il0*ion_n,1+(iu0+1)*ion_n
-                   Read (iunit1) unk_n(ivar,ix,iy,iz,block_no)
+                   Read (iunit1) unk_n(ix,iy,iz,ivar,block_no)
                  End Do
                  End Do
                  End Do
                  Else
-                   unk_n(ivar,:,:,:,block_no) = 0.
+                   unk_n(:,:,:,ivar,block_no) = 0.
                  End If
                  End Do
                End If
@@ -621,12 +621,12 @@
                  Do iz=1+kl0*ion_c,1+ku0*ion_c
                  Do iy=1+jl0*ion_c,1+ju0*ion_c
                  Do ix=1+il0*ion_c,1+iu0*ion_c
-                   Read (iunit1) unkt(ivar,ix,iy,iz)
+                   Read (iunit1) unkt(ix,iy,iz,ivar)
                  End Do
                  End Do
                  End Do
                  Else
-                   unkt(ivar,:,:,:) = 0.
+                   unkt(:,:,:,ivar) = 0.
                  End If
                  End Do
                End If
@@ -637,12 +637,12 @@
                  Do iz = 1+kl0*ion_f,1+ku0*ion_f
                  Do iy = 1+jl0*ion_f,1+ju0*ion_f
                  Do ix = 1+il0*ion_f,1+(iu0+1)*ion_f
-                   Read (iunit1) facevarxt(ivar,ix,iy,iz)
+                   Read (iunit1) facevarxt(ix,iy,iz,ivar)
                  End Do
                  End Do
                  End Do
                  Else
-                   facevarxt(ivar,:,:,:) = 0.
+                   facevarxt(:,:,:,ivar) = 0.
                  End If
                  End Do
 
@@ -651,12 +651,12 @@
                  Do iz = 1+kl0*ion_f,1+ku0*ion_f
                  Do iy = 1+jl0*ion_f,1+(ju0+k2d)*ion_f
                  Do ix = 1+il0*ion_f,1+iu0*ion_f
-                   Read (iunit1) facevaryt(ivar,ix,iy,iz)
+                   Read (iunit1) facevaryt(ix,iy,iz,ivar)
                  End Do
                  End Do
                  End Do
                  Else
-                   facevaryt(ivar,:,:,:) = 0.
+                   facevaryt(:,:,:,ivar) = 0.
                  End If
                  End Do
 
@@ -665,12 +665,12 @@
                  Do iz = 1+kl0*ion_f,1+(ku0+k3d)*ion_f
                  Do iy = 1+jl0*ion_f,1+ju0*ion_f
                  Do ix = 1+il0*ion_f,1+iu0*ion_f
-                   Read (iunit1) facevarzt(ivar,ix,iy,iz)
+                   Read (iunit1) facevarzt(ix,iy,iz,ivar)
                  End Do
                  End Do
                  End Do
                  Else
-                   facevarzt(ivar,:,:,:) = 0.
+                   facevarzt(:,:,:,ivar) = 0.
                  End If
                  End Do
                End If  ! End If (nvar_chk_fc > 0)
@@ -681,12 +681,12 @@
                  Do iz = 1+kl0*ion_e,1+(ku0+k3d)*ion_e
                  Do iy = 1+jl0*ion_e,1+(ju0+k2d)*ion_e
                  Do ix = 1+il0*ion_e,1+iu0*ion_e
-                   Read (iunit1) unk_e_xt(ivar,ix,iy,iz)
+                   Read (iunit1) unk_e_xt(ix,iy,iz,ivar)
                  End Do
                  End Do
                  End Do
                  Else
-                   unk_e_xt(ivar,:,:,:) = 0.
+                   unk_e_xt(:,:,:,ivar) = 0.
                  End If
                  End Do
 
@@ -695,12 +695,12 @@
                  Do iz = 1+kl0*ion_e,1+(ku0+k3d)*ion_e
                  Do iy = 1+jl0*ion_e,1+ju0*ion_e
                  Do ix = 1+il0*ion_e,1+(iu0+1)*ion_e
-                   Read (iunit1) unk_e_yt(ivar,ix,iy,iz)
+                   Read (iunit1) unk_e_yt(ix,iy,iz,ivar)
                  End Do
                  End Do
                  End Do
                  Else
-                   unk_e_yt(ivar,:,:,:) = 0.
+                   unk_e_yt(:,:,:,ivar) = 0.
                  End If
                  End Do
 
@@ -709,12 +709,12 @@
                  Do iz = 1+kl0*ion_e,1+ku0*ion_e
                  Do iy = 1+jl0*ion_e,1+(ju0+k2d)*ion_e
                  Do ix = 1+il0*ion_e,1+(iu0+1)*ion_e
-                   Read (iunit1) unk_e_zt(ivar,ix,iy,iz)
+                   Read (iunit1) unk_e_zt(ix,iy,iz,ivar)
                  End Do
                  End Do
                  End Do
                  Else
-                   unk_e_zt(ivar,:,:,:) = 0.
+                   unk_e_zt(:,:,:,ivar) = 0.
                  End If
                  End Do
                End If  ! End If (nvar_chk_ec > 0)
@@ -725,12 +725,12 @@
                  Do iz = 1+kl0*ion_n,1+(ku0+k3d)*ion_n
                  Do iy = 1+jl0*ion_n,1+(ju0+k2d)*ion_n
                  Do ix = 1+il0*ion_n,1+(iu0+1)*ion_n
-                   Read (iunit1) unk_nt(ivar,ix,iy,iz)
+                   Read (iunit1) unk_nt(ix,iy,iz,ivar)
                  End Do
                  End Do
                  End Do
                  Else
-                   unk_nt(ivar,:,:,:) = 0.
+                   unk_nt(:,:,:,ivar) = 0.
                  End If
                  End Do
                End If

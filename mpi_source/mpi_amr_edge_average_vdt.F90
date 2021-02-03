@@ -210,139 +210,139 @@
 
             If (iface == 1) Then
 
-              bedge_facex_y(:,1,:,:,lb)=ttbedge_facex_y(:,1,:,:,lb)
+              bedge_facex_y(1,:,:,:,lb)=ttbedge_facex_y(:,1,:,:,lb)
 
               If ((ndim == 3).Or.(l2p5d == 1))                         & 
-              bedge_facex_z(:,1,:,:,lb)=ttbedge_facex_z(:,1,:,:,lb)
+              bedge_facex_z(1,:,:,:,lb)=ttbedge_facex_z(:,1,:,:,lb)
 
 !-------------make common variables on an edge consistent
-              bedge_facey_z(:,1+nguard0,1,klo:kup,lb) =                & 
-                     bedge_facex_z(:,1,1+nguard0,klo:kup,lb)
+              bedge_facey_z(1+nguard0,1,klo:kup,:,lb) =                & 
+                     bedge_facex_z(1,1+nguard0,klo:kup,:,lb)
 
-              bedge_facey_z(:,1+nguard0,2,klo:kup,lb) =                & 
-                     bedge_facex_z(:,1,1+nyb+nguard0,klo:kup,lb)
+              bedge_facey_z(1+nguard0,2,klo:kup,:,lb) =                & 
+                     bedge_facex_z(1,1+nyb+nguard0,klo:kup,:,lb)
 
-              bedge_facez_y(:,1+nguard0,1+nguard0:nyb+nguard0,1,lb)    & 
-                   = bedge_facex_y(:,1,1+nguard0:nyb+nguard0,klo,lb)
+              bedge_facez_y(1+nguard0,1+nguard0:nyb+nguard0,1,:,lb)    & 
+                   = bedge_facex_y(1,1+nguard0:nyb+nguard0,klo,:,lb)
 
               If (ndim == 3) Then
-              bedge_facez_y(:,1+nguard0,1+nguard0:nyb+nguard0,         & 
-                                                            1+k3d,lb)  & 
-                   = bedge_facex_y(:,1,1+nguard0:nyb+nguard0,kup1,lb)
+              bedge_facez_y(1+nguard0,1+nguard0:nyb+nguard0,         & 
+                                                            1+k3d,:,lb)  & 
+                   = bedge_facex_y(1,1+nguard0:nyb+nguard0,kup1,:,lb)
               End If
 
             ElseIf (iface == 2) Then
 
-              bedge_facex_y(:,2,:,:,lb)=ttbedge_facex_y(:,2,:,:,lb)
+              bedge_facex_y(2,:,:,:,lb)=ttbedge_facex_y(:,2,:,:,lb)
 
               If ((ndim == 3).Or.(l2p5d == 1))                         & 
-               bedge_facex_z(:,2,:,:,lb)=ttbedge_facex_z(:,2,:,:,lb)
+               bedge_facex_z(2,:,:,:,lb)=ttbedge_facex_z(:,2,:,:,lb)
 
 !-------------make common variables on an edge consistent
-              bedge_facey_z(:,1+nxb+nguard0,1,klo:kup,lb) =            & 
-                  bedge_facex_z(:,2,1+nguard0,klo:kup,lb)
+              bedge_facey_z(1+nxb+nguard0,1,klo:kup,:,lb) =            & 
+                  bedge_facex_z(2,1+nguard0,klo:kup,:,lb)
 
-              bedge_facey_z(:,1+nxb+nguard0,2,klo:kup,lb) =            & 
-                  bedge_facex_z(:,2,1+nyb+nguard0,klo:kup,lb)
+              bedge_facey_z(1+nxb+nguard0,2,klo:kup,:,lb) =            & 
+                  bedge_facex_z(2,1+nyb+nguard0,klo:kup,:,lb)
 
-              bedge_facez_y(:,1+nxb+nguard0,1+nguard0:nyb+nguard0,     & 
-                                                             1,lb)=    & 
-                  bedge_facex_y(:,2,1+nguard0:nyb+nguard0,klo,lb)
+              bedge_facez_y(1+nxb+nguard0,1+nguard0:nyb+nguard0,     & 
+                                                             1,:,lb)=    & 
+                  bedge_facex_y(2,1+nguard0:nyb+nguard0,klo,:,lb)
 
               If (ndim == 3) Then
-              bedge_facez_y(:,1+nxb+nguard0,1+nguard0:nyb+nguard0,     & 
-                                                         1+k3d,lb)=    & 
-                  bedge_facex_y(:,2,1+nguard0:nyb+nguard0,kup1,lb)
+              bedge_facez_y(1+nxb+nguard0,1+nguard0:nyb+nguard0,     & 
+                                                         1+k3d,:,lb)=    & 
+                  bedge_facex_y(2,1+nguard0:nyb+nguard0,kup1,:,lb)
               End If
 
             ElseIf (iface == 3) Then
 
-              bedge_facey_x(:,:,1,:,lb)=ttbedge_facey_x(:,:,1,:,lb)
+              bedge_facey_x(:,1,:,:,lb)=ttbedge_facey_x(:,:,1,:,lb)
 
               If ((ndim == 3).Or.(l2p5d == 1))                         & 
-               bedge_facey_z(:,:,1,:,lb)=ttbedge_facey_z(:,:,1,:,lb)
+               bedge_facey_z(:,1,:,:,lb)=ttbedge_facey_z(:,:,1,:,lb)
 
 !-------------make common variables on an edge consistent
-              bedge_facex_z(:,1,1+nguard0,klo:kup,lb) =                & 
-                bedge_facey_z(:,1+nguard0,1,klo:kup,lb)
+              bedge_facex_z(1,1+nguard0,klo:kup,:,lb) =                & 
+                bedge_facey_z(1+nguard0,1,klo:kup,:,lb)
 
-              bedge_facex_z(:,2,1+nguard0,klo:kup,lb) =                & 
-                bedge_facey_z(:,1+nxb+nguard0,1,klo:kup,lb)
+              bedge_facex_z(2,1+nguard0,klo:kup,:,lb) =                & 
+                bedge_facey_z(1+nxb+nguard0,1,klo:kup,:,lb)
 
-              bedge_facez_x(:,1+nguard0:nxb+nguard0,1+nguard0,1,lb)=   & 
-                bedge_facey_x(:,1+nguard0:nxb+nguard0,1,klo,lb)
+              bedge_facez_x(1+nguard0:nxb+nguard0,1+nguard0,1,:,lb)=   & 
+                bedge_facey_x(1+nguard0:nxb+nguard0,1,klo,:,lb)
 
               If (ndim == 3) Then
-              bedge_facez_x(:,1+nguard0:nxb+nguard0,1+nguard0,         & 
-                                                          1+k3d,lb)=   & 
-                bedge_facey_x(:,1+nguard0:nxb+nguard0,1,kup1,lb)
+              bedge_facez_x(1+nguard0:nxb+nguard0,1+nguard0,         & 
+                                                          1+k3d,:,lb)=   & 
+                bedge_facey_x(1+nguard0:nxb+nguard0,1,kup1,:,lb)
               End If
 
             ElseIf (iface == 4) Then
 
-              bedge_facey_x(:,:,2,:,lb)=ttbedge_facey_x(:,:,2,:,lb)
+              bedge_facey_x(:,2,:,:,lb)=ttbedge_facey_x(:,:,2,:,lb)
 
               If ((ndim == 3).Or.(l2p5d == 1))                         & 
-               bedge_facey_z(:,:,2,:,lb)=ttbedge_facey_z(:,:,2,:,lb)
+               bedge_facey_z(:,2,:,:,lb)=ttbedge_facey_z(:,:,2,:,lb)
 
 !--------------make common variables on an edge consistent
-               bedge_facex_z(:,1,1+nyb+nguard0,klo:kup,lb) =           & 
-                    bedge_facey_z(:,1+nguard0,2,klo:kup,lb)
+               bedge_facex_z(1,1+nyb+nguard0,klo:kup,:,lb) =           & 
+                    bedge_facey_z(1+nguard0,2,klo:kup,:,lb)
 
-              bedge_facex_z(:,2,1+nyb+nguard0,klo:kup,lb) =            & 
-                    bedge_facey_z(:,1+nxb+nguard0,2,klo:kup,lb)
+              bedge_facex_z(2,1+nyb+nguard0,klo:kup,:,lb) =            & 
+                    bedge_facey_z(1+nxb+nguard0,2,klo:kup,:,lb)
 
-              bedge_facez_x(:,1+nguard0:nxb+nguard0,1+nyb+nguard0,     & 
-                                                             1,lb)=    & 
-                    bedge_facey_x(:,1+nguard0:nxb+nguard0,2,klo,lb)
+              bedge_facez_x(1+nguard0:nxb+nguard0,1+nyb+nguard0,     & 
+                                                             1,:,lb)=    & 
+                    bedge_facey_x(1+nguard0:nxb+nguard0,2,klo,:,lb)
 
               If (ndim == 3) Then
-              bedge_facez_x(:,1+nguard0:nxb+nguard0,1+nyb+nguard0,     & 
-                                                         1+k3d,lb)=    & 
-                    bedge_facey_x(:,1+nguard0:nxb+nguard0,2,kup1,lb)
+              bedge_facez_x(1+nguard0:nxb+nguard0,1+nyb+nguard0,     & 
+                                                         1+k3d,:,lb)=    & 
+                    bedge_facey_x(1+nguard0:nxb+nguard0,2,kup1,:,lb)
               End If
 
             ElseIf (iface == 5) Then
 
-              bedge_facez_x(:,:,:,1,lb)=ttbedge_facez_x(:,:,:,1,lb)
-              bedge_facez_y(:,:,:,1,lb)=ttbedge_facez_y(:,:,:,1,lb)
+              bedge_facez_x(:,:,1,:,lb)=ttbedge_facez_x(:,:,:,1,lb)
+              bedge_facez_y(:,:,1,:,lb)=ttbedge_facez_y(:,:,:,1,lb)
 
 !-------------make common variables on an edge consistent
-              bedge_facey_x(:,1+nguard0:nxb+nguard0,1,klo,lb)=         & 
-                bedge_facez_x(:,1+nguard0:nxb+nguard0,1+nguard0,       & 
-                                                           1,lb)
+              bedge_facey_x(1+nguard0:nxb+nguard0,1,klo,:,lb)=         & 
+                bedge_facez_x(1+nguard0:nxb+nguard0,1+nguard0,       & 
+                                                           1,:,lb)
 
-              bedge_facey_x(:,1+nguard0:nxb+nguard0,2,klo,lb)=         & 
-                bedge_facez_x(:,1+nguard0:nxb+nguard0,1+nyb+nguard0    & 
-                                                           ,1,lb)
+              bedge_facey_x(1+nguard0:nxb+nguard0,2,klo,:,lb)=         & 
+                bedge_facez_x(1+nguard0:nxb+nguard0,1+nyb+nguard0    & 
+                                                           ,1,:,lb)
 
-              bedge_facex_y(:,1,1+nguard0:nyb+nguard0,klo,lb)=         & 
-                bedge_facez_y(:,1+nguard0,1+nguard0:nyb+nguard0,       & 
-                                                           1,lb)
+              bedge_facex_y(1,1+nguard0:nyb+nguard0,klo,:,lb)=         & 
+                bedge_facez_y(1+nguard0,1+nguard0:nyb+nguard0,       & 
+                                                           1,:,lb)
 
-              bedge_facex_y(:,2,1+nguard0:nyb+nguard0,klo,lb)=         & 
-                bedge_facez_y(:,1+nxb+nguard0,1+nguard0:nyb+nguard0    & 
-                                                          ,1,lb)
+              bedge_facex_y(2,1+nguard0:nyb+nguard0,klo,:,lb)=         & 
+                bedge_facez_y(1+nxb+nguard0,1+nguard0:nyb+nguard0    & 
+                                                          ,1,:,lb)
 
             ElseIf (iface == 6) Then
 
-              bedge_facez_x(:,:,:,2,lb)=ttbedge_facez_x(:,:,:,2,lb)
-              bedge_facez_y(:,:,:,2,lb)=ttbedge_facez_y(:,:,:,2,lb)
+              bedge_facez_x(:,:,2,:,lb)=ttbedge_facez_x(:,:,:,2,lb)
+              bedge_facez_y(:,:,2,:,lb)=ttbedge_facez_y(:,:,:,2,lb)
 
 !-------------make common variables on an edge consistent
-              bedge_facey_x(:,1+nguard0:nxb+nguard0,1,kup1,lb)=        & 
-                bedge_facez_x(:,1+nguard0:nxb+nguard0,1+nguard0,2,lb)
+              bedge_facey_x(1+nguard0:nxb+nguard0,1,kup1,:,lb)=        & 
+                bedge_facez_x(1+nguard0:nxb+nguard0,1+nguard0,2,:,lb)
 
-              bedge_facey_x(:,1+nguard0:nxb+nguard0,2,kup1,lb)=        & 
-                bedge_facez_x(:,1+nguard0:nxb+nguard0,1+nyb+nguard0,   & 
-                                                              2,lb)
+              bedge_facey_x(1+nguard0:nxb+nguard0,2,kup1,:,lb)=        & 
+                bedge_facez_x(1+nguard0:nxb+nguard0,1+nyb+nguard0,   & 
+                                                              2,:,lb)
 
-              bedge_facex_y(:,1,1+nguard0:nyb+nguard0,kup1,lb)=        & 
-                bedge_facez_y(:,1+nguard0,1+nguard0:nyb+nguard0,2,lb)
+              bedge_facex_y(1,1+nguard0:nyb+nguard0,kup1,:,lb)=        & 
+                bedge_facez_y(1+nguard0,1+nguard0:nyb+nguard0,2,:,lb)
 
-              bedge_facex_y(:,2,1+nguard0:nyb+nguard0,kup1,lb)=        & 
-                bedge_facez_y(:,1+nxb+nguard0,1+nguard0:nyb+nguard0,   & 
-                                                                2,lb)
+              bedge_facex_y(2,1+nguard0:nyb+nguard0,kup1,:,lb)=        & 
+                bedge_facez_y(1+nxb+nguard0,1+nguard0:nyb+nguard0,   & 
+                                                                2,:,lb)
 
             End If  ! End If (iface == 1)
           End If  ! End If (cnodetype == 1)
@@ -408,53 +408,53 @@
 
            If (jf == 1) Then
 
-             bedge_facex_y(:,1,:,:,lb) =                               &
-                bedge_facex_y(:,2,:,:,remote_block)
+             bedge_facex_y(1,:,:,:,lb) =                               &
+                bedge_facex_y(2,:,:,:,remote_block)
              If ((ndim == 3).Or.(l2p5d == 1)) Then
-                bedge_facex_z(:,1,:,:,lb) =                            &
-                   bedge_facex_z(:,2,:,:,remote_block)
+                bedge_facex_z(1,:,:,:,lb) =                            &
+                   bedge_facex_z(2,:,:,:,remote_block)
              End If
 
            ElseIf (jf == 2) Then
 
-             bedge_facex_y(:,2,:,:,lb) =                               &
-                bedge_facex_y(:,1,:,:,remote_block)
+             bedge_facex_y(2,:,:,:,lb) =                               &
+                bedge_facex_y(1,:,:,:,remote_block)
              If ((ndim == 3).Or.(l2p5d == 1)) Then
-                bedge_facex_z(:,2,:,:,lb) =                            &
-                   bedge_facex_z(:,1,:,:,remote_block)
+                bedge_facex_z(2,:,:,:,lb) =                            &
+                   bedge_facex_z(1,:,:,:,remote_block)
              End If
 
            ElseIf (jf == 3) Then
 
              If ((ndim == 3).Or.(l2p5d == 1)) Then
-                bedge_facey_z(:,:,1,:,lb) =                            &
-                   bedge_facey_z(:,:,2,:,remote_block)
+                bedge_facey_z(:,1,:,:,lb) =                            &
+                   bedge_facey_z(:,2,:,:,remote_block)
              End If
-             bedge_facey_x(:,:,1,:,lb) =                               &
-                bedge_facey_x(:,:,2,:,remote_block)
+             bedge_facey_x(:,1,:,:,lb) =                               &
+                bedge_facey_x(:,2,:,:,remote_block)
              
            ElseIf (jf == 4) Then
 
             If ((ndim == 3).Or.(l2p5d == 1)) Then
-              bedge_facey_z(:,:,2,:,lb) =                              &
-                 bedge_facey_z(:,:,1,:,remote_block)
+              bedge_facey_z(:,2,:,:,lb) =                              &
+                 bedge_facey_z(:,1,:,:,remote_block)
             End If
-            bedge_facey_x(:,:,2,:,lb) =                                &
-               bedge_facey_x(:,:,1,:,remote_block)
+            bedge_facey_x(:,2,:,:,lb) =                                &
+               bedge_facey_x(:,1,:,:,remote_block)
 
            ElseIf (jf == 5) Then
 
-             bedge_facez_x(:,:,:,1,lb) =                               &
-                bedge_facez_x(:,:,:,2,remote_block)
-             bedge_facez_y(:,:,:,1,lb) =                               &
-                bedge_facez_y(:,:,:,2,remote_block) 
+             bedge_facez_x(:,:,1,:,lb) =                               &
+                bedge_facez_x(:,:,2,:,remote_block)
+             bedge_facez_y(:,:,1,:,lb) =                               &
+                bedge_facez_y(:,:,2,:,remote_block) 
              
            ElseIf (jf == 6) Then 
 
-             bedge_facez_x(:,:,:,2,lb) =                               &
-                bedge_facez_x(:,:,:,1,remote_block)
-             bedge_facez_y(:,:,:,2,lb) =                               &
-                bedge_facez_y(:,:,:,1,remote_block)
+             bedge_facez_x(:,:,2,:,lb) =                               &
+                bedge_facez_x(:,:,1,:,remote_block)
+             bedge_facez_y(:,:,2,:,lb) =                               &
+                bedge_facez_y(:,:,1,:,remote_block)
 
            End If  ! End If (jf == 1)
 
@@ -463,47 +463,47 @@
             Call mpi_put_edge_buffer_1blk(lb,remote_block,remote_pe)
 
             If (jf == 1) Then
-               bedge_facex_y(:,1,:,:,lb) = recvarx1e(:,2,:,:)
+               bedge_facex_y(1,:,:,:,lb) = recvarx1e(2,:,:,:)
             ElseIf (jf == 2) Then
-               bedge_facex_y(:,2,:,:,lb) = recvarx1e(:,1,:,:)
+               bedge_facex_y(2,:,:,:,lb) = recvarx1e(1,:,:,:)
             End If
 
             If (jf == 1) Then
                If ((ndim == 3).Or.(l2p5d == 1)) Then
-                  bedge_facex_z(:,1,:,:,lb) = recvarx2e(:,2,:,:)
+                  bedge_facex_z(1,:,:,:,lb) = recvarx2e(2,:,:,:)
                End If
             ElseIf (jf == 2) Then
                If ((ndim == 3).Or.(l2p5d == 1)) Then
-                  bedge_facex_z(:,2,:,:,lb) = recvarx2e(:,1,:,:)
+                  bedge_facex_z(2,:,:,:,lb) = recvarx2e(1,:,:,:)
                End If
             End If
 
             If (jf == 3) Then
-               bedge_facey_x(:,:,1,:,lb) = recvary1e(:,:,2,:)
+               bedge_facey_x(:,1,:,:,lb) = recvary1e(:,2,:,:)
             ElseIf (jf == 4) Then
-               bedge_facey_x(:,:,2,:,lb) = recvary1e(:,:,1,:)
+               bedge_facey_x(:,2,:,:,lb) = recvary1e(:,1,:,:)
             End If
 
             If (jf == 3) Then
                If ((ndim == 3).Or.(l2p5d == 1)) Then
-                  bedge_facey_z(:,:,1,:,lb) = recvary2e(:,:,2,:)
+                  bedge_facey_z(:,1,:,:,lb) = recvary2e(:,2,:,:)
                End If
             ElseIf (jf == 4) Then
                If ((ndim == 3).Or.(l2p5d == 1)) Then
-                  bedge_facey_z(:,:,2,:,lb) = recvary2e(:,:,1,:)
+                  bedge_facey_z(:,2,:,:,lb) = recvary2e(:,1,:,:)
                End If
             End If
 
             If (jf == 5) Then
-               bedge_facez_x(:,:,:,1,lb) = recvarz1e(:,:,:,2)
+               bedge_facez_x(:,:,1,:,lb) = recvarz1e(:,:,2,:)
             ElseIf (jf == 6) Then
-               bedge_facez_x(:,:,:,2,lb) = recvarz1e(:,:,:,1)
+               bedge_facez_x(:,:,2,:,lb) = recvarz1e(:,:,1,:)
             End If
 
             If (jf == 5) Then
-               bedge_facez_y(:,:,:,1,lb) = recvarz2e(:,:,:,2)
+               bedge_facez_y(:,:,1,:,lb) = recvarz2e(:,:,2,:)
             ElseIf (jf == 6) Then
-               bedge_facez_y(:,:,:,2,lb) = recvarz2e(:,:,:,1)
+               bedge_facez_y(:,:,2,:,lb) = recvarz2e(:,:,1,:)
             End If
 
          End If  ! End If (remote_pe == mype .And. remote_block <= lnblocks)
@@ -511,134 +511,134 @@
 !--------make common variables on an edge consistent
          If (jf == 1) Then
 
-            bedge_facey_z(:,1+nguard0,1,klo:kup,lb) =                  & 
-                 bedge_facex_z(:,1,1+nguard0*k2d,klo:kup,lb)
+            bedge_facey_z(1+nguard0,1,klo:kup,:,lb) =                  & 
+                 bedge_facex_z(1,1+nguard0*k2d,klo:kup,:,lb)
 
-            bedge_facey_z(:,1+nguard0,2,klo:kup,lb) =                  & 
-                 bedge_facex_z(:,1,k2d+nyb+nguard0*k2d,klo:kup,lb)
+            bedge_facey_z(1+nguard0,2,klo:kup,:,lb) =                  & 
+                 bedge_facex_z(1,k2d+nyb+nguard0*k2d,klo:kup,:,lb)
 
             If ((ndim == 3).Or.(l2p5d == 1)) Then
-               bedge_facez_y(:,1+nguard0,                              & 
-                    1+nguard0*k2d:nyb+nguard0*k2d,1,lb)                & 
-                    = bedge_facex_y(:,1,                               & 
-                    1+nguard0*k2d:nyb+nguard0*k2d,klo,lb)
+               bedge_facez_y(1+nguard0,                              & 
+                    1+nguard0*k2d:nyb+nguard0*k2d,1,:,lb)                & 
+                    = bedge_facex_y(1,                               & 
+                    1+nguard0*k2d:nyb+nguard0*k2d,klo,:,lb)
 
                If (ndim == 3)                                          & 
-                    bedge_facez_y(:,1+nguard0,                         & 
-                    1+nguard0*k2d:nyb+nguard0*k2d,2,lb)                & 
-                    = bedge_facex_y(:,1,                               & 
-                    1+nguard0*k2d:nyb+nguard0*k2d,kup1,lb)
+                    bedge_facez_y(1+nguard0,                         & 
+                    1+nguard0*k2d:nyb+nguard0*k2d,2,:,lb)                & 
+                    = bedge_facex_y(1,                               & 
+                    1+nguard0*k2d:nyb+nguard0*k2d,kup1,:,lb)
             End If
 
          ElseIf (jf == 2) Then
 
-            bedge_facey_z(:,1+nxb+nguard0,1,klo:kup,lb) =              & 
-                 bedge_facex_z(:,2,1+nguard0*k2d,klo:kup,lb)
+            bedge_facey_z(1+nxb+nguard0,1,klo:kup,:,lb) =              & 
+                 bedge_facex_z(2,1+nguard0*k2d,klo:kup,:,lb)
 
-            bedge_facey_z(:,1+nxb+nguard0,2,klo:kup,lb) =              & 
-                 bedge_facex_z(:,2,k2d+nyb+nguard0*k2d,                & 
-                                klo:kup,lb)
+            bedge_facey_z(1+nxb+nguard0,2,klo:kup,:,lb) =              & 
+                 bedge_facex_z(2,k2d+nyb+nguard0*k2d,                & 
+                                klo:kup,:,lb)
 
             If ((ndim == 3).Or.(l2p5d == 1)) Then
-               bedge_facez_y(:,1+nxb+nguard0,                          & 
+               bedge_facez_y(1+nxb+nguard0,                          & 
                     1+nguard0*k2d:nyb+nguard0*k2d,                     & 
-                    1,lb)=                                             & 
-                    bedge_facex_y(:,2,1+nguard0*k2d:nyb+nguard0*k2d,   & 
-                    klo,lb)
+                    1,:,lb)=                                             & 
+                    bedge_facex_y(2,1+nguard0*k2d:nyb+nguard0*k2d,   & 
+                    klo,:,lb)
 
                If (ndim == 3) & 
-                    bedge_facez_y(:,1+nxb+nguard0,                     & 
+                    bedge_facez_y(1+nxb+nguard0,                     & 
                     1+nguard0*k2d:nyb+nguard0*k2d,                     & 
-                    2,lb)=                                             & 
-                    bedge_facex_y(:,2,1+nguard0*k2d:nyb+nguard0*k2d,   & 
-                    kup1,lb)
+                    2,:,lb)=                                             & 
+                    bedge_facex_y(2,1+nguard0*k2d:nyb+nguard0*k2d,   & 
+                    kup1,:,lb)
 
             End If
 
          ElseIf (jf == 3) Then
 
-            bedge_facex_z(:,1,1+nguard0*k2d,klo:kup,lb) =              & 
-                 bedge_facey_z(:,1+nguard0,1,klo:kup,lb)
+            bedge_facex_z(1,1+nguard0*k2d,klo:kup,:,lb) =              & 
+                 bedge_facey_z(1+nguard0,1,klo:kup,:,lb)
 
-            bedge_facex_z(:,2,1+nguard0*k2d,klo:kup,lb) =              & 
-                 bedge_facey_z(:,1+nxb+nguard0,1,klo:kup,lb)
+            bedge_facex_z(2,1+nguard0*k2d,klo:kup,:,lb) =              & 
+                 bedge_facey_z(1+nxb+nguard0,1,klo:kup,:,lb)
 
             If ((ndim == 3).Or.(l2p5d == 1)) Then
-               bedge_facez_x(:,1+nguard0:nxb+nguard0,                  & 
-                    1+nguard0*k2d,1,lb)=                               & 
-                    bedge_facey_x(:,1+nguard0:nxb+nguard0,1,klo,lb)
+               bedge_facez_x(1+nguard0:nxb+nguard0,                  & 
+                    1+nguard0*k2d,1,:,lb)=                               & 
+                    bedge_facey_x(1+nguard0:nxb+nguard0,1,klo,:,lb)
 
                If (ndim == 3)                                          & 
-                    bedge_facez_x(:,1+nguard0:nxb+nguard0,             & 
-                    1+nguard0*k2d,2,lb)=                               & 
-                    bedge_facey_x(:,1+nguard0:nxb+nguard0,1,kup1,lb)
+                    bedge_facez_x(1+nguard0:nxb+nguard0,             & 
+                    1+nguard0*k2d,2,:,lb)=                               & 
+                    bedge_facey_x(1+nguard0:nxb+nguard0,1,kup1,:,lb)
             End If
 
          ElseIf (jf == 4) Then
 
-            bedge_facex_z(:,1,k2d+nyb+nguard0*k2d,klo:kup,lb) =        & 
-                 bedge_facey_z(:,1+nguard0,2,klo:kup,lb)
+            bedge_facex_z(1,k2d+nyb+nguard0*k2d,klo:kup,:,lb) =        & 
+                 bedge_facey_z(1+nguard0,2,klo:kup,:,lb)
 
-            bedge_facex_z(:,2,k2d+nyb+nguard0*k2d,klo:kup,lb) =        & 
-                 bedge_facey_z(:,1+nxb+nguard0,2,klo:kup,lb)
+            bedge_facex_z(2,k2d+nyb+nguard0*k2d,klo:kup,:,lb) =        & 
+                 bedge_facey_z(1+nxb+nguard0,2,klo:kup,:,lb)
 
             If ((ndim == 3).Or.(l2p5d == 1)) Then
-               bedge_facez_x(:,1+nguard0:nxb+nguard0,                  & 
+               bedge_facez_x(1+nguard0:nxb+nguard0,                  & 
                     k2d+nyb+nguard0*k2d,                               & 
-                    1,lb)=                                             & 
-                    bedge_facey_x(:,1+nguard0:nxb+nguard0,2,klo,lb)
+                    1,:,lb)=                                             & 
+                    bedge_facey_x(1+nguard0:nxb+nguard0,2,klo,:,lb)
 
                If (ndim == 3)                                          & 
-                    bedge_facez_x(:,1+nguard0:nxb+nguard0,             & 
+                    bedge_facez_x(1+nguard0:nxb+nguard0,             & 
                     k2d+nyb+nguard0*k2d,                               & 
-                    2,lb)=                                             & 
-                    bedge_facey_x(:,1+nguard0:nxb+nguard0,2,kup1,lb)
+                    2,:,lb)=                                             & 
+                    bedge_facey_x(1+nguard0:nxb+nguard0,2,kup1,:,lb)
             End If
 
          ElseIf (jf == 5) Then
 
-            bedge_facey_x(:,1+nguard0:nxb+nguard0,1,klo,lb)=           & 
-                 bedge_facez_x(:,1+nguard0:nxb+nguard0,                & 
+            bedge_facey_x(1+nguard0:nxb+nguard0,1,klo,:,lb)=           & 
+                 bedge_facez_x(1+nguard0:nxb+nguard0,                & 
                  1+nguard0*k2d,                                        & 
-                 1,lb)
+                 1,:,lb)
 
-            bedge_facey_x(:,1+nguard0:nxb+nguard0,2,klo,lb)=           & 
-                 bedge_facez_x(:,1+nguard0:nxb+nguard0,                & 
-                 k2d+nyb+nguard0*k2d,1,lb)
+            bedge_facey_x(1+nguard0:nxb+nguard0,2,klo,:,lb)=           & 
+                 bedge_facez_x(1+nguard0:nxb+nguard0,                & 
+                 k2d+nyb+nguard0*k2d,1,:,lb)
 
-            bedge_facex_y(:,1,1+nguard0*k2d:nyb+nguard0*k2d,           & 
-                 klo,lb)=                                              & 
-                 bedge_facez_y(:,1+nguard0,                            & 
+            bedge_facex_y(1,1+nguard0*k2d:nyb+nguard0*k2d,           & 
+                 klo,:,lb)=                                              & 
+                 bedge_facez_y(1+nguard0,                            & 
                  1+nguard0*k2d:nyb+nguard0*k2d,                        & 
-                 1,lb)
+                 1,:,lb)
 
-            bedge_facex_y(:,2,1+nguard0*k2d:nyb+nguard0*k2d,           & 
-                 klo,lb)=                                              & 
-                 bedge_facez_y(:,1+nxb+nguard0,                        & 
+            bedge_facex_y(2,1+nguard0*k2d:nyb+nguard0*k2d,           & 
+                 klo,:,lb)=                                              & 
+                 bedge_facez_y(1+nxb+nguard0,                        & 
                  1+nguard0*k2d:nyb+nguard0*k2d                         & 
-                 ,1,lb)
+                 ,1,:,lb)
 
          ElseIf (jf == 6) Then
 
-            bedge_facey_x(:,1+nguard0:nxb+nguard0,1,kup1,lb)=          & 
-                 bedge_facez_x(:,1+nguard0:nxb+nguard0,1+nguard0*k2d,  & 
-                 2,lb)
+            bedge_facey_x(1+nguard0:nxb+nguard0,1,kup1,:,lb)=          & 
+                 bedge_facez_x(1+nguard0:nxb+nguard0,1+nguard0*k2d,  & 
+                 2,:,lb)
 
-            bedge_facey_x(:,1+nguard0:nxb+nguard0,2,kup1,lb)=          & 
-                 bedge_facez_x(:,1+nguard0:nxb+nguard0,                & 
+            bedge_facey_x(1+nguard0:nxb+nguard0,2,kup1,:,lb)=          & 
+                 bedge_facez_x(1+nguard0:nxb+nguard0,                & 
                  k2d+nyb+nguard0*k2d,                                  & 
-                 2,lb)
+                 2,:,lb)
 
-            bedge_facex_y(:,1,1+nguard0*k2d:nyb+nguard0*k2d,           & 
-                 kup1,lb)=                                             & 
-                 bedge_facez_y(:,1+nguard0,                            & 
-                 1+nguard0*k2d:nyb+nguard0*k2d,2,lb)
+            bedge_facex_y(1,1+nguard0*k2d:nyb+nguard0*k2d,           & 
+                 kup1,:,lb)=                                             & 
+                 bedge_facez_y(1+nguard0,                            & 
+                 1+nguard0*k2d:nyb+nguard0*k2d,2,:,lb)
 
-            bedge_facex_y(:,2,1+nguard0*k2d:nyb+nguard0*k2d,           & 
-                 kup1,lb)=                                             & 
-                 bedge_facez_y(:,1+nxb+nguard0,                        & 
+            bedge_facex_y(2,1+nguard0*k2d:nyb+nguard0*k2d,           & 
+                 kup1,:,lb)=                                             & 
+                 bedge_facez_y(1+nxb+nguard0,                        & 
                  1+nguard0*k2d:nyb+nguard0*k2d,                        & 
-                 2,lb)
+                 2,:,lb)
 
         End If  ! End If (jf == 1) 
 

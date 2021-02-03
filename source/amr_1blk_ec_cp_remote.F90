@@ -211,70 +211,70 @@
 
        If (no_permanent_guardcells) Then
 
-       unk_e_x1(1:nbndvare,                              & 
+       unk_e_x1(                              & 
                 id:id+il1+ip2,                           & 
                 jd1:jd1+jl,                              & 
-                kd1:kd1+kl,                              & 
+                kd1:kd1+kl,1:nbndvare,                              & 
                 idest)                                   & 
-          =  gt_unk_e_x(1:nbndvare,                      & 
+          =  gt_unk_e_x(                      & 
                         is:is+il1+ip2,                   & 
                         js1:js1+jl,                      & 
-                        ks1:ks1+kl,remote_block)
+                        ks1:ks1+kl,1:nbndvare,remote_block)
 
-       unk_e_y1(1:nbndvare,                              & 
+       unk_e_y1(                              & 
                 id1:id1+il,                              & 
                 jd:jd+jl1+jp2*k2d,                       & 
-                kd1:kd1+kl,                              & 
+                kd1:kd1+kl,1:nbndvare,                              & 
                 idest)                                   &  
-          =  gt_unk_e_y(1:nbndvare,                      & 
+          =  gt_unk_e_y(                      & 
                         is1:is1+il,                      & 
                         js:js+jl1+jp2*k2d,               & 
-                        ks1:ks1+kl,remote_block)
+                        ks1:ks1+kl,1:nbndvare,remote_block)
 
        If (ndim == 3) Then
-       unk_e_z1(1:nbndvare,                              & 
+       unk_e_z1(                              & 
                 id1:id1+il,                              & 
                 jd1:jd1+jl,                              & 
-                kd:kd+kl1+kp2*k3d,                       & 
+                kd:kd+kl1+kp2*k3d,1:nbndvare,                       & 
                 idest) & 
-          =  gt_unk_e_z(1:nbndvare,                      & 
+          =  gt_unk_e_z(                      & 
                         is1:is1+il,                      & 
                         js1:js1+jl,                      & 
-                        ks:ks+kl1+kp2*k3d,remote_block)
+                        ks:ks+kl1+kp2*k3d,1:nbndvare,remote_block)
        End If  ! End If (ndim == 3)
 
       Else ! If (no_permanent_guardcells)
 
-       unk_e_x1(1:nbndvare,                              & 
+       unk_e_x1(                              & 
                 id:id+il1+ip2,                           & 
                 jd1:jd1+jl,                              & 
-                kd1:kd1+kl,                              & 
+                kd1:kd1+kl,1:nbndvare,                              & 
                 idest)                                   & 
-          =  unk_e_x(1:nbndvare,                         & 
+          =  unk_e_x(                         & 
                      is:is+il1+ip2,                      & 
                      js1:js1+jl,                         & 
-                     ks1:ks1+kl,remote_block)
+                     ks1:ks1+kl,1:nbndvare,remote_block)
 
-       unk_e_y1(1:nbndvare,                              & 
+       unk_e_y1(                              & 
                 id1:id1+il,                              & 
                 jd:jd+jl1+jp2*k2d,                       & 
-                kd1:kd1+kl,                              & 
+                kd1:kd1+kl,1:nbndvare,                              & 
                 idest)                                   & 
-          =  unk_e_y(1:nbndvare,                         & 
+          =  unk_e_y(                         & 
                      is1:is1+il,                         & 
                      js:js+jl1+jp2*k2d,                  & 
-                     ks1:ks1+kl,remote_block)
+                     ks1:ks1+kl,1:nbndvare,remote_block)
 
        If (ndim == 3) Then
-       unk_e_z1(1:nbndvare,                              & 
+       unk_e_z1(                              & 
                 id1:id1+il,                              & 
                 jd1:jd1+jl,                              & 
-                kd:kd+kl1+kp2*k3d,                       & 
+                kd:kd+kl1+kp2*k3d,1:nbndvare,                       & 
                 idest)                                   & 
-          =  unk_e_z(1:nbndvare,                         & 
+          =  unk_e_z(                         & 
                      is1:is1+il,                         & 
                      js1:js1+jl,                         & 
-                     ks:ks+kl1+kp2*k3d,remote_block)
+                     ks:ks+kl1+kp2*k3d,1:nbndvare,remote_block)
        End If  ! End If (ndim == 3)
 
       End If ! If (no_permanent_guardcells)
@@ -322,7 +322,7 @@
 
           Do ivar=1,ngcell_on_ec(1)
             ivar_next = gcell_on_ec_pointer(1,ivar)
-             unk_e_x1(ivar_next,ii,jj,kk,idest) =                      & 
+             unk_e_x1(ii,jj,kk,ivar_next,idest) =                      & 
                       temprecv_buf(index+ivar)
           End Do  ! End Do ivar=1,ngcell_on_ec(1)
 
@@ -356,7 +356,7 @@
 
           Do ivar=1,ngcell_on_ec(2)
             ivar_next = gcell_on_ec_pointer(2,ivar)
-             unk_e_y1(ivar_next,ii,jj,kk,idest) =                      & 
+             unk_e_y1(ii,jj,kk,ivar_next,idest) =                      & 
                       temprecv_buf(index+ivar)
           End Do  ! Do ivar=1,ngcell_on_ec(2)
 
@@ -391,7 +391,7 @@
 
           Do ivar=1,ngcell_on_ec(3)
             ivar_next = gcell_on_ec_pointer(3,ivar)
-            unk_e_z1(ivar_next,ii,jj,kk,idest) =                       & 
+            unk_e_z1(ii,jj,kk,ivar_next,idest) =                       & 
                       temprecv_buf(index+ivar)
           End Do  ! End Do ivar=1,ngcell_on_ec(3)
 
@@ -417,21 +417,21 @@
 
         Do ivar=1,ngcell_on_ec(2)
          ivar_next = gcell_on_ec_pointer(2,ivar)
-         unk_e_y1(ivar_next,1+nguard,1+nguard*k2d:nyb+nguard*k2d,    & 
-                  1+nguard*k3d:nzb+(1+nguard)*k3d,idest) = .5*(      & 
-         unk_e_y1(ivar_next,1+nguard,1+nguard*k2d:nyb+nguard*k2d,    & 
-                             1+nguard*k3d:nzb+(1+nguard)*k3d,idest)  & 
-         + recvy(ivar_next,nxb+1,1:nyb,1:nzb+k3d) )
+         unk_e_y1(1+nguard,1+nguard*k2d:nyb+nguard*k2d,    & 
+                  1+nguard*k3d:nzb+(1+nguard)*k3d,ivar_next,idest) = .5*(      & 
+         unk_e_y1(1+nguard,1+nguard*k2d:nyb+nguard*k2d,    & 
+                             1+nguard*k3d:nzb+(1+nguard)*k3d,ivar_next,idest)  & 
+         + recvy(nxb+1,1:nyb,1:nzb+k3d,ivar_next) )
         End Do  ! End Do ivar=1,ngcell_on_ec(2)
 
         If (ndim == 3) Then
         Do ivar=1,ngcell_on_ec(3)
          ivar_next = gcell_on_ec_pointer(3,ivar)
-         unk_e_z1(ivar_next,1+nguard,1+nguard*k2d:nyb+(1+nguard)*k2d, & 
-                  1+nguard*k3d:nzb+nguard*k3d,idest) = .5*(           & 
-         unk_e_z1(ivar_next,1+nguard,1+nguard*k2d:nyb+(1+nguard)*k2d, & 
-                  1+nguard*k3d:nzb+nguard*k3d,idest)                  & 
-         + recvz(ivar_next,nxb+1,1:nyb+k2d,1:nzb) )
+         unk_e_z1(1+nguard,1+nguard*k2d:nyb+(1+nguard)*k2d, & 
+                  1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest) = .5*(           & 
+         unk_e_z1(1+nguard,1+nguard*k2d:nyb+(1+nguard)*k2d, & 
+                  1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest)                  & 
+         + recvz(nxb+1,1:nyb+k2d,1:nzb,ivar_next) )
         End Do  ! End Do ivar=1,ngcell_on_ec(3)
         End If  ! End If (ndim == 3)
 
@@ -439,23 +439,23 @@
 
         Do ivar=1,ngcell_on_ec(2)
          ivar_next = gcell_on_ec_pointer(2,ivar)
-         unk_e_y1(ivar_next,nxb+1+nguard,1+nguard*k2d:nyb+nguard*k2d, & 
-                  1+nguard*k3d:nzb+(1+nguard)*k3d,idest) = .5*(       & 
-         unk_e_y1(ivar_next,nxb+1+nguard,1+nguard*k2d:nyb+nguard*k2d, & 
-                  1+nguard*k3d:nzb+(1+nguard)*k3d,idest)              & 
-         + recvy(ivar_next,1,1:nyb,1:nzb+k3d) )
+         unk_e_y1(nxb+1+nguard,1+nguard*k2d:nyb+nguard*k2d, & 
+                  1+nguard*k3d:nzb+(1+nguard)*k3d,ivar_next,idest) = .5*(       & 
+         unk_e_y1(nxb+1+nguard,1+nguard*k2d:nyb+nguard*k2d, & 
+                  1+nguard*k3d:nzb+(1+nguard)*k3d,ivar_next,idest)              & 
+         + recvy(1,1:nyb,1:nzb+k3d,ivar_next) )
         End Do  ! End Do ivar=1,ngcell_on_ec(2)
 
         If (ndim == 3) Then
         Do ivar=1,ngcell_on_ec(3)
          ivar_next = gcell_on_ec_pointer(3,ivar)
-         unk_e_z1(ivar_next,nxb+1+nguard,                             & 
+         unk_e_z1(nxb+1+nguard,                             & 
                   1+nguard*k2d:nyb+(1+nguard)*k2d,                    & 
-                  1+nguard*k3d:nzb+nguard*k3d,idest) = .5*(           & 
-         unk_e_z1(ivar_next,nxb+1+nguard,                             & 
+                  1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest) = .5*(           & 
+         unk_e_z1(nxb+1+nguard,                             & 
                   1+nguard*k2d:nyb+(1+nguard)*k2d,                    & 
-                  1+nguard*k3d:nzb+nguard*k3d,idest)                  &
-        + recvz(ivar_next,1,1:nyb+k2d,1:nzb) )
+                  1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest)                  &
+        + recvz(1,1:nyb+k2d,1:nzb,ivar_next) )
         End Do  ! End Do ivar=1,ngcell_on_ec(3)
         End If  ! End If (ndim == 3)
 
@@ -463,21 +463,21 @@
 
         Do ivar=1,ngcell_on_ec(1)
          ivar_next = gcell_on_ec_pointer(1,ivar)
-         unk_e_x1(ivar_next,1+nguard:nxb+nguard,1+nguard*k2d,         & 
-                  1+nguard*k3d:nzb+(1+nguard)*k3d,idest) = .5*(       & 
-         unk_e_x1(ivar_next,1+nguard:nxb+nguard,1+nguard*k2d,         & 
-                  1+nguard*k3d:nzb+(1+nguard)*k3d,idest)              & 
-         + recvx(ivar_next,1:nxb,nyb+k2d,1:nzb+k3d) )
+         unk_e_x1(1+nguard:nxb+nguard,1+nguard*k2d,         & 
+                  1+nguard*k3d:nzb+(1+nguard)*k3d,ivar_next,idest) = .5*(       & 
+         unk_e_x1(1+nguard:nxb+nguard,1+nguard*k2d,         & 
+                  1+nguard*k3d:nzb+(1+nguard)*k3d,ivar_next,idest)              & 
+         + recvx(1:nxb,nyb+k2d,1:nzb+k3d,ivar_next) )
         End Do  ! End Do ivar=1,ngcell_on_ec(1)
 
         If (ndim == 3) Then
         Do ivar=1,ngcell_on_ec(3)
          ivar_next = gcell_on_ec_pointer(3,ivar)
-         unk_e_z1(ivar_next,1+nguard:nxb+nguard+1,1+nguard*k2d,       & 
-                  1+nguard*k3d:nzb+nguard*k3d,idest) = .5*(           & 
-         unk_e_z1(ivar_next,1+nguard:nxb+nguard+1,1+nguard*k2d,       & 
-                  1+nguard*k3d:nzb+nguard*k3d,idest)                  & 
-         + recvz(ivar_next,1:nxb+1,1,1:nzb) )
+         unk_e_z1(1+nguard:nxb+nguard+1,1+nguard*k2d,       & 
+                  1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest) = .5*(           & 
+         unk_e_z1(1+nguard:nxb+nguard+1,1+nguard*k2d,       & 
+                  1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest)                  & 
+         + recvz(1:nxb+1,1,1:nzb,ivar_next) )
         End Do  ! End Do ivar=1,ngcell_on_ec(3)
         End If  ! End If (ndim == 3)
 
@@ -485,21 +485,21 @@
 
         Do ivar=1,ngcell_on_ec(1)
          ivar_next = gcell_on_ec_pointer(1,ivar)
-         unk_e_x1(ivar_next,1+nguard:nxb+nguard,nyb+(1+nguard)*k2d,   & 
-                  1+nguard*k3d:nzb+(1+nguard)*k3d,idest) = .5*(       & 
-         unk_e_x1(ivar_next,1+nguard:nxb+nguard,nyb+(1+nguard)*k2d,   & 
-                  1+nguard*k3d:nzb+(1+nguard)*k3d,idest)              & 
-         + recvx(ivar_next,1:nxb,1,1:nzb+k3d) )
+         unk_e_x1(1+nguard:nxb+nguard,nyb+(1+nguard)*k2d,   & 
+                  1+nguard*k3d:nzb+(1+nguard)*k3d,ivar_next,idest) = .5*(       & 
+         unk_e_x1(1+nguard:nxb+nguard,nyb+(1+nguard)*k2d,   & 
+                  1+nguard*k3d:nzb+(1+nguard)*k3d,ivar_next,idest)              & 
+         + recvx(1:nxb,1,1:nzb+k3d,ivar_next) )
         End Do  ! End Do ivar=1,ngcell_on_ec(1)
 
         If (ndim == 3) Then
         Do ivar=1,ngcell_on_ec(3)
          ivar_next = gcell_on_ec_pointer(3,ivar)
-         unk_e_z1(ivar_next,1+nguard:nxb+nguard+1,nyb+(1+nguard)*k2d, & 
-                  1+nguard*k3d:nzb+nguard*k3d,idest) = .5*(           & 
-         unk_e_z1(ivar_next,1+nguard:nxb+nguard+1,nyb+(1+nguard)*k2d, & 
-                  1+nguard*k3d:nzb+nguard*k3d,idest)                  & 
-         + recvz(ivar_next,1:nxb+1,1,1:nzb) )
+         unk_e_z1(1+nguard:nxb+nguard+1,nyb+(1+nguard)*k2d, & 
+                  1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest) = .5*(           & 
+         unk_e_z1(1+nguard:nxb+nguard+1,nyb+(1+nguard)*k2d, & 
+                  1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest)                  & 
+         + recvz(1:nxb+1,1,1:nzb,ivar_next) )
         End Do
         End If  ! End If (ndim == 3)
 
@@ -507,48 +507,48 @@
 
         do ivar=1,ngcell_on_ec(1)
          ivar_next = gcell_on_ec_pointer(1,ivar)
-         unk_e_x1(ivar_next,1+nguard:nxb+nguard,                      & 
+         unk_e_x1(1+nguard:nxb+nguard,                      & 
                   1+nguard*k2d:nyb+(1+nguard)*k2d,                    & 
-                  1+nguard*k3d,idest) = .5*(                          & 
-         unk_e_x1(ivar_next,1+nguard:nxb+nguard,                      & 
+                  1+nguard*k3d,ivar_next,idest) = .5*(                          & 
+         unk_e_x1(1+nguard:nxb+nguard,                      & 
                   1+nguard*k2d:nyb+(1+nguard)*k2d,                    & 
-                  1+nguard*k3d,idest)                                 & 
-         + recvx(ivar_next,1:nxb,1:nyb+k2d,nzb) )
+                  1+nguard*k3d,ivar_next,idest)                                 & 
+         + recvx(1:nxb,1:nyb+k2d,nzb,ivar_next) )
         End Do  ! End do ivar=1,ngcell_on_ec(1)
 
         Do ivar=1,ngcell_on_ec(2)
          ivar_next = gcell_on_ec_pointer(2,ivar)
-         unk_e_y1(ivar_next,1+nguard:nxb+nguard+1,                    & 
+         unk_e_y1(1+nguard:nxb+nguard+1,                    & 
                   1+nguard*k2d:nyb+nguard*k2d,                        & 
-                  1+nguard*k3d,idest) = .5*(                          & 
-         unk_e_y1(ivar_next,1+nguard:nxb+nguard+1,                    & 
+                  1+nguard*k3d,ivar_next,idest) = .5*(                          & 
+         unk_e_y1(1+nguard:nxb+nguard+1,                    & 
                   1+nguard*k2d:nyb+nguard*k2d,                        & 
-                  1+nguard*k3d,idest)                                 & 
-         + recvy(ivar_next,1:nxb+1,1:nyb,nzb) )
+                  1+nguard*k3d,ivar_next,idest)                                 & 
+         + recvy(1:nxb+1,1:nyb,nzb,ivar_next) )
         End Do  ! End Do ivar=1,ngcell_on_ec(2)
 
        Elseif(iface == 6 .and. ndim == 3) Then
 
         Do ivar=1,ngcell_on_ec(1)
          ivar_next = gcell_on_ec_pointer(1,ivar)
-         unk_e_x1(ivar_next,1+nguard:nxb+nguard,                      & 
+         unk_e_x1(1+nguard:nxb+nguard,                      & 
                   1+nguard*k2d:nyb+(1+nguard)*k2d,                    & 
-                  nzb+(1+nguard)*k3d,idest) = .5*(                    & 
-         unk_e_x1(ivar_next,1+nguard:nxb+nguard,                      & 
+                  nzb+(1+nguard)*k3d,ivar_next,idest) = .5*(                    & 
+         unk_e_x1(1+nguard:nxb+nguard,                      & 
                   1+nguard*k2d:nyb+(1+nguard)*k2d,                    &  
-                  nzb+(1+nguard)*k3d,idest)                           & 
-         + recvx(ivar_next,1:nxb,1:nyb+k2d,1) )
+                  nzb+(1+nguard)*k3d,ivar_next,idest)                           & 
+         + recvx(1:nxb,1:nyb+k2d,1,ivar_next) )
         End Do  ! End Do ivar=1,ngcell_on_ec(1)
 
         Do ivar=1,ngcell_on_ec(2)
          ivar_next = gcell_on_ec_pointer(2,ivar)
-         unk_e_y1(ivar_next,1+nguard:nxb+nguard+1,                    & 
+         unk_e_y1(1+nguard:nxb+nguard+1,                    & 
                   1+nguard*k2d:nyb+nguard*k2d,                        & 
-                  nzb+(1+nguard)*k3d,idest) = .5*(                    & 
-         unk_e_y1(ivar_next,1+nguard:nxb+nguard+1,                    & 
+                  nzb+(1+nguard)*k3d,ivar_next,idest) = .5*(                    & 
+         unk_e_y1(1+nguard:nxb+nguard+1,                    & 
                   1+nguard*k2d:nyb+nguard*k2d,                        & 
-                  nzb+(1+nguard)*k3d,idest)                           & 
-         + recvy(ivar_next,1:nxb+1,1:nyb,1) )
+                  nzb+(1+nguard)*k3d,ivar_next,idest)                           & 
+         + recvy(1:nxb+1,1:nyb,1,ivar_next) )
         End Do  ! End Do ivar=1,ngcell_on_ec(2)
 
        End If  ! End If (iface == 1)

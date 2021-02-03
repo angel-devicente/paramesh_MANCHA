@@ -153,20 +153,20 @@
           If (int_gcell_on_cc(ivar)) Then
 !---------Copy complete remote block into a buffer block Called recv.
           If (no_permanent_guardcells) Then
-          unk1(ivar,                                                   & 
+          unk1(                                                   & 
                1+nguard:nxb+nguard,1+nguard*k2d:nyb+nguard*k2d,        & 
-               1+nguard*k3d:nzb+nguard*k3d,idest) =                    & 
-            gt_unk(ivar,                                               & 
+               1+nguard*k3d:nzb+nguard*k3d,ivar,idest) =                    & 
+            gt_unk(                                               & 
                1+nguard0:nxb+nguard0,                                  & 
                1+nguard0*k2d:nyb+nguard0*k2d,                          & 
-               1+nguard0*k3d:nzb+nguard0*k3d,remote_block)
+               1+nguard0*k3d:nzb+nguard0*k3d,ivar,remote_block)
           Else ! no_permanent_guardcells
-          unk1(ivar,nguard+1:nguard+nxb,                               & 
+          unk1(nguard+1:nguard+nxb,                               & 
                     nguard*k2d+1:nguard*k2d+nyb,                       & 
-                    nguard*k3d+1:nguard*k3d+nzb,idest) =               & 
-           unk(ivar,nguard0+1:nguard0+nxb,                             & 
+                    nguard*k3d+1:nguard*k3d+nzb,ivar,idest) =               & 
+           unk(nguard0+1:nguard0+nxb,                             & 
                     nguard0*k2d+1:nguard0*k2d+nyb,                     & 
-                    nguard0*k3d+1:nguard0*k3d+nzb,remote_block)
+                    nguard0*k3d+1:nguard0*k3d+nzb,ivar,remote_block)
           End If
           End If
         End Do  ! End Do ivar=1,nvar
@@ -178,69 +178,69 @@
        Do ivar=1,nbndvar
        If (no_permanent_guardcells) Then
        If (int_gcell_on_fc(1,ivar)) Then
-       facevarx1(ivar, & 
+       facevarx1( & 
                  1+nguard:nxb+nguard+1,1+nguard*k2d:nyb+nguard*k2d,    & 
-                 1+nguard*k3d:nzb+nguard*k3d,idest) =                  & 
-        gt_facevarx(ivar,                                              & 
+                 1+nguard*k3d:nzb+nguard*k3d,ivar,idest) =                  & 
+        gt_facevarx(                                              & 
                     1+nguard0:nxb+nguard0+1,                           & 
                     1+nguard0*k2d:nyb+nguard0*k2d,                     & 
-                    1+nguard0*k3d:nzb+nguard0*k3d,remote_block)
+                    1+nguard0*k3d:nzb+nguard0*k3d,ivar,remote_block)
        End If
        If (ndim >= 2) Then
        If (int_gcell_on_fc(2,ivar)) Then
-       facevary1(ivar,                                                 & 
+       facevary1(                                                 & 
                  1+nguard:nxb+nguard,1+nguard*k2d:nyb+nguard*k2d+k2d,  & 
-                 1+nguard*k3d:nzb+nguard*k3d,idest) =                  & 
-        gt_facevary(ivar,                                              & 
+                 1+nguard*k3d:nzb+nguard*k3d,ivar,idest) =                  & 
+        gt_facevary(                                              & 
                     1+nguard0:nxb+nguard0,                             & 
                     1+nguard0*k2d:nyb+nguard0*k2d+k2d,                 & 
-                    1+nguard0*k3d:nzb+nguard0*k3d,remote_block)
+                    1+nguard0*k3d:nzb+nguard0*k3d,ivar,remote_block)
        End If
        End If
        If (ndim == 3) Then
        If (int_gcell_on_fc(3,ivar)) Then
-       facevarz1(ivar,                                                 & 
+       facevarz1(                                                 & 
                  1+nguard:nxb+nguard,1+nguard*k2d:nyb+nguard*k2d,      & 
-                 1+nguard*k3d:nzb+nguard*k3d+k3d,idest) =              & 
-        gt_facevarz(ivar,                                              & 
+                 1+nguard*k3d:nzb+nguard*k3d+k3d,ivar,idest) =              & 
+        gt_facevarz(                                              & 
                     1+nguard0:nxb+nguard0,                             & 
                     1+nguard0*k2d:nyb+nguard0*k2d,                     & 
-                    1+nguard0*k3d:nzb+nguard0*k3d+k3d,remote_block)
+                    1+nguard0*k3d:nzb+nguard0*k3d+k3d,ivar,remote_block)
        End If
        End If
 
        Else ! no_permanent_guardcells
 
        If (int_gcell_on_fc(1,ivar)) Then
-       facevarx1(ivar,                                                 & 
+       facevarx1(                                                 & 
                  1+nguard:nxb+nguard+1,                                & 
                  1+nguard*k2d:nyb+nguard*k2d,                          & 
-                 1+nguard*k3d:nzb+nguard*k3d,idest) =                  & 
-           facevarx(ivar,                                              & 
+                 1+nguard*k3d:nzb+nguard*k3d,ivar,idest) =                  & 
+           facevarx(                                              & 
                     1+nguard0:nxb+nguard0+1,                           & 
                     1+nguard0*k2d:nyb+nguard0*k2d,                     & 
-                    1+nguard0*k3d:nzb+nguard0*k3d,remote_block)
+                    1+nguard0*k3d:nzb+nguard0*k3d,ivar,remote_block)
        End If
        If (ndim >= 2) Then
        If (int_gcell_on_fc(2,ivar)) Then
-       facevary1(ivar,                                                 & 
+       facevary1(                                                 & 
                  1+nguard:nxb+nguard,1+nguard*k2d:nyb+nguard*k2d+k2d,  & 
-                 1+nguard*k3d:nzb+nguard*k3d,idest) =                  & 
-           facevary(ivar,                                              & 
+                 1+nguard*k3d:nzb+nguard*k3d,ivar,idest) =                  & 
+           facevary(                                              & 
                     1+nguard0:nxb+nguard0,                             & 
                     1+nguard0*k2d:nyb+nguard0*k2d+k2d,                 & 
-                    1+nguard0*k3d:nzb+nguard0*k3d,remote_block)
+                    1+nguard0*k3d:nzb+nguard0*k3d,ivar,remote_block)
        End If
        End If
        If (ndim == 3) Then
        If (int_gcell_on_fc(3,ivar)) Then
-       facevarz1(ivar, & 
+       facevarz1( & 
                  1+nguard:nxb+nguard,1+nguard*k2d:nyb+nguard*k2d,      & 
-                 1+nguard*k3d:nzb+nguard*k3d+k3d,idest) =              & 
-           facevarz(ivar,                                              & 
+                 1+nguard*k3d:nzb+nguard*k3d+k3d,ivar,idest) =              & 
+           facevarz(                                              & 
                     1+nguard0:nxb+nguard0,                             & 
                     1+nguard0*k2d:nyb+nguard0*k2d,                     & 
-                    1+nguard0*k3d:nzb+nguard0*k3d+k3d,remote_block)
+                    1+nguard0*k3d:nzb+nguard0*k3d+k3d,ivar,remote_block)
        End If
        End If
 
@@ -256,70 +256,70 @@
        Do ivar=1,nbndvare
        If (no_permanent_guardcells) Then
        If (int_gcell_on_ec(1,ivar)) Then
-       unk_e_x1(ivar,                                                  & 
+       unk_e_x1(                                                  & 
                 1+nguard:nxb+nguard,                                   & 
                 1+nguard*k2d:nyb+nguard*k2d+k2d,                       & 
-                1+nguard*k3d:nzb+nguard*k3d+k3d,idest) =               & 
-        gt_unk_e_x(ivar,                                               & 
+                1+nguard*k3d:nzb+nguard*k3d+k3d,ivar,idest) =               & 
+        gt_unk_e_x(                                               & 
                    1+nguard0:nxb+nguard0,                              & 
                    1+nguard0*k2d:nyb+nguard0*k2d+k2d,                  & 
-                   1+nguard0*k3d:nzb+nguard0*k3d+k3d,remote_block)
+                   1+nguard0*k3d:nzb+nguard0*k3d+k3d,ivar,remote_block)
        End If
        If (int_gcell_on_ec(2,ivar)) Then
-       unk_e_y1(ivar,                                                  & 
+       unk_e_y1(                                                  & 
                 1+nguard:nxb+nguard+1,                                 & 
                 1+nguard*k2d:nyb+nguard*k2d,                           & 
-                1+nguard*k3d:nzb+nguard*k3d+k3d,idest) =               & 
-        gt_unk_e_y(ivar,                                               & 
+                1+nguard*k3d:nzb+nguard*k3d+k3d,ivar,idest) =               & 
+        gt_unk_e_y(                                               & 
                    1+nguard0:nxb+nguard0+1,                            & 
                    1+nguard0*k2d:nyb+nguard0*k2d,                      & 
-                   1+nguard0*k3d:nzb+nguard0*k3d+k3d,remote_block)
+                   1+nguard0*k3d:nzb+nguard0*k3d+k3d,ivar,remote_block)
        End If
        If (ndim == 3) Then
        If (int_gcell_on_ec(3,ivar)) Then
-       unk_e_z1(ivar,                                                  & 
+       unk_e_z1(                                                  & 
                 1+nguard:nxb+nguard+1,                                 & 
                 1+nguard*k2d:nyb+nguard*k2d+k2d,                       & 
-                1+nguard*k3d:nzb+nguard*k3d,idest) =                   & 
-        gt_unk_e_z(ivar,                                               & 
+                1+nguard*k3d:nzb+nguard*k3d,ivar,idest) =                   & 
+        gt_unk_e_z(                                               & 
                    1+nguard0:nxb+nguard0+1,                            & 
                    1+nguard0*k2d:nyb+nguard0*k2d+k2d,                  & 
-                   1+nguard0*k3d:nzb+nguard0*k3d,remote_block)
+                   1+nguard0*k3d:nzb+nguard0*k3d,ivar,remote_block)
        End If
        End If ! If (ndim == 3)
 
        Else ! no_permanent_guardcells
 
        If (int_gcell_on_ec(1,ivar)) Then
-       unk_e_x1(ivar,                                                  & 
+       unk_e_x1(                                                  & 
                 1+nguard:nxb+nguard,                                   & 
                 1+nguard*k2d:nyb+nguard*k2d+k2d,                       & 
-                1+nguard*k3d:nzb+nguard*k3d+k3d,idest) =               & 
-           unk_e_x(ivar, & 
+                1+nguard*k3d:nzb+nguard*k3d+k3d,ivar,idest) =               & 
+           unk_e_x( & 
                    1+nguard0:nxb+nguard0, & 
                    1+nguard0*k2d:nyb+nguard0*k2d+k2d, & 
-                   1+nguard0*k3d:nzb+nguard0*k3d+k3d,remote_block)
+                   1+nguard0*k3d:nzb+nguard0*k3d+k3d,ivar,remote_block)
        End If
        If (int_gcell_on_ec(2,ivar)) Then
-       unk_e_y1(ivar,                                                  & 
+       unk_e_y1(                                                  & 
                 1+nguard:nxb+nguard+1,                                 & 
                 1+nguard*k2d:nyb+nguard*k2d,                           & 
-                1+nguard*k3d:nzb+nguard*k3d+k3d,idest) =               & 
-           unk_e_y(ivar,                                               & 
+                1+nguard*k3d:nzb+nguard*k3d+k3d,ivar,idest) =               & 
+           unk_e_y(                                               & 
                    1+nguard0:nxb+nguard0+1,                            & 
                    1+nguard0*k2d:nyb+nguard0*k2d,                      & 
-                   1+nguard0*k3d:nzb+nguard0*k3d+k3d,remote_block)
+                   1+nguard0*k3d:nzb+nguard0*k3d+k3d,ivar,remote_block)
        End If
        If (ndim == 3) Then
        If (int_gcell_on_ec(3,ivar)) Then
-       unk_e_z1(ivar,                                                  & 
+       unk_e_z1(                                                  & 
                 1+nguard:nxb+nguard+1,                                 & 
                 1+nguard*k2d:nyb+nguard*k2d+k2d,                       & 
-                1+nguard*k3d:nzb+nguard*k3d,idest) =                   & 
-           unk_e_z(ivar,                                               & 
+                1+nguard*k3d:nzb+nguard*k3d,ivar,idest) =                   & 
+           unk_e_z(                                               & 
                    1+nguard0:nxb+nguard0+1,                            & 
                    1+nguard0*k2d:nyb+nguard0*k2d+k2d,                  & 
-                   1+nguard0*k3d:nzb+nguard0*k3d,remote_block)
+                   1+nguard0*k3d:nzb+nguard0*k3d,ivar,remote_block)
        End If
        End If  ! If (ndim == 3)
 
@@ -334,25 +334,25 @@
        Do ivar=1,nvarcorn
        If (int_gcell_on_nc(ivar)) Then
        If (no_permanent_guardcells) Then
-       unk_n1(ivar,                                                    & 
+       unk_n1(                                                    & 
               1+nguard:nxb+nguard+1,                                   & 
               1+nguard*k2d:nyb+nguard*k2d+k2d,                         & 
-              1+nguard*k3d:nzb+nguard*k3d+k3d,idest) =                 & 
-        gt_unk_n(ivar,                                                 & 
+              1+nguard*k3d:nzb+nguard*k3d+k3d,ivar,idest) =                 & 
+        gt_unk_n(                                                 & 
                  1+nguard0:nxb+nguard0+1,                              & 
                  1+nguard0*k2d:nyb+nguard0*k2d+k2d,                    & 
-                 1+nguard0*k3d:nzb+nguard0*k3d+k3d,remote_block)
+                 1+nguard0*k3d:nzb+nguard0*k3d+k3d,ivar,remote_block)
 
        Else ! no_permanent_guardcells
 
-       unk_n1(ivar,                                                    & 
+       unk_n1(                                                    & 
               1+nguard:nxb+nguard+1,                                   & 
               1+nguard*k2d:nyb+nguard*k2d+k2d,                         & 
-              1+nguard*k3d:nzb+nguard*k3d+k3d,idest) =                 & 
-           unk_n(ivar,                                                 & 
+              1+nguard*k3d:nzb+nguard*k3d+k3d,ivar,idest) =                 & 
+           unk_n(                                                 & 
                  1+nguard0:nxb+nguard0+1,                              & 
                  1+nguard0*k2d:nyb+nguard0*k2d+k2d,                    & 
-                 1+nguard0*k3d:nzb+nguard0*k3d+k3d,remote_block)
+                 1+nguard0*k3d:nzb+nguard0*k3d+k3d,ivar,remote_block)
        End If  ! End If (no_permanent_guardcells)
        End If  ! End If (int_gcell_on_nc(ivar))
        End Do  ! End Do ivar=1,nvarcorn
@@ -414,7 +414,7 @@
           Do i = ia,ib
             Do ivar=1,ngcell_on_cc
               ivar_next = gcell_on_cc_pointer(ivar)
-              unk1(ivar_next,i,j,k,idest) = temprecv_buf(index+ivar)
+              unk1(i,j,k,ivar_next,idest) = temprecv_buf(index+ivar)
             End Do
             index = index+ngcell_on_cc
           End Do
@@ -479,7 +479,7 @@
         Do i = ia,ib
             Do ivar=1,ngcell_on_fc(1)
              ivar_next = gcell_on_fc_pointer(1,ivar)
-             facevarx1(ivar_next,i,j,k,idest) = temprecv_buf(index+ivar)
+             facevarx1(i,j,k,ivar_next,idest) = temprecv_buf(index+ivar)
             End Do
             index = index+ngcell_on_fc(1)
         End Do
@@ -506,7 +506,7 @@
          Do i = ia,ib
             Do ivar=1,ngcell_on_fc(2)
              ivar_next = gcell_on_fc_pointer(2,ivar)
-             facevary1(ivar_next,i,j,k,idest) = temprecv_buf(index+ivar)
+             facevary1(i,j,k,ivar_next,idest) = temprecv_buf(index+ivar)
             End Do
             index = index+ngcell_on_fc(2)
          End Do
@@ -534,7 +534,7 @@
          Do i = ia,ib
             Do ivar=1,ngcell_on_fc(3)
              ivar_next = gcell_on_fc_pointer(3,ivar)
-             facevarz1(ivar_next,i,j,k,idest) = temprecv_buf(index+ivar)
+             facevarz1(i,j,k,ivar_next,idest) = temprecv_buf(index+ivar)
             End Do
             index = index+ngcell_on_fc(3)
          End Do
@@ -578,7 +578,7 @@
         Do i = ia,ib
             Do ivar=1,ngcell_on_ec(1)
               ivar_next = gcell_on_ec_pointer(1,ivar)
-              unk_e_x1(ivar_next,i,j,k,idest) = temprecv_buf(index+ivar)
+              unk_e_x1(i,j,k,ivar_next,idest) = temprecv_buf(index+ivar)
             End Do
             index = index+ngcell_on_ec(1)
         End Do
@@ -605,7 +605,7 @@
         Do i = ia,ib
             Do ivar=1,ngcell_on_ec(2)
               ivar_next = gcell_on_ec_pointer(2,ivar)
-              unk_e_y1(ivar_next,i,j,k,idest) = temprecv_buf(index+ivar)
+              unk_e_y1(i,j,k,ivar_next,idest) = temprecv_buf(index+ivar)
             End Do
             index = index+ngcell_on_ec(2)
         End Do
@@ -633,7 +633,7 @@
         Do i = ia,ib
             Do ivar=1,ngcell_on_ec(3)
               ivar_next = gcell_on_ec_pointer(3,ivar)
-              unk_e_z1(ivar_next,i,j,k,idest) =                        & 
+              unk_e_z1(i,j,k,ivar_next,idest) =                        & 
                   temprecv_buf(index+ivar)
             End Do
             index = index+ngcell_on_ec(3)
@@ -682,7 +682,7 @@
         Do i = ia,ib
             Do ivar=1,ngcell_on_nc
               ivar_next = gcell_on_nc_pointer(ivar)
-              unk_n1(ivar_next,i,j,k,idest) = temprecv_buf(index+ivar)
+              unk_n1(i,j,k,ivar_next,idest) = temprecv_buf(index+ivar)
             End Do
             index = index+ngcell_on_nc
         End Do

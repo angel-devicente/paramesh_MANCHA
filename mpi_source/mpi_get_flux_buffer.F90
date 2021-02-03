@@ -130,7 +130,7 @@
       do j = ja , jb
       do i = ia , ib
         do n=1,nfluxes
-          S_buffer(index) = flux_x(n,i,j,k,lb)
+          S_buffer(index) = flux_x(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -168,7 +168,7 @@
       do j = ja , jb
       do i = ia , ib
         do n=1,nfluxes
-          S_buffer(index) = flux_y(n,i,j,k,lb)
+          S_buffer(index) = flux_y(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo
@@ -208,7 +208,7 @@
       do j = ja , jb
       do i = ia , ib
         do n=1,nfluxes
-          S_buffer(index) = flux_z(n,i,j,k,lb)
+          S_buffer(index) = flux_z(i,j,k,n,lb)
           index  = index + 1
         enddo
       enddo

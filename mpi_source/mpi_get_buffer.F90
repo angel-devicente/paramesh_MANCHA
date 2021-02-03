@@ -161,9 +161,9 @@
       do ivar = 1,invar
           ivar_next = gcell_on_cc_pointer(ivar)
           if (no_permanent_guardcells) then
-          S_buffer(index+ivar-1) = gt_unk(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = gt_unk(i,j,k,ivar_next,lb)
           else
-          S_buffer(index+ivar-1) = unk(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = unk(i,j,k,ivar_next,lb)
           end if
       enddo
         index = index + invar
@@ -193,9 +193,9 @@
         do ivar = 1,invar
           ivar_next = gcell_on_fc_pointer(1,ivar)
           if (no_permanent_guardcells) then
-          S_buffer(index+ivar-1) = gt_facevarx(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = gt_facevarx(i,j,k,ivar_next,lb)
           else
-          S_buffer(index+ivar-1) = facevarx(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = facevarx(i,j,k,ivar_next,lb)
           end if
         enddo
         index  = index + invar
@@ -219,9 +219,9 @@
         do ivar = 1,invar
           ivar_next = gcell_on_fc_pointer(2,ivar)
           if (no_permanent_guardcells) then
-          S_buffer(index+ivar-1) = gt_facevary(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = gt_facevary(i,j,k,ivar_next,lb)
           else
-          S_buffer(index+ivar-1) = facevary(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = facevary(i,j,k,ivar_next,lb)
           end if
         enddo
         index  = index + invar
@@ -247,9 +247,9 @@
         do ivar = 1,invar
           ivar_next = gcell_on_fc_pointer(3,ivar)
           if (no_permanent_guardcells) then
-          S_buffer(index+ivar-1) = gt_facevarz(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = gt_facevarz(i,j,k,ivar_next,lb)
           else
-          S_buffer(index+ivar-1) = facevarz(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = facevarz(i,j,k,ivar_next,lb)
           end if
         enddo
         index  = index + invar
@@ -285,9 +285,9 @@
      & ,' dtype ',dtype,' vtype ',vtype
            call mpi_abort(MPI_COMM_WORLD,ierrorcode,ierr)
         endif
-          S_buffer(index+ivar-1) = gt_unk_e_x(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = gt_unk_e_x(i,j,k,ivar_next,lb)
           else
-          S_buffer(index+ivar-1) = unk_e_x(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = unk_e_x(i,j,k,ivar_next,lb)
           endif
         enddo
         index  = index + invar
@@ -315,9 +315,9 @@
      & ,' dtype ',dtype,' vtype ',vtype
            call mpi_abort(MPI_COMM_WORLD,ierrorcode,ierr)
         endif
-          S_buffer(index+ivar-1) = gt_unk_e_y(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = gt_unk_e_y(i,j,k,ivar_next,lb)
           else
-          S_buffer(index+ivar-1) = unk_e_y(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = unk_e_y(i,j,k,ivar_next,lb)
           endif
         enddo
         index  = index + invar
@@ -344,9 +344,9 @@
      & ,' dtype ',dtype,' vtype ',vtype
            call mpi_abort(MPI_COMM_WORLD,ierrorcode,ierr)
         endif
-          S_buffer(index+ivar-1) = gt_unk_e_z(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = gt_unk_e_z(i,j,k,ivar_next,lb)
           else
-          S_buffer(index+ivar-1) = unk_e_z(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = unk_e_z(i,j,k,ivar_next,lb)
           endif
         enddo
         index  = index + invar
@@ -383,9 +383,9 @@
      & ,' dtype ',dtype,' vtype ',vtype
            call mpi_abort(MPI_COMM_WORLD,ierrorcode,ierr)
         endif
-          S_buffer(index+ivar-1) = gt_unk_n(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = gt_unk_n(i,j,k,ivar_next,lb)
           else
-          S_buffer(index+ivar-1) = unk_n(ivar_next,i,j,k,lb)
+          S_buffer(index+ivar-1) = unk_n(i,j,k,ivar_next,lb)
           endif
         enddo
         index  = index + invar

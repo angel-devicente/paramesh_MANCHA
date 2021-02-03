@@ -168,99 +168,99 @@
 !------Now copy over the edge data from one of the neighbors.
        If (ie == 1) Then                    ! edge: x low edge, y low edge
          Do k=klo,kup-k3d
-           bedge_facex_z(:,1,1+nguard0*k2d,k,lb) =                     &
-             bedge_facex_z(:,2,jup,k,remote_block)
+           bedge_facex_z(1,1+nguard0*k2d,k,:,lb) =                     &
+             bedge_facex_z(2,jup,k,:,remote_block)
          End Do
-         bedge_facey_z(:,1+nguard0,1,klo:kup-k3d,lb)=                  & 
-                      bedge_facex_z(:,1,1+nguard0*k2d,klo:kup-k3d,lb)
+         bedge_facey_z(1+nguard0,1,klo:kup-k3d,:,lb)=                  & 
+                      bedge_facex_z(1,1+nguard0*k2d,klo:kup-k3d,:,lb)
 
        ElseIf (ie == 2) Then               ! edge: x low edge, y high edge
          Do k=klo,kup-k3d
-           bedge_facex_z(:,1,k2d+nguard0*k2d+nyb,k,lb) =               & 
-              bedge_facex_z(:,2,jlo,k,remote_block)
+           bedge_facex_z(1,k2d+nguard0*k2d+nyb,k,:,lb) =               & 
+              bedge_facex_z(2,jlo,k,:,remote_block)
          End Do
-         bedge_facey_z(:,1+nguard0,2,klo:kup-k3d,lb)=                  & 
-           bedge_facex_z(:,1,k2d+nguard0*k2d+nyb,klo:kup-k3d,lb)
+         bedge_facey_z(1+nguard0,2,klo:kup-k3d,:,lb)=                  & 
+           bedge_facex_z(1,k2d+nguard0*k2d+nyb,klo:kup-k3d,:,lb)
 
        ElseIf (ie == 3) Then               ! edge: x high edge, y low edge
          Do k=klo,kup-k3d
-           bedge_facex_z(:,2,1+nguard0*k2d,k,lb) =                     &
-              bedge_facex_z(:,1,jup,k,remote_block)
+           bedge_facex_z(2,1+nguard0*k2d,k,:,lb) =                     &
+              bedge_facex_z(1,jup,k,:,remote_block)
          End Do
-         bedge_facey_z(:,1+nguard0+nxb,1,klo:kup-k3d,lb)=              & 
-           bedge_facex_z(:,2,1+nguard0*k2d,klo:kup-k3d,lb)
+         bedge_facey_z(1+nguard0+nxb,1,klo:kup-k3d,:,lb)=              & 
+           bedge_facex_z(2,1+nguard0*k2d,klo:kup-k3d,:,lb)
 
        ElseIf (ie == 4) Then               ! edge: x high edge, y high edge
          Do k=klo,kup-k3d
-           bedge_facex_z(:,2,k2d+nguard0*k2d+nyb,k,lb) =               & 
-              bedge_facex_z(:,1,jlo,k,remote_block)
+           bedge_facex_z(2,k2d+nguard0*k2d+nyb,k,:,lb) =               & 
+              bedge_facex_z(1,jlo,k,:,remote_block)
          End Do
-         bedge_facey_z(:,1+nguard0+nxb,2,klo:kup-k3d,lb)=              & 
-           bedge_facex_z(:,2,k2d+nguard0*k2d+nyb,klo:kup-k3d,lb)
+         bedge_facey_z(1+nguard0+nxb,2,klo:kup-k3d,:,lb)=              & 
+           bedge_facex_z(2,k2d+nguard0*k2d+nyb,klo:kup-k3d,:,lb)
 
        ElseIf (ie == 5) Then                ! edge: y low edge, z low edge
          Do i=ilo,iup-1
-           bedge_facey_x(:,i,1,klo,lb) =                               &
-              bedge_facey_x(:,i,2,kup,remote_block)
+           bedge_facey_x(i,1,klo,:,lb) =                               &
+              bedge_facey_x(i,2,kup,:,remote_block)
          End Do
-         bedge_facez_x(:,ilo:iup-1,1+nguard0*k3d,1,lb)=                & 
-                      bedge_facey_x(:,ilo:iup-1,1,klo,lb)
+         bedge_facez_x(ilo:iup-1,1+nguard0*k3d,1,:,lb)=                & 
+                      bedge_facey_x(ilo:iup-1,1,klo,:,lb)
 
        ElseIf (ie == 6) Then                ! edge: y high edge, z low edge
          Do i=ilo,iup-1
-           bedge_facey_x(:,i,2,klo,lb) =                               &
-              bedge_facey_x(:,i,1,kup,remote_block)
+           bedge_facey_x(i,2,klo,:,lb) =                               &
+              bedge_facey_x(i,1,kup,:,remote_block)
          End Do
-         bedge_facez_x(:,ilo:iup-1,k2d+nguard0*k2d+nyb,1,lb)=          & 
-                      bedge_facey_x(:,ilo:iup-1,2,klo,lb)
+         bedge_facez_x(ilo:iup-1,k2d+nguard0*k2d+nyb,1,:,lb)=          & 
+                      bedge_facey_x(ilo:iup-1,2,klo,:,lb)
 
        ElseIf (ie == 7) Then                ! edge: y low edge, z high edge
          Do i=ilo,iup-1
-           bedge_facey_x(:,i,1,kup,lb) =                               &
-              bedge_facey_x(:,i,2,klo,remote_block)
+           bedge_facey_x(i,1,kup,:,lb) =                               &
+              bedge_facey_x(i,2,klo,:,remote_block)
          End Do
-         bedge_facez_x(:,ilo:iup-1,1+nguard0*k2d,2,lb)=                & 
-                      bedge_facey_x(:,ilo:iup-1,1,kup,lb)
+         bedge_facez_x(ilo:iup-1,1+nguard0*k2d,2,:,lb)=                & 
+                      bedge_facey_x(ilo:iup-1,1,kup,:,lb)
 
        ElseIf (ie == 8) Then                ! edge: y high edge, z high edge
          Do i=ilo,iup-1
-           bedge_facey_x(:,i,2,kup,lb) =                               &
-              bedge_facey_x(:,i,1,klo,remote_block)
+           bedge_facey_x(i,2,kup,:,lb) =                               &
+              bedge_facey_x(i,1,klo,:,remote_block)
          End Do
-         bedge_facez_x(:,ilo:iup-1,k2d+nguard0*k2d+nyb,2,lb)=          & 
-                      bedge_facey_x(:,ilo:iup-1,2,kup,lb)
+         bedge_facez_x(ilo:iup-1,k2d+nguard0*k2d+nyb,2,:,lb)=          & 
+                      bedge_facey_x(ilo:iup-1,2,kup,:,lb)
 
        ElseIf (ie == 9) Then                ! edge: x low edge, z low edge
          Do j=jlo,jup-k2d
-           bedge_facex_y(:,1,j,klo,lb) =                               &
-              bedge_facex_y(:,2,j,kup,remote_block)
+           bedge_facex_y(1,j,klo,:,lb) =                               &
+              bedge_facex_y(2,j,kup,:,remote_block)
          End Do
-         bedge_facez_y(:,1+nguard0,jlo:jup-k2d,1,lb)=                  & 
-                      bedge_facex_y(:,1,jlo:jup-k2d,klo,lb)
+         bedge_facez_y(1+nguard0,jlo:jup-k2d,1,:,lb)=                  & 
+                      bedge_facex_y(1,jlo:jup-k2d,klo,:,lb)
 
        ElseIf (ie == 10) Then                ! edge: x low edge, z high edge
          Do j=jlo,jup-k2d
-           bedge_facex_y(:,1,j,kup,lb) =                               &
-              bedge_facex_y(:,2,j,klo,remote_block)
+           bedge_facex_y(1,j,kup,:,lb) =                               &
+              bedge_facex_y(2,j,klo,:,remote_block)
          End Do
-         bedge_facez_y(:,1+nguard0,jlo:jup-k2d,2,lb)=                  & 
-                      bedge_facex_y(:,1,jlo:jup-k2d,kup,lb)
+         bedge_facez_y(1+nguard0,jlo:jup-k2d,2,:,lb)=                  & 
+                      bedge_facex_y(1,jlo:jup-k2d,kup,:,lb)
 
        ElseIf (ie == 11) Then                ! edge: x high edge, z low edge
          Do j=jlo,jup-k2d
-           bedge_facex_y(:,2,j,klo,lb) =                               &
-              bedge_facex_y(:,1,j,kup,remote_block)
+           bedge_facex_y(2,j,klo,:,lb) =                               &
+              bedge_facex_y(1,j,kup,:,remote_block)
          End Do
-         bedge_facez_y(:,1+nguard0+nxb,jlo:jup-k2d,1,lb)=              & 
-                      bedge_facex_y(:,2,jlo:jup-k2d,klo,lb)
+         bedge_facez_y(1+nguard0+nxb,jlo:jup-k2d,1,:,lb)=              & 
+                      bedge_facex_y(2,jlo:jup-k2d,klo,:,lb)
 
        ElseIf (ie == 12) Then                ! edge: x high edge, z high edge
          Do j=jlo,jup-k2d
-           bedge_facex_y(:,2,j,kup,lb) =                               &
-              bedge_facex_y(:,1,j,klo,remote_block)
+           bedge_facex_y(2,j,kup,:,lb) =                               &
+              bedge_facex_y(1,j,klo,:,remote_block)
          End Do
-         bedge_facez_y(:,1+nguard0+nxb,jlo:jup-k2d,2,lb)=              & 
-                      bedge_facex_y(:,2,jlo:jup-k2d,kup,lb)
+         bedge_facez_y(1+nguard0+nxb,jlo:jup-k2d,2,:,lb)=              & 
+                      bedge_facex_y(2,jlo:jup-k2d,kup,:,lb)
        End If
 
       Else                      ! If (remote_pe
@@ -269,90 +269,90 @@
 
          If (ie == 1) Then       ! edge: x low edge, y low edge
             Do k=klo,kup-k3d
-               bedge_facex_z(:,1,jlo,k,lb)=                            & 
-                    recvarx2e(:,2,jup,k)
+               bedge_facex_z(1,jlo,k,:,lb)=                            & 
+                    recvarx2e(2,jup,k,:)
             End Do
-            bedge_facey_z(:,ilo,1,klo:kup-k3d,lb)=                     & 
-                 bedge_facex_z(:,1,jlo,klo:kup-k3d,lb)
+            bedge_facey_z(ilo,1,klo:kup-k3d,:,lb)=                     & 
+                 bedge_facex_z(1,jlo,klo:kup-k3d,:,lb)
             
          ElseIf (ie == 2) Then   ! edge: x low edge, y high edge
             Do k=klo,kup-k3d
-               bedge_facex_z(:,1,jup,k,lb)=                            & 
-                    recvarx2e(:,2,jlo,k)
+               bedge_facex_z(1,jup,k,:,lb)=                            & 
+                    recvarx2e(2,jlo,k,:)
             End Do
-            bedge_facey_z(:,ilo,2,klo:kup-k3d,lb)=                     & 
-                 bedge_facex_z(:,1,jup,klo:kup-k3d,lb)
+            bedge_facey_z(ilo,2,klo:kup-k3d,:,lb)=                     & 
+                 bedge_facex_z(1,jup,klo:kup-k3d,:,lb)
             
          ElseIf (ie == 3) Then   ! edge: x high edge, y low edge
             Do k=klo,kup-k3d
-               bedge_facex_z(:,2,jlo,k,lb)=                            & 
-                    recvarx2e(:,1,jup,k)
+               bedge_facex_z(2,jlo,k,:,lb)=                            & 
+                    recvarx2e(1,jup,k,:)
             End Do
-            bedge_facey_z(:,iup,1,klo:kup-k3d,lb)=                     & 
-                 bedge_facex_z(:,2,jlo,klo:kup-k3d,lb)
+            bedge_facey_z(iup,1,klo:kup-k3d,:,lb)=                     & 
+                 bedge_facex_z(2,jlo,klo:kup-k3d,:,lb)
             
          ElseIf (ie == 4) Then   ! edge: x high edge, y high edge
             Do k=klo,kup-k3d
-               bedge_facex_z(:,2,jup,k,lb)=                            & 
-                    recvarx2e(:,1,jlo,k)
+               bedge_facex_z(2,jup,k,:,lb)=                            & 
+                    recvarx2e(1,jlo,k,:)
             End Do
-            bedge_facey_z(:,iup,2,klo:kup-k3d,lb)=                     & 
-                 bedge_facex_z(:,2,jup,klo:kup-k3d,lb)
+            bedge_facey_z(iup,2,klo:kup-k3d,:,lb)=                     & 
+                 bedge_facex_z(2,jup,klo:kup-k3d,:,lb)
          ElseIf (ie == 5) Then   ! edge: y low edge, z low edge
             Do i=ilo,iup-1
-               bedge_facey_x(:,i,1,klo,lb)= recvary1e(:,i,2,kup)
+               bedge_facey_x(i,1,klo,:,lb)= recvary1e(i,2,kup,:)
             End Do
-            bedge_facez_x(:,ilo:iup-1,jlo,1,lb)=                       & 
-                 bedge_facey_x(:,ilo:iup-1,1,klo,lb)
+            bedge_facez_x(ilo:iup-1,jlo,1,:,lb)=                       & 
+                 bedge_facey_x(ilo:iup-1,1,klo,:,lb)
             
          ElseIf (ie == 6) Then   ! edge: y high edge, z low edge
             Do i=ilo,iup-1
-               bedge_facey_x(:,i,2,klo,lb)= recvary1e(:,i,1,kup)
+               bedge_facey_x(i,2,klo,:,lb)= recvary1e(i,1,kup,:)
             End Do
-            bedge_facez_x(:,ilo:iup-1,jup,1,lb)=                       & 
-                 bedge_facey_x(:,ilo:iup-1,2,klo,lb)
+            bedge_facez_x(ilo:iup-1,jup,1,:,lb)=                       & 
+                 bedge_facey_x(ilo:iup-1,2,klo,:,lb)
             
          ElseIf (ie == 7) Then   ! edge: y low edge, z high edge
             Do i=ilo,iup-1
-               bedge_facey_x(:,i,1,kup,lb)= recvary1e(:,i,2,klo)
+               bedge_facey_x(i,1,kup,:,lb)= recvary1e(i,2,klo,:)
             End Do
-            bedge_facez_x(:,ilo:iup-1,jlo,2,lb)=                       & 
-                 bedge_facey_x(:,ilo:iup-1,1,kup,lb)
+            bedge_facez_x(ilo:iup-1,jlo,2,:,lb)=                       & 
+                 bedge_facey_x(ilo:iup-1,1,kup,:,lb)
             
          ElseIf (ie == 8) Then   ! edge: y high edge, z high edge
             Do i=ilo,iup-1
-               bedge_facey_x(:,i,2,kup,lb)= recvary1e(:,i,1,klo)
+               bedge_facey_x(i,2,kup,:,lb)= recvary1e(i,1,klo,:)
             End Do
-            bedge_facez_x(:,ilo:iup-1,jup,2,lb)=                       & 
-                 bedge_facey_x(:,ilo:iup-1,2,kup,lb)
+            bedge_facez_x(ilo:iup-1,jup,2,:,lb)=                       & 
+                 bedge_facey_x(ilo:iup-1,2,kup,:,lb)
             
          ElseIf (ie == 9) Then   ! edge: x low edge, z low edge
             Do j=jlo,jup-k2d
-               bedge_facex_y(:,1,j,klo,lb)= recvarx1e(:,2,j,kup)
+               bedge_facex_y(1,j,klo,:,lb)= recvarx1e(2,j,kup,:)
             End Do
-            bedge_facez_y(:,1+nguard0,jlo:jup-k2d,1,lb)=               & 
-                 bedge_facex_y(:,1,jlo:jup-k2d,klo,lb)
+            bedge_facez_y(1+nguard0,jlo:jup-k2d,1,:,lb)=               & 
+                 bedge_facex_y(1,jlo:jup-k2d,klo,:,lb)
             
          ElseIf (ie == 10) Then  ! edge: x low edge, z high edge
             Do j=jlo,jup-k2d
-               bedge_facex_y(:,1,j,kup,lb)= recvarx1e(:,2,j,klo)
+               bedge_facex_y(1,j,kup,:,lb)= recvarx1e(2,j,klo,:)
             End Do
-            bedge_facez_y(:,1+nguard0,jlo:jup-k2d,2,lb)=               & 
-                 bedge_facex_y(:,1,jlo:jup-k2d,kup,lb)
+            bedge_facez_y(1+nguard0,jlo:jup-k2d,2,:,lb)=               & 
+                 bedge_facex_y(1,jlo:jup-k2d,kup,:,lb)
             
          ElseIf (ie == 11) Then  ! edge: x high edge, z low edge
             Do j=jlo,jup-k2d
-               bedge_facex_y(:,2,j,klo,lb)= recvarx1e(:,1,j,kup)
+               bedge_facex_y(2,j,klo,:,lb)= recvarx1e(1,j,kup,:)
             End Do
-            bedge_facez_y(:,1+nguard0+nxb,jlo:jup-k2d,1,lb)=           & 
-                 bedge_facex_y(:,2,jlo:jup-k2d,klo,lb)
+            bedge_facez_y(1+nguard0+nxb,jlo:jup-k2d,1,:,lb)=           & 
+                 bedge_facex_y(2,jlo:jup-k2d,klo,:,lb)
             
          ElseIf (ie == 12) Then  ! edge: x high edge, z high edge
             Do j=jlo,jup-k2d
-               bedge_facex_y(:,2,j,kup,lb)= recvarx1e(:,1,j,klo)
+               bedge_facex_y(2,j,kup,:,lb)= recvarx1e(1,j,klo,:)
             End Do
-            bedge_facez_y(:,1+nguard0+nxb,jlo:jup-k2d,2,lb)=           & 
-                 bedge_facex_y(:,2,jlo:jup-k2d,kup,lb)
+            bedge_facez_y(1+nguard0+nxb,jlo:jup-k2d,2,:,lb)=           & 
+                 bedge_facex_y(2,jlo:jup-k2d,kup,:,lb)
             
          End If  ! End If (ie == 1)
 

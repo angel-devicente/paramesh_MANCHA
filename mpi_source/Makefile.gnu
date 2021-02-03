@@ -116,4 +116,4 @@ endif
 
 .PHONY: clean
 clean:
-	$(RM) libmpi_paramesh.a *.o *.i *~ GNUmakefile.include
+	$(RM) libmpi_paramesh.a *.o *.mod *.i *~ GNUmakefile.include

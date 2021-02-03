@@ -127,7 +127,7 @@
 !-----COMPUTE the number of blocks to the 'left' (ie. stored on processors with
 !-----smaller process ids) of every other processor
       n_to_left(mype) = lnblocks
-      Call MPI_ALLGATHER(n_to_left(mype),                              &
+      Call MPI_ALLGATHER(MPI_IN_PLACE,                                 &
                          1,                                            &
                          MPI_INTEGER,                                  &
                          n_to_left,                                    &

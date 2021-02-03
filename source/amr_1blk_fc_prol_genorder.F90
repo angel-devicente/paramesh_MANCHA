@@ -361,7 +361,7 @@
                 (mod(ii,2)  ==  0 .and. mod(nguard,2) .ne. 0)) Then
 !--------------This point is on parent's face
 !--------------and does not need to be interpolated
-               f_intx(ii,j,k) = recv(ivar,i,j,k)
+               f_intx(ii,j,k) = recv(i,j,k,ivar)
             Else
                If (ii < nguard + nxb/2) Then
                   iw = 1
@@ -375,7 +375,7 @@
                Do ipar = imin,imax
                   f_intx(ii,j,k) = f_intx(ii,j,k) +                    & 
                        weight_half(iw,ipar-i,order)*                   & 
-                       recv(ivar,ipar,j,k)
+                       recv(ipar,j,k,ivar)
                End Do  ! End Do ipar = imin,imax
 !--------------update parent index
                i = i + 1
@@ -390,7 +390,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  facevarx1(ivar,i,j,k,idest) = f_intx(i,j,k)
+                  facevarx1(i,j,k,ivar,idest) = f_intx(i,j,k)
                End Do  ! End Do i = ifmin,ifmax
             End Do  ! End Do j = jfmin,jfmax
          End Do  ! End Do k = kfmin,kfmax
@@ -470,7 +470,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  facevarx1(ivar,i,j,k,idest) = f_inty(i,j,k)
+                  facevarx1(i,j,k,ivar,idest) = f_inty(i,j,k)
                End Do  ! End Do i = ifmin,ifmax
             End Do  ! End Do j = jfmin,jfmax
          End Do  ! End Do k = kfmin,kfmax
@@ -493,7 +493,7 @@
 
          Do kk = kfmin,kfmax
             
-            facevarx1(ivar,i,j,kk,idest) = 0.
+            facevarx1(i,j,kk,ivar,idest) = 0.
             If ((mod(kk,2) .ne. 0 .and. mod(nguard,2) .ne. 0) .or.     & 
                 (mod(kk,2)  ==  0 .and. mod(nguard,2)  ==  0)) Then
 
@@ -509,8 +509,8 @@
                kmax = imaxr(kw,order) + k
 
                Do kpar = kmin,kmax
-                  facevarx1(ivar,i,j,kk,idest) =                       & 
-                       facevarx1(ivar,i,j,kk,idest) +                  & 
+                  facevarx1(i,j,kk,ivar,idest) =                       & 
+                       facevarx1(i,j,kk,ivar,idest) +                  & 
                        weight_right(kw,kpar-k,order)*f_inty(i,j,kpar)
                End Do  ! End Do kpar = kmin,kmax
 !--------------update parent index
@@ -530,8 +530,8 @@
                kmax = imaxl(kw,order) + k
 
                Do kpar = kmin,kmax
-                  facevarx1(ivar,i,j,kk,idest) =                       & 
-                       facevarx1(ivar,i,j,kk,idest) +                  & 
+                  facevarx1(i,j,kk,ivar,idest) =                       & 
+                       facevarx1(i,j,kk,ivar,idest) +                  & 
                        weight_left(kw,kpar-k,order)*f_inty(i,j,kpar)
                End Do  ! End Do kpar = kmin,kmax
 
@@ -579,7 +579,7 @@
                 (mod(jj,2)  ==  0 .and. mod(nguard,2) .ne. 0)) Then
 !--------------this point is on the parent's face
 !--------------and does not need to be interpolated
-               f_inty(i,jj,k) = recv(ivar,i,j,k)
+               f_inty(i,jj,k) = recv(i,j,k,ivar)
             Else
 
                If (jj < nguard + nyb/2) Then
@@ -594,7 +594,7 @@
                Do jpar = jmin,jmax
                   f_inty(i,jj,k) = f_inty(i,jj,k) +                    & 
                        weight_half(jw,jpar-j,order)*                   & 
-                       recv(ivar,i,jpar,k)
+                       recv(i,jpar,k,ivar)
                End Do
 !--------------update parent index
                j = j + 1
@@ -608,7 +608,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  facevary1(ivar,i,j,k,idest) = f_inty(i,j,k)
+                  facevary1(i,j,k,ivar,idest) = f_inty(i,j,k)
                End Do  ! End Do i = ifmin,ifmax
             End Do  ! End Do j = jfmin,jfmax
          End Do  ! End Do k = kfmin,kfmax
@@ -687,7 +687,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  facevary1(ivar,i,j,k,idest) = f_intx(i,j,k)
+                  facevary1(i,j,k,ivar,idest) = f_intx(i,j,k)
                End Do  ! End Do i = ifmin,ifmax
             End Do  ! End Do j = jfmin,jfmax
          End Do  ! End Do k = kfmin,kfmax
@@ -709,7 +709,7 @@
 
          Do kk = kfmin,kfmax
             
-            facevary1(ivar,i,j,kk,idest) = 0.
+            facevary1(i,j,kk,ivar,idest) = 0.
             If ((mod(kk,2) .ne. 0 .and. mod(nguard,2) .ne. 0) .or.     & 
                 (mod(kk,2)  ==  0 .and. mod(nguard,2)  ==  0)) Then
 
@@ -725,8 +725,8 @@
                kmax = imaxr(kw,order) + k
 
                Do kpar = kmin,kmax
-                  facevary1(ivar,i,j,kk,idest) =                       & 
-                       facevary1(ivar,i,j,kk,idest) +                  & 
+                  facevary1(i,j,kk,ivar,idest) =                       & 
+                       facevary1(i,j,kk,ivar,idest) +                  & 
                        weight_right(kw,kpar-k,order)*f_intx(i,j,kpar)
                End Do
 !--------------update parent index
@@ -746,8 +746,8 @@
                kmax = imaxl(kw,order) + k
 
                Do kpar = kmin,kmax
-                  facevary1(ivar,i,j,kk,idest) =                       & 
-                       facevary1(ivar,i,j,kk,idest) +                  & 
+                  facevary1(i,j,kk,ivar,idest) =                       & 
+                       facevary1(i,j,kk,ivar,idest) +                  & 
                        weight_left(kw,kpar-k,order)*f_intx(i,j,kpar)
                End Do  ! End Do kpar = kmin,kmax
 
@@ -798,7 +798,7 @@
                 (mod(kk,2)  ==  0 .and. mod(nguard,2) .ne. 0)) Then
 !--------------This point is on parent's face
 !--------------and does not need to be interpolated
-               f_intz(i,j,kk) = recv(ivar,i,j,k) 
+               f_intz(i,j,kk) = recv(i,j,k,ivar) 
             Else
 
                If (kk < nguard + nzb/2) Then
@@ -813,7 +813,7 @@
                Do kpar = kmin,kmax
                   f_intz(i,j,kk) = f_intz(i,j,kk) +                    & 
                        weight_half(kw,kpar-k,order)*                   & 
-                       recv(ivar,i,j,kpar)
+                       recv(i,j,kpar,ivar)
                End Do  ! End Do kpar = kmin,kmax
                ! update parent index
                k = k + 1
@@ -828,7 +828,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  facevarz1(ivar,i,j,k,idest) = f_intz(i,j,k)
+                  facevarz1(i,j,k,ivar,idest) = f_intz(i,j,k)
                End Do  ! End Do i = ifmin,ifmax
             End Do  ! End Do j = jfmin,jfmax
          End Do  ! End Do k = kfmin,kfmax
@@ -907,7 +907,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  facevarz1(ivar,i,j,k,idest) = f_inty(i,j,k)
+                  facevarz1(i,j,k,ivar,idest) = f_inty(i,j,k)
                End Do  ! End Do i = ifmin,ifmax
             End Do  ! End Do j = jfmin,jfmax
          End Do  ! End Do k = kfmin,kfmax
@@ -929,7 +929,7 @@
 
          Do ii = ifmin,ifmax
             
-            facevarz1(ivar,ii,j,k,idest) = 0.
+            facevarz1(ii,j,k,ivar,idest) = 0.
             If ((mod(ii,2) .ne. 0 .and. mod(nguard,2) .ne. 0) .or.     & 
                 (mod(ii,2)  ==  0 .and. mod(nguard,2)  ==  0)) Then
 
@@ -945,8 +945,8 @@
                imax = imaxr(iw,order) + i
 
                Do ipar = imin,imax
-                  facevarz1(ivar,ii,j,k,idest)=                        & 
-                       facevarz1(ivar,ii,j,k,idest) +                  & 
+                  facevarz1(ii,j,k,ivar,idest)=                        & 
+                       facevarz1(ii,j,k,ivar,idest) +                  & 
                        weight_right(iw,ipar-i,order)*f_inty(ipar,j,k)
                End Do  ! End Do ipar = imin,imax
 !--------------update parent index
@@ -966,8 +966,8 @@
                imax = imaxl(iw,order) + i
 
                Do ipar = imin,imax
-                  facevarz1(ivar,ii,j,k,idest) =                       &  
-                       facevarz1(ivar,ii,j,k,idest) +                  & 
+                  facevarz1(ii,j,k,ivar,idest) =                       &  
+                       facevarz1(ii,j,k,ivar,idest) +                  & 
                        weight_left(iw,ipar-i,order)*f_inty(ipar,j,k)
                End Do  ! End Do ipar = imin,imax
 

@@ -332,29 +332,29 @@
       Else
 
        Allocate(           & 
-        unk(nvar,          & 
+        unk(          & 
             il_bnd:iu_bnd, & 
             jl_bnd:ju_bnd, & 
-            kl_bnd:ku_bnd, & 
+            kl_bnd:ku_bnd,nvar, & 
             maxblocks))
-       Allocate(unk1(nvar,            &
+       Allocate(unk1(            &
                      il_bnd1:iu_bnd1, &
                      jl_bnd1:ju_bnd1, & 
-                     kl_bnd1:ku_bnd1, &
+                     kl_bnd1:ku_bnd1,nvar, &
                      npblks))
        Allocate(               & 
-         gt_unk(nvar,          & 
+         gt_unk(          & 
                 il_bnd:iu_bnd, &
                 jl_bnd:ju_bnd, & 
-                kl_bnd:ku_bnd, &
+                kl_bnd:ku_bnd,nvar, &
                 maxblocks_gt))
 
        If (var_dt .or. pred_corr) Then
         Allocate(             & 
-         t_unk(nvar,          & 
+         t_unk(          & 
                il_bnd:iu_bnd, & 
                jl_bnd:ju_bnd, & 
-               kl_bnd:ku_bnd, & 
+               kl_bnd:ku_bnd,nvar, & 
                maxblocks))
        End If ! End If (var_dt .or. pred_corr)
 
@@ -378,100 +378,100 @@
       Else
 
        Allocate(                  & 
-        facevarx(nbndvar,         & 
+        facevarx(         & 
                  il_bnd:iu_bnd+1, & 
                  jl_bnd:ju_bnd,   & 
-                 kl_bnd:ku_bnd,   & 
+                 kl_bnd:ku_bnd,nbndvar,   & 
                  maxblocksf))
        Allocate(                    & 
-        facevary(nbndvar,           & 
+        facevary(           & 
                  il_bnd:iu_bnd,     & 
                  jl_bnd:ju_bnd+k2d, & 
-                 kl_bnd:ku_bnd,     & 
+                 kl_bnd:ku_bnd,nbndvar,     & 
                  maxblocksf))
        Allocate(                    & 
-        facevarz(nbndvar,           &  
+        facevarz(           &  
                  il_bnd:iu_bnd,     & 
                  jl_bnd:ju_bnd,     & 
-                 kl_bnd:ku_bnd+k3d, & 
+                 kl_bnd:ku_bnd+k3d,nbndvar, & 
                  maxblocksf))
        facevarx(:,:,:,:,:) = 0.
        facevary(:,:,:,:,:) = 0.
        facevarz(:,:,:,:,:) = 0.
 
-       Allocate(facevarx1(nbndvar,           &
+       Allocate(facevarx1(           &
                           il_bnd1:iu_bnd1+1, & 
                           jl_bnd1:ju_bnd1,   & 
-                          kl_bnd1:ku_bnd1,   &
+                          kl_bnd1:ku_bnd1,nbndvar,   &
                           npblks))
-       Allocate(facevary1(nbndvar,             &
+       Allocate(facevary1(             &
                           il_bnd1:iu_bnd1,     & 
                           jl_bnd1:ju_bnd1+k2d, & 
-                          kl_bnd1:ku_bnd1,     &
+                          kl_bnd1:ku_bnd1,nbndvar,     &
                           npblks))
-       Allocate(facevarz1(nbndvar,             &
+       Allocate(facevarz1(             &
                           il_bnd1:iu_bnd1,     & 
                           jl_bnd1:ju_bnd1,     & 
-                          kl_bnd1:ku_bnd1+k3d, &
+                          kl_bnd1:ku_bnd1+k3d,nbndvar, &
                           npblks))
        If (no_permanent_guardcells) Then
         Allocate(                     & 
-         gt_facevarx(nbndvar,         &
+         gt_facevarx(         &
                      il_bnd:iu_bnd+1, &
                      jl_bnd:ju_bnd,   & 
-                     kl_bnd:ku_bnd,   &
+                     kl_bnd:ku_bnd,nbndvar,   &
                      maxblocksf_gt))
         Allocate(                       & 
-         gt_facevary(nbndvar,           &
+         gt_facevary(           &
                      il_bnd:iu_bnd,     &
                      jl_bnd:ju_bnd+k2d, & 
-                     kl_bnd:ku_bnd,     &
+                     kl_bnd:ku_bnd,nbndvar,     &
                      maxblocksf_gt))
         Allocate(                       & 
-         gt_facevarz(nbndvar,           &
+         gt_facevarz(           &
                      il_bnd:iu_bnd,     &
                      jl_bnd:ju_bnd,     & 
-                     kl_bnd:ku_bnd+k3d, &
+                     kl_bnd:ku_bnd+k3d,nbndvar, &
                      maxblocksf_gt))
        Else ! Else for If (no_permanent_guardcells)
         Allocate(                   & 
-         gt_facevarx(nbndvar,       &
+         gt_facevarx(       &
                      1:2,           &
                      jl_bnd:ju_bnd, & 
-                     kl_bnd:ku_bnd, &
+                     kl_bnd:ku_bnd,nbndvar, &
                      maxblocksf))
         Allocate(                   & 
-         gt_facevary(nbndvar,       &
+         gt_facevary(       &
                      il_bnd:iu_bnd, &
                      1:1+k2d,       & 
-                     kl_bnd:ku_bnd, &
+                     kl_bnd:ku_bnd,nbndvar, &
                      maxblocksf))
         Allocate(                   & 
-         gt_facevarz(nbndvar,       &
+         gt_facevarz(       &
                      il_bnd:iu_bnd, &
                      jl_bnd:ju_bnd, & 
-                     1:1+k3d,       &
+                     1:1+k3d,nbndvar,       &
                      maxblocksf))
        End If  ! End If (no_permanent_guardcells)
 
        If (var_dt .or. pred_corr) Then
         Allocate(                  & 
-        tfacevarx(nbndvar,         & 
+        tfacevarx(         & 
                   il_bnd:iu_bnd+1, & 
                   jl_bnd:ju_bnd,   & 
-                  kl_bnd:ku_bnd,   & 
+                  kl_bnd:ku_bnd,nbndvar,   & 
                   maxblocksf))
         Allocate(                     & 
-         tfacevary(nbndvar,           & 
+         tfacevary(           & 
                    il_bnd:iu_bnd,     & 
                    jl_bnd:ju_bnd+k2d, & 
-                   kl_bnd:ku_bnd,     & 
+                   kl_bnd:ku_bnd,nbndvar,     & 
                    maxblocksf))
         Allocate(                     & 
-         tfacevarz(nbndvar,           & 
+         tfacevarz(           & 
                    il_bnd:iu_bnd,     & 
                    jl_bnd:ju_bnd,     & 
-                   kl_bnd:ku_bnd+k3d, & 
+                   kl_bnd:ku_bnd+k3d,nbndvar, & 
                    maxblocksf))
 
        End If  ! End if (var_dt .or. pred_corr)
@@ -500,80 +500,80 @@
       Else
 
        Allocate(                   & 
-        unk_e_x(nbndvare,          & 
+        unk_e_x(          & 
                 il_bnd:iu_bnd,     & 
                 jl_bnd:ju_bnd+k2d, & 
-                kl_bnd:ku_bnd+k3d, & 
+                kl_bnd:ku_bnd+k3d,nbndvare, & 
                 maxblocksue))
        Allocate(                   & 
-        unk_e_y(nbndvare,          & 
+        unk_e_y(          & 
                 il_bnd:iu_bnd+1,   & 
                 jl_bnd:ju_bnd,     & 
-                kl_bnd:ku_bnd+k3d, & 
+                kl_bnd:ku_bnd+k3d,nbndvare, & 
                 maxblocksue))
        Allocate(                   & 
-        unk_e_z(nbndvare,          & 
+        unk_e_z(          & 
                 il_bnd:iu_bnd+1,   & 
                 jl_bnd:ju_bnd+k2d, & 
-                kl_bnd:ku_bnd,     & 
+                kl_bnd:ku_bnd,nbndvare,     & 
                 maxblocksue))
        unk_e_x(:,:,:,:,:)  = 0.
        unk_e_y(:,:,:,:,:)  = 0.
        unk_e_z(:,:,:,:,:)  = 0.
 
-       Allocate(unk_e_x1(nbndvare,            & 
+       Allocate(unk_e_x1(            & 
                          il_bnd1:iu_bnd1,     &
                          jl_bnd1:ju_bnd1+k2d, & 
-                         kl_bnd1:ku_bnd1+k3d, & 
+                         kl_bnd1:ku_bnd1+k3d,nbndvare, & 
                          npblks))
-       Allocate(unk_e_y1(nbndvare,            & 
+       Allocate(unk_e_y1(            & 
                          il_bnd1:iu_bnd1+1,   &
                          jl_bnd1:ju_bnd1,     & 
-                         kl_bnd1:ku_bnd1+k3d, & 
+                         kl_bnd1:ku_bnd1+k3d,nbndvare, & 
                          npblks))
-       Allocate(unk_e_z1(nbndvare,            & 
+       Allocate(unk_e_z1(            & 
                          il_bnd1:iu_bnd1+1,   &
                          jl_bnd1:ju_bnd1+k2d, & 
-                         kl_bnd1:ku_bnd1,     & 
+                         kl_bnd1:ku_bnd1,nbndvare,     & 
                          npblks))
        Allocate(                      & 
-        gt_unk_e_x(nbndvare,          &
+        gt_unk_e_x(          &
                    il_bnd:iu_bnd,     &
                    jl_bnd:ju_bnd+k2d, & 
-                   kl_bnd:ku_bnd+k3d, &
+                   kl_bnd:ku_bnd+k3d,nbndvare, &
                    maxblocksue_gt))
        Allocate(                      & 
-        gt_unk_e_y(nbndvare,          &
+        gt_unk_e_y(          &
                    il_bnd:iu_bnd+1,   &
                    jl_bnd:ju_bnd,     & 
-                   kl_bnd:ku_bnd+k3d, &
+                   kl_bnd:ku_bnd+k3d,nbndvare, &
                    maxblocksue_gt))
        Allocate(                      & 
-        gt_unk_e_z(nbndvare,          &
+        gt_unk_e_z(          &
                    il_bnd:iu_bnd+1,   & 
                    jl_bnd:ju_bnd+k2d, & 
-                   kl_bnd:ku_bnd,     &
+                   kl_bnd:ku_bnd,nbndvare,     &
                    maxblocksue_gt))
 
        If (var_dt .or. pred_corr) Then
 
         Allocate(                    & 
-         t_unk_e_x(nbndvare,         & 
+         t_unk_e_x(         & 
                   il_bnd:iu_bnd,     & 
                   jl_bnd:ju_bnd+k2d, & 
-                  kl_bnd:ku_bnd+k3d, & 
+                  kl_bnd:ku_bnd+k3d,nbndvare, & 
                   maxblocksue))
         Allocate(                     & 
-         t_unk_e_y(nbndvare,          & 
+         t_unk_e_y(          & 
                    il_bnd:iu_bnd+1,   & 
                    jl_bnd:ju_bnd,     & 
-                   kl_bnd:ku_bnd+k3d, & 
+                   kl_bnd:ku_bnd+k3d,nbndvare, & 
                    maxblocksue))
         Allocate(                     & 
-         t_unk_e_z(nbndvare,          & 
+         t_unk_e_z(          & 
                    il_bnd:iu_bnd+1,   & 
                    jl_bnd:ju_bnd+k2d, & 
-                   kl_bnd:ku_bnd,     & 
+                   kl_bnd:ku_bnd,nbndvare,     & 
                    maxblocksue))
 
        End If ! End If (var_dt .or. pred_corr)
@@ -595,30 +595,30 @@
 
       Else
 
-       Allocate(unk_n(nbndvarc,          & 
+       Allocate(unk_n(          & 
                       il_bnd:iu_bnd+1,   &
                       jl_bnd:ju_bnd+k2d, & 
-                      kl_bnd:ku_bnd+k3d, & 
+                      kl_bnd:ku_bnd+k3d,nbndvarc, & 
                       maxblocksn))
        unk_n(:,:,:,:,:)    = 0.
-       Allocate(unk_n1(nbndvarc,            & 
+       Allocate(unk_n1(            & 
                        il_bnd1:iu_bnd1+1,   &
                        jl_bnd1:ju_bnd1+k2d, & 
-                       kl_bnd1:ku_bnd1+k3d, & 
+                       kl_bnd1:ku_bnd1+k3d,nbndvarc, & 
                        npblks))
        Allocate(                    & 
-        gt_unk_n(nbndvarc,          &
+        gt_unk_n(          &
                  il_bnd:iu_bnd+1,   &
                  jl_bnd:ju_bnd+k2d, & 
-                 kl_bnd:ku_bnd+k3d, &
+                 kl_bnd:ku_bnd+k3d,nbndvarc, &
                  maxblocksn_gt))
 
        If (var_dt .or. pred_corr) Then
         Allocate(                   & 
-         t_unk_n(nbndvarc,          & 
+         t_unk_n(          & 
                  il_bnd:iu_bnd+1,   &
                  jl_bnd:ju_bnd+k2d, & 
-                 kl_bnd:ku_bnd+k3d, & 
+                 kl_bnd:ku_bnd+k3d,nbndvarc, & 
                  maxblocksn))
        End If ! End If (var_dt .or. pred_corr)
 
@@ -639,153 +639,153 @@
 !-----Allocate arrays for flux fix-up at refinement jumps
 
       Allocate(                & 
-       flux_x(nfluxes,         &
+       flux_x(         &
               1:2,             & 
               jl_bndi:ju_bndi, &
-              kl_bndi:ku_bndi, &
+              kl_bndi:ku_bndi,nfluxes, &
               maxblocksfl))
       Allocate(                & 
-       flux_y(nfluxes,         &
+       flux_y(         &
               il_bndi:iu_bndi, & 
               1:2,             &
-              kl_bndi:ku_bndi, &
+              kl_bndi:ku_bndi,nfluxes, &
               maxblocksfl))
       Allocate(                & 
-       flux_z(nfluxes,         &
+       flux_z(         &
               il_bndi:iu_bndi, & 
               jl_bndi:ju_bndi, &
-              1:2,             &
+              1:2,nfluxes,             &
               maxblocksfl))
       Allocate(                & 
-       tflux_x(nfluxes,        &
+       tflux_x(        &
               1:2,             & 
               jl_bndi:ju_bndi, &
-              kl_bndi:ku_bndi, &
+              kl_bndi:ku_bndi,nfluxes, &
               maxblocksfl))
       Allocate(                 & 
-       tflux_y(nfluxes,         &
+       tflux_y(         &
                il_bndi:iu_bndi, & 
                1:2,             &
-               kl_bndi:ku_bndi, &
+               kl_bndi:ku_bndi,nfluxes, &
                maxblocksfl))
       Allocate(                 & 
-       tflux_z(nfluxes,         &
+       tflux_z(         &
                il_bndi:iu_bndi, & 
                jl_bndi:ju_bndi, &
-               1:2,             &
+               1:2,nfluxes,             &
                maxblocksfl))
 
 !-----Allocate arrrays for edge data fix-up at refinement jumps
 
       Allocate(                       & 
-       bedge_facex_y(nedges,          &
+       bedge_facex_y(          &
                      1:2,             &
                      jl_bnd:ju_bnd+1, & 
-                     kl_bnd:ku_bnd+1, &
+                     kl_bnd:ku_bnd+1,nedges, &
                      maxblockse))
       Allocate(                       & 
-       bedge_facex_z(nedges,          &
+       bedge_facex_z(          &
                      1:2,             &
                      jl_bnd:ju_bnd+1, & 
-                     kl_bnd:ku_bnd+1, &
+                     kl_bnd:ku_bnd+1,nedges, &
                      maxblockse))
       Allocate(                       & 
-       bedge_facey_x(nedges,          &
+       bedge_facey_x(          &
                      il_bnd:iu_bnd+1, &
                      1:2,             & 
-                     kl_bnd:ku_bnd+1, &
+                     kl_bnd:ku_bnd+1,nedges, &
                      maxblockse))
       Allocate(                       & 
-       bedge_facey_z(nedges,          &
+       bedge_facey_z(          &
                      il_bnd:iu_bnd+1, &
                      1:2,             & 
-                     kl_bnd:ku_bnd+1, &
+                     kl_bnd:ku_bnd+1,nedges, &
                      maxblockse))
       Allocate(                       & 
-       bedge_facez_x(nedges,          &
+       bedge_facez_x(          &
                      il_bnd:iu_bnd+1, & 
                      jl_bnd:ju_bnd+1, &
-                     1:2,             &
+                     1:2,nedges,             &
                      maxblockse))
       Allocate(                       & 
-       bedge_facez_y(nedges,          &
+       bedge_facez_y(          &
                      il_bnd:iu_bnd+1, & 
                      jl_bnd:ju_bnd+1, & 
-                     1:2,             &
+                     1:2,nedges,             &
                      maxblockse))
       Allocate(                   & 
-       recvarx1e(nedges,          &
+       recvarx1e(          &
                  1:2,             &  
                  jl_bnd:ju_bnd+1, & 
-                 kl_bnd:ku_bnd+1))
+                 kl_bnd:ku_bnd+1,nedges))
       Allocate(                   & 
-       recvary1e(nedges,          &
+       recvary1e(          &
                  il_bnd:iu_bnd+1, &
                  1:2,             & 
-                 kl_bnd:ku_bnd+1))
+                 kl_bnd:ku_bnd+1,nedges))
       Allocate(                   & 
-       recvarz1e(nedges,          &
+       recvarz1e(          &
                  il_bnd:iu_bnd+1, &
                  jl_bnd:ju_bnd+1, & 
-                 1:2))
+                 1:2,nedges))
       Allocate(                   & 
-       recvarx2e(nedges,          &
+       recvarx2e(          &
                  1:2,             &
                  jl_bnd:ju_bnd+1, & 
-                 kl_bnd:ku_bnd+1))
+                 kl_bnd:ku_bnd+1,nedges))
       Allocate(                   & 
-       recvary2e(nedges,          &
+       recvary2e(          &
                  il_bnd:iu_bnd+1, &
                  1:2,             & 
-                 kl_bnd:ku_bnd+1))
+                 kl_bnd:ku_bnd+1,nedges))
       Allocate(                   & 
-       recvarz2e(nedges,          &
+       recvarz2e(          &
                  il_bnd:iu_bnd+1, &
                  jl_bnd:ju_bnd+1, & 
-                 1:2))
+                 1:2,nedges))
       Allocate(                        & 
-       tbedge_facex_y(nedges,          &
+       tbedge_facex_y(          &
                       1:2,             &
                       jl_bnd:ju_bnd+1, & 
-                      kl_bnd:ku_bnd+1, &
+                      kl_bnd:ku_bnd+1,nedges, &
                       maxblockse))
       Allocate(                        & 
-       tbedge_facex_z(nedges,          &
+       tbedge_facex_z(          &
                       1:2,             &
                       jl_bnd:ju_bnd+1, & 
-                      kl_bnd:ku_bnd+1, &
+                      kl_bnd:ku_bnd+1,nedges, &
                       maxblockse))
       Allocate(                        & 
-       tbedge_facey_x(nedges,          &
+       tbedge_facey_x(          &
                       il_bnd:iu_bnd+1, &
                       1:2,             & 
-                      kl_bnd:ku_bnd+1, &
+                      kl_bnd:ku_bnd+1,nedges, &
                       maxblockse))
       Allocate(                        & 
-       tbedge_facey_z(nedges,          &
+       tbedge_facey_z(          &
                       il_bnd:iu_bnd+1, &
                       1:2,             & 
-                      kl_bnd:ku_bnd+1, &
+                      kl_bnd:ku_bnd+1,nedges, &
                       maxblockse))
       Allocate(                        & 
-       tbedge_facez_x(nedges,          &
+       tbedge_facez_x(          &
                       il_bnd:iu_bnd+1, & 
                       jl_bnd:ju_bnd+1, &
-                      1:2,             &
+                      1:2,nedges,             &
                       maxblockse))
       Allocate(                        & 
-       tbedge_facez_y(nedges,          &
+       tbedge_facez_y(          &
                       il_bnd:iu_bnd+1, & 
                       jl_bnd:ju_bnd+1, & 
-                      1:2,             &
+                      1:2,nedges,             &
                       maxblockse))
 
-      Allocate(recvarxf(nfluxes,1:2,jl_bndi:ju_bndi,kl_bndi:ku_bndi))
-      Allocate(recvaryf(nfluxes,il_bndi:iu_bndi,1:2,kl_bndi:ku_bndi))
-      Allocate(recvarzf(nfluxes,il_bndi:iu_bndi,jl_bndi:ju_bndi,1:2))
-      Allocate(bndtempx1(nfluxes,1:2,jl_bndi:ju_bndi,kl_bndi:ku_bndi))
-      Allocate(bndtempy1(nfluxes,il_bndi:iu_bndi,1:2,kl_bndi:ku_bndi))
-      Allocate(bndtempz1(nfluxes,il_bndi:iu_bndi,jl_bndi:ju_bndi,1:2))
+      Allocate(recvarxf(1:2,jl_bndi:ju_bndi,kl_bndi:ku_bndi,nfluxes))
+      Allocate(recvaryf(il_bndi:iu_bndi,1:2,kl_bndi:ku_bndi,nfluxes))
+      Allocate(recvarzf(il_bndi:iu_bndi,jl_bndi:ju_bndi,1:2,nfluxes))
+      Allocate(bndtempx1(1:2,jl_bndi:ju_bndi,kl_bndi:ku_bndi,nfluxes))
+      Allocate(bndtempy1(il_bndi:iu_bndi,1:2,kl_bndi:ku_bndi,nfluxes))
+      Allocate(bndtempz1(il_bndi:iu_bndi,jl_bndi:ju_bndi,1:2,nfluxes))
 
       len_block_bndx = 2*(ju_bndi-jl_bndi+1)*(ku_bndi-kl_bndi+1)
       len_block_bndy = 2*(iu_bndi-il_bndi+1)*(ku_bndi-kl_bndi+1)
@@ -884,22 +884,22 @@
 
       If (var_dt) Then
        Allocate(                & 
-        ttflux_x(nfluxes,       &
+        ttflux_x(       &
                  1:2,           &
                  jl_bnd:ju_bnd, & 
-                 kl_bnd:ku_bnd, &
+                 kl_bnd:ku_bnd,nfluxes, &
                  maxblocksfl))
        Allocate(                & 
-        ttflux_y(nfluxes,       &
+        ttflux_y(       &
                  il_bnd:iu_bnd, & 
                  1:2,           &
-                 kl_bnd:ku_bnd, &
+                 kl_bnd:ku_bnd,nfluxes, &
                  maxblocksfl))
        Allocate(                & 
-        ttflux_z(nfluxes,       &
+        ttflux_z(       &
                  il_bnd:iu_bnd, & 
                  jl_bnd:ju_bnd, &
-                 1:2,           &
+                 1:2,nfluxes,           &
                  maxblocksfl))
        Allocate(                         & 
         ttbedge_facex_y(nedges,          &

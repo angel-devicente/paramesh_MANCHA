@@ -186,7 +186,7 @@
 #endif /* DEBUG */
 
 ! each proc gets the number of refining singular blocks on every other proc
-      call mpi_allgather(istack,1,MPI_INTEGER,gstack,1,MPI_INTEGER, & 
+      call MPI_ALLGATHER(istack,1,MPI_INTEGER,gstack,1,MPI_INTEGER, & 
      &                    MPI_COMM_WORLD,ierror)
 
       call comm_int_sum_to_all(istack_tot,istack)
@@ -215,7 +215,7 @@
       enddo
 
       if(nprocs.gt.1) then
-      call mpi_allgatherv(singular_line_locn,istack, & 
+      call MPI_ALLGATHERV(singular_line_locn,istack, & 
      &                    amr_mpi_real, & 
      &                    gsingular_line_locn,gstack, & 
      &                    displs, & 
@@ -417,7 +417,7 @@
       enddo
 
 ! each proc gets the number of singular nodes on every other proc
-      call mpi_allgather(istack,1,MPI_INTEGER,gstack,1,MPI_INTEGER, & 
+      call MPI_ALLGATHER(istack,1,MPI_INTEGER,gstack,1,MPI_INTEGER, & 
      &                    MPI_COMM_WORLD,ierror)
 
       call comm_int_sum_to_all(istack_tot,istack)
@@ -435,7 +435,7 @@
       do i=2,nprocs
         displs(i) = displs(i-1) + gstack(i-1)
       enddo
-      call mpi_allgatherv(singular_line_locn,istack, & 
+      call MPI_ALLGATHERV(singular_line_locn,istack, & 
      &                    amr_mpi_real,	 & 
      &                    gsingular_line_locn,gstack, & 
      &                    displs, & 
@@ -443,7 +443,7 @@
      &                    MPI_COMM_WORLD,ierror)
     
 
-      call mpi_allgatherv(singular_line_level,istack,MPI_INTEGER, & 
+      call MPI_ALLGATHERV(singular_line_level,istack,MPI_INTEGER, & 
      &                    gsingular_line_level,gstack, & 
      &                    displs,MPI_INTEGER, & 
      &                    MPI_COMM_WORLD,ierror)

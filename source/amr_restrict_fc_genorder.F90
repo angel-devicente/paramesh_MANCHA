@@ -205,7 +205,7 @@
 
            i = i0
         
-           temp(ivar,i0,j0,k0) = 0.
+           temp(i0,j0,k0,ivar) = 0.
            
            k = ks
            Do kkk = kstart,kend
@@ -221,11 +221,11 @@
                  End If
                  
                  If (curvilinear_conserve) Then
-                    temp(ivar,i0,j0,k0) =                              & 
-                         temp(ivar,i0,j0,k0) + (recv(ivar,i,j,k))
+                    temp(i0,j0,k0,ivar) =                              & 
+                         temp(i0,j0,k0,ivar) + (recv(i,j,k,ivar))
                  Else
-                    temp(ivar,i0,j0,k0) =                              &  
-                         temp(ivar,i0,j0,k0) + (www*recv(ivar,i,j,k))
+                    temp(i0,j0,k0,ivar) =                              &  
+                         temp(i0,j0,k0,ivar) + (www*recv(i,j,k,ivar))
                  End If
                  
                  j = j + 1
@@ -285,7 +285,7 @@
            
            j = j0
 
-           temp(ivar,i0,j0,k0) = 0.
+           temp(i0,j0,k0,ivar) = 0.
 
            k = ks
            Do kkk = kstart,kend
@@ -301,11 +301,11 @@
                  End If
               
                  If (curvilinear_conserve) Then
-                    temp(ivar,i0,j0,k0) =                              & 
-                         temp(ivar,i0,j0,k0) + (recv(ivar,i,j,k))
+                    temp(i0,j0,k0,ivar) =                              & 
+                         temp(i0,j0,k0,ivar) + (recv(i,j,k,ivar))
                  Else
-                    temp(ivar,i0,j0,k0) =                              & 
-                         temp(ivar,i0,j0,k0) + (www*recv(ivar,i,j,k))
+                    temp(i0,j0,k0,ivar) =                              & 
+                         temp(i0,j0,k0,ivar) + (www*recv(i,j,k,ivar))
                  End If  
               
                  i = i + 1
@@ -365,7 +365,7 @@
 
            k = k0
 
-           temp(ivar,i0,j0,k0) = 0.
+           temp(i0,j0,k0,ivar) = 0.
            
            j = js
            Do jjj = jstart,jend
@@ -375,11 +375,11 @@
                  www = weight(order,iw,iii) * weight(order,jw,jjj)
                  
                  If (curvilinear_conserve) Then
-                    temp(ivar,i0,j0,k0) =                              & 
-                         temp(ivar,i0,j0,k0) + (recv(ivar,i,j,k))
+                    temp(i0,j0,k0,ivar) =                              & 
+                         temp(i0,j0,k0,ivar) + (recv(i,j,k,ivar))
                  Else
-                    temp(ivar,i0,j0,k0) =                              & 
-                         temp(ivar,i0,j0,k0) + (www*recv(ivar,i,j,k))
+                    temp(i0,j0,k0,ivar) =                              & 
+                         temp(i0,j0,k0,ivar) + (www*recv(i,j,k,ivar))
                  End If
               
                  i = i + 1

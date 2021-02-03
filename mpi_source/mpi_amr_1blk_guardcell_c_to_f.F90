@@ -333,8 +333,8 @@
             If (jface == 2) ionea = 1 
             If (jface == 1) ioneb = 0
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevarx1(:nfacevar,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,    & 
-                       kl_bnd1:ku_bnd1,2),                             & 
+             facevarx1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,    & 
+                       kl_bnd1:ku_bnd1,:nfacevar,2),                             & 
                           ia+ionea,ib+ioneb,ja,jb,ka,kb,1,             & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,1)
@@ -344,8 +344,8 @@
             If (jface == 4) jonea = 1
             If (jface == 3) joneb = 0
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevary1(:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,  & 
-                       kl_bnd1:ku_bnd1,2),                             & 
+             facevary1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,  & 
+                       kl_bnd1:ku_bnd1,:nfacevar,2),                             & 
                           ia,ib,ja+jonea,jb+joneb,ka,kb,1,             & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,2)
@@ -356,8 +356,8 @@
             If (jface == 6) konea = 1
             If (jface == 5) koneb = 0
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevarz1(:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,      & 
-                       kl_bnd1:ku_bnd1+k3d,2),                         & 
+             facevarz1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,      & 
+                       kl_bnd1:ku_bnd1+k3d,:nfacevar,2),                         & 
                           ia,ib,ja,jb,ka+konea,kb+koneb,1,             & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,3)
@@ -394,22 +394,22 @@
             If (jface == 5) koneb = 0
 
             Call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_x1(:nvaredge,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,   &  
-                      kl_bnd1:ku_bnd1+k3d,2),                          & 
+             unk_e_x1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,   &  
+                      kl_bnd1:ku_bnd1+k3d,:nvaredge,2),                          & 
                           ia,ib,ja+jonea,jb+joneb,ka+konea,kb+koneb,1, & 
                           ioff,joff,koff,mype,1)
 
             Call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_y1(:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,     & 
-                      kl_bnd1:ku_bnd1+k3d,2),                          & 
+             unk_e_y1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,     & 
+                      kl_bnd1:ku_bnd1+k3d,:nvaredge,2),                          & 
                           ia+ionea,ib+ioneb,ja,jb,ka+konea,kb+koneb,1, & 
                           ioff,joff,koff,mype,2)
 
             If (ndim == 3) Then
 
             Call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_z1(:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
-                      kl_bnd1:ku_bnd1,2),                              & 
+             unk_e_z1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
+                      kl_bnd1:ku_bnd1,:nvaredge,2),                              & 
                           ia+ionea,ib+ioneb,ja+jonea,jb+joneb,ka,kb,1, & 
                           ioff,joff,koff,mype,3)
             End If  ! End If (ndim == 3)
@@ -434,8 +434,8 @@
             If (jface == 6) konea = 1
             If (jface == 5) koneb = 0
             Call amr_1blk_nc_prol_gen_fun(                             & 
-             unk_n1(:nvarcorn,il_bnd1:iu_bnd1+1,                       & 
-                    jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1+k3d,2),        & 
+             unk_n1(il_bnd1:iu_bnd1+1,                       & 
+                    jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1+k3d,:nvarcorn,2),        & 
                           ia+ionea,ib+ioneb,ja+jonea,jb+joneb,         & 
                           ka+konea,kb+koneb,1,                         & 
                           ioff,joff,koff,mype)
@@ -526,8 +526,8 @@
             End If  ! End If (prol_fc_dbz)
 
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevarx1(1:nfacevar,il_bnd1:iu_bnd1+1,                   & 
-                       jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1,2),             & 
+             facevarx1(il_bnd1:iu_bnd1+1,                   & 
+                       jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1,1:nfacevar,2),             & 
                           ia+ia1,ib+ib1,ja,jb,ka,kb,1,                 & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,1)
@@ -535,8 +535,8 @@
             If (ndim >= 2) Then
 
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevary1(1:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
-                       kl_bnd1:ku_bnd1,2),                             & 
+             facevary1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
+                       kl_bnd1:ku_bnd1,1:nfacevar,2),                             & 
                           ia,ib,ja+ja1,jb+jb1,ka,kb,1,                 & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,2)
@@ -545,8 +545,8 @@
             If (ndim == 3) Then
 
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevarz1(1:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,     & 
-                       kl_bnd1:ku_bnd1+k3d,2),                         & 
+             facevarz1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,     & 
+                       kl_bnd1:ku_bnd1+k3d,1:nfacevar,2),                         & 
                           ia,ib,ja,jb,ka,kb+1,1,                       & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,3)
@@ -584,21 +584,21 @@
 
 
             Call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_x1(:nvaredge,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,   & 
-                      kl_bnd1:ku_bnd1+k3d,2),                          & 
+             unk_e_x1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,   & 
+                      kl_bnd1:ku_bnd1+k3d,:nvaredge,2),                          & 
                           ia,ib,ja+jonea,jb+joneb,ka+konea,kb+koneb,1, & 
                           ioff,joff,koff,mype,1)
 
             Call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_y1(:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,     & 
-                      kl_bnd1:ku_bnd1+k3d,2),                          & 
+             unk_e_y1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,     & 
+                      kl_bnd1:ku_bnd1+k3d,:nvaredge,2),                          & 
                           ia+ionea,ib+ioneb,ja,jb,ka+konea,kb+koneb,1, & 
                           ioff,joff,koff,mype,2)
 
             If (ndim == 3) Then
             call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_z1(:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
-                      kl_bnd1:ku_bnd1,2),                              & 
+             unk_e_z1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
+                      kl_bnd1:ku_bnd1,:nvaredge,2),                              & 
                           ia+ionea,ib+ioneb,ja+jonea,jb+joneb,ka,kb,1, & 
                           ioff,joff,koff,mype,3)
             End If  ! End If (ndim == 3)
@@ -610,8 +610,8 @@
           If (lnc .and. iopt == 1) Then
 
             Call amr_1blk_nc_prol_gen_fun(                             & 
-             unk_n1(1:nvarcorn,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,  & 
-                    kl_bnd1:ku_bnd1+k3d,2),                            & 
+             unk_n1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,  & 
+                    kl_bnd1:ku_bnd1+k3d,1:nvarcorn,2),                            & 
                           ia+imod,ib+imod,ja+jmod,jb+jmod,             & 
                           ka,kb+k3d,1,                                 & 
                           ioff,joff,koff,mype)
@@ -702,8 +702,8 @@
             End If  ! End If (prol_fc_dbz
 
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevarx1(1:nfacevar,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,   & 
-                       kl_bnd1:ku_bnd1,2),                             & 
+             facevarx1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,   & 
+                       kl_bnd1:ku_bnd1,1:nfacevar,2),                             & 
                           ia+ia1,ib+ib1,ja,jb,ka,kb,1,                 & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,1)
@@ -711,8 +711,8 @@
             If (ndim >= 2) Then
 
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevary1(1:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
-                       kl_bnd1:ku_bnd1,2),                             & 
+             facevary1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
+                       kl_bnd1:ku_bnd1,1:nfacevar,2),                             & 
                           ia,ib,ja,jb+1,ka,kb,1,                       & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,2)
@@ -721,8 +721,8 @@
             If (ndim == 3) Then
 
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevarz1(1:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,     & 
-                       kl_bnd1:ku_bnd1+k3d,2),                         & 
+             facevarz1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,     & 
+                       kl_bnd1:ku_bnd1+k3d,1:nfacevar,2),                         & 
                           ia,ib,ja,jb,ka+ka1,kb+kb1,1,                 & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,3)
@@ -758,22 +758,22 @@
             If (kk == 3) konea = 1
 
             Call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_x1(1:nvaredge,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,  & 
-                      kl_bnd1:ku_bnd1+k3d,2),                          & 
+             unk_e_x1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,  & 
+                      kl_bnd1:ku_bnd1+k3d,1:nvaredge,2),                          & 
                           ia,ib,ja+jonea,jb+joneb,ka+konea,kb+koneb,1, & 
                           ioff,joff,koff,mype,1)
 
             Call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_y1(1:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,    & 
-                      kl_bnd1:ku_bnd1+k3d,2),                          & 
+             unk_e_y1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,    & 
+                      kl_bnd1:ku_bnd1+k3d,1:nvaredge,2),                          & 
                           ia+ionea,ib+ioneb,ja,jb,ka+konea,kb+koneb,1, & 
                           ioff,joff,koff,mype,2)
 
             If (ndim == 3) Then
 
             Call amr_1blk_ec_prol_gen_fun(                             & 
-            unk_e_z1(1:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
-                      kl_bnd1:ku_bnd1,2),                              & 
+            unk_e_z1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
+                      kl_bnd1:ku_bnd1,1:nvaredge,2),                              & 
                           ia+ionea,ib+ioneb,ja+jonea,jb+joneb,ka,kb,1, & 
                           ioff,joff,koff,mype,3)
             End If 
@@ -784,8 +784,8 @@
 
           If (lnc .and. iopt == 1) Then
             Call amr_1blk_nc_prol_gen_fun(                             & 
-             unk_n1(1:nvarcorn,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,  & 
-                    kl_bnd1:ku_bnd1+k3d,2),                            & 
+             unk_n1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,  & 
+                    kl_bnd1:ku_bnd1+k3d,1:nvarcorn,2),                            & 
                           ia+imod,ib+imod,ja,jb+k2d,                   & 
                           ka+kmod,kb+kmod,1,                           & 
                           ioff,joff,koff,mype)
@@ -871,16 +871,16 @@
             End If
 
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevarx1(1:nfacevar,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,   & 
-                       kl_bnd1:ku_bnd1,2),                             & 
+             facevarx1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,   & 
+                       kl_bnd1:ku_bnd1,1:nfacevar,2),                             & 
                           ia,ib+1,ja,jb,ka,kb,1,                       & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,1)
 
             If (ndim >= 2) Then
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevary1(1:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
-                       kl_bnd1:ku_bnd1,2),                             & 
+             facevary1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
+                       kl_bnd1:ku_bnd1,1:nfacevar,2),                             & 
                           ia,ib,ja+ja1,jb+jb1,ka,kb,1,                 & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,2)
@@ -888,8 +888,8 @@
 
             If (ndim == 3) Then
             Call amr_1blk_fc_prol_gen_fun(                             &
-             facevarz1(1:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,     & 
-                       kl_bnd1:ku_bnd1+k3d,2),                         & 
+             facevarz1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,     & 
+                       kl_bnd1:ku_bnd1+k3d,1:nfacevar,2),                         & 
                           ia,ib,ja,jb,ka+ka1,kb+kb1,1,                 & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,3)
@@ -924,21 +924,21 @@
             If (kk == 3) konea = 1
 
             Call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_x1(1:nvaredge,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,  & 
-                      kl_bnd1:ku_bnd1+k3d,2),                          & 
+             unk_e_x1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,  & 
+                      kl_bnd1:ku_bnd1+k3d,1:nvaredge,2),                          & 
                           ia,ib,ja+jonea,jb+joneb,ka+konea,kb+koneb,1, & 
                           ioff,joff,koff,mype,1)
 
             Call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_y1(1:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,    & 
-                      kl_bnd1:ku_bnd1+k3d,2),                          & 
+             unk_e_y1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,    & 
+                      kl_bnd1:ku_bnd1+k3d,1:nvaredge,2),                          & 
                           ia+ionea,ib+ioneb,ja,jb,ka+konea,kb+koneb,1, & 
                           ioff,joff,koff,mype,2)
 
             If (ndim == 3) Then
             Call amr_1blk_ec_prol_gen_fun(                             & 
-            unk_e_z1(1:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
-                     kl_bnd1:ku_bnd1,2),                               & 
+            unk_e_z1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
+                     kl_bnd1:ku_bnd1,1:nvaredge,2),                               & 
                           ia+ionea,ib+ioneb,ja+jonea,jb+joneb,ka,kb,1, & 
                           ioff,joff,koff,mype,3)
             End If 
@@ -948,8 +948,8 @@
 
           If (lnc.and.iopt == 1) Then
             call amr_1blk_nc_prol_gen_fun(                             & 
-             unk_n1(1:nvarcorn,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,  & 
-                    kl_bnd1:ku_bnd1+k3d,2),                            & 
+             unk_n1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,  & 
+                    kl_bnd1:ku_bnd1+k3d,1:nvarcorn,2),                            & 
                           ia,ib+1,ja+jmod,jb+jmod,                     & 
                           ka+kmod,kb+kmod,1,                           & 
                           ioff,joff,koff,mype)
@@ -1036,16 +1036,16 @@
             End If
 
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevarx1(:nfacevar,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,    & 
-                       kl_bnd1:ku_bnd1,2),                             & 
+             facevarx1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,    & 
+                       kl_bnd1:ku_bnd1,:nfacevar,2),                             & 
                           ia+ia1,ib+ib1,ja,jb,ka,kb,1,                 & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,1)
 
             If (ndim >= 2) Then
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevary1(:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,  & 
-                       kl_bnd1:ku_bnd1,2),                             & 
+             facevary1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,  & 
+                       kl_bnd1:ku_bnd1,:nfacevar,2),                             & 
                           ia,ib,ja+ja1,jb+jb1,ka,kb,1,                 & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,2)
@@ -1053,8 +1053,8 @@
 
             If (ndim == 3) Then
             Call amr_1blk_fc_prol_gen_fun(                             & 
-             facevarz1(:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,      & 
-                       kl_bnd1:ku_bnd1+k3d,2),                         & 
+             facevarz1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,      & 
+                       kl_bnd1:ku_bnd1+k3d,:nfacevar,2),                         & 
                           ia,ib,ja,jb,ka+ka1,kb+kb1,1,                 & 
                           ioff,joff,koff,                              & 
                           mype,lb,parent_pe,parent_blk,3)
@@ -1091,21 +1091,21 @@
             If (kk == 3) konea = 1
 
             Call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_x1(:nvaredge,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,   & 
-                      kl_bnd1:ku_bnd1+k3d,2),                          & 
+             unk_e_x1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,   & 
+                      kl_bnd1:ku_bnd1+k3d,:nvaredge,2),                          & 
                           ia,ib,ja+jonea,jb+joneb,ka+konea,kb+koneb,1, & 
                           ioff,joff,koff,mype,1)
 
             Call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_y1(:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,     & 
-                      kl_bnd1:ku_bnd1+k3d,2),                          & 
+             unk_e_y1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,     & 
+                      kl_bnd1:ku_bnd1+k3d,:nvaredge,2),                          & 
                           ia+ionea,ib+ioneb,ja,jb,ka+konea,kb+koneb,1, & 
                           ioff,joff,koff,mype,2)
 
             If (ndim == 3) Then
             Call amr_1blk_ec_prol_gen_fun(                             & 
-             unk_e_z1(:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
-                      kl_bnd1:ku_bnd1,2),                              & 
+             unk_e_z1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
+                      kl_bnd1:ku_bnd1,:nvaredge,2),                              & 
                           ia+ionea,ib+ioneb,ja+jonea,jb+joneb,ka,kb,1, & 
                           ioff,joff,koff,mype,3)
             End If 
@@ -1115,8 +1115,8 @@
 
           if(lnc.and.iopt == 1) Then
             Call amr_1blk_nc_prol_gen_fun(                             & 
-             unk_n1(:nvarcorn,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,   & 
-                    kl_bnd1:ku_bnd1+k3d,2),                            & 
+             unk_n1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,   & 
+                    kl_bnd1:ku_bnd1+k3d,:nvarcorn,2),                            & 
                           ia+imod,ib+imod,ja+jmod,jb+jmod,             & 
                           ka+kmod,kb+kmod,1,                           & 
                           ioff,joff,koff,mype)

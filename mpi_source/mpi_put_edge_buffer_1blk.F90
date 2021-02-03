@@ -97,22 +97,22 @@
       do j = ja,jb
       do i = ia,ib
         do n=1,nedges
-          recvarx1e(n,i,j,k) = temprecv_buf(index)
+          recvarx1e(i,j,k,n) = temprecv_buf(index)
           index  = index + 1
         enddo
       enddo
       enddo
       enddo
       if(dtype.eq.13) then
-        recvarz2e(1:nedges,1+nguard0,ja:jb,1) = & 
-     &      recvarx1e(1:nedges,1,ja:jb,1+nguard0*k3d)
-        recvarz2e(1:nedges,1+nguard0,ja:jb,1+k3d) = & 
-     &      recvarx1e(1:nedges,1,ja:jb,nzb+(1+nguard0)*k3d)
+        recvarz2e(1+nguard0,ja:jb,1,1:nedges) = & 
+     &      recvarx1e(1,ja:jb,1+nguard0*k3d,1:nedges)
+        recvarz2e(1+nguard0,ja:jb,1+k3d,1:nedges) = & 
+     &      recvarx1e(1,ja:jb,nzb+(1+nguard0)*k3d,1:nedges)
       elseif(dtype.eq.15) then
-        recvarz2e(1:nedges,nxb+1+nguard0,ja:jb,1) = & 
-     &      recvarx1e(1:nedges,2,ja:jb,1+nguard0*k3d)
-        recvarz2e(1:nedges,nxb+1+nguard0,ja:jb,1+k3d) = & 
-     &      recvarx1e(1:nedges,2,ja:jb,nzb+(1+nguard0)*k3d)
+        recvarz2e(nxb+1+nguard0,ja:jb,1,1:nedges) = & 
+     &      recvarx1e(2,ja:jb,1+nguard0*k3d,1:nedges)
+        recvarz2e(nxb+1+nguard0,ja:jb,1+k3d,1:nedges) = & 
+     &      recvarx1e(2,ja:jb,nzb+(1+nguard0)*k3d,1:nedges)
       endif
 
       if(ndim.eq.3.or.l2p5d.eq.1) then
@@ -120,22 +120,22 @@
       do j = ja , jb
       do i = ia , ib
         do n=1,nedges
-          recvarx2e(n,i,j,k) = temprecv_buf(index)
+          recvarx2e(i,j,k,n) = temprecv_buf(index)
           index  = index + 1
         enddo
       enddo
       enddo
       enddo
       if(dtype.eq.13) then
-        recvary2e(1:nedges,1+nguard0,1,ka:kb) = & 
-     &      recvarx2e(1:nedges,1,1+nguard0*k2d,ka:kb)
-        recvary2e(1:nedges,1+nguard0,2,ka:kb) = & 
-     &      recvarx2e(1:nedges,1,nyb+(1+nguard0)*k2d,ka:kb)
+        recvary2e(1+nguard0,1,ka:kb,1:nedges) = & 
+     &      recvarx2e(1,1+nguard0*k2d,ka:kb,1:nedges)
+        recvary2e(1+nguard0,2,ka:kb,1:nedges) = & 
+     &      recvarx2e(1,nyb+(1+nguard0)*k2d,ka:kb,1:nedges)
       elseif(dtype.eq.15) then
-        recvary2e(1:nedges,nxb+1+nguard0,1,ka:kb) = & 
-     &      recvarx2e(1:nedges,2,1+nguard0*k2d,ka:kb)
-        recvary2e(1:nedges,nxb+1+nguard0,2,ka:kb) = & 
-     &      recvarx2e(1:nedges,2,nyb+(1+nguard0)*k2d,ka:kb)
+        recvary2e(nxb+1+nguard0,1,ka:kb,1:nedges) = & 
+     &      recvarx2e(2,1+nguard0*k2d,ka:kb,1:nedges)
+        recvary2e(nxb+1+nguard0,2,ka:kb,1:nedges) = & 
+     &      recvarx2e(2,nyb+(1+nguard0)*k2d,ka:kb,1:nedges)
       endif
 
       endif
@@ -170,22 +170,22 @@
       do j = ja,jb
       do i = ia,ib
         do n=1,nedges
-          recvary1e(n,i,j,k) = temprecv_buf(index)
+          recvary1e(i,j,k,n) = temprecv_buf(index)
           index  = index + 1
         enddo
       enddo
       enddo
       enddo
       if(dtype.eq.11) then
-        recvarz1e(1:nedges,ia:ib,1+nguard0*k2d,1) = & 
-     &      recvary1e(1:nedges,ia:ib,1,1+nguard0*k3d)
-        recvarz1e(1:nedges,ia:ib,1+nguard0*k2d,1+k3d) = & 
-     &      recvary1e(1:nedges,ia:ib,1,nzb+(1+nguard0)*k3d)
+        recvarz1e(ia:ib,1+nguard0*k2d,1,1:nedges) = & 
+     &      recvary1e(ia:ib,1,1+nguard0*k3d,1:nedges)
+        recvarz1e(ia:ib,1+nguard0*k2d,1+k3d,1:nedges) = & 
+     &      recvary1e(ia:ib,1,nzb+(1+nguard0)*k3d,1:nedges)
       elseif(dtype.eq.17) then
-        recvarz1e(1:nedges,ia:ib,nyb+(1+nguard0)*k2d,1) = & 
-     &      recvary1e(1:nedges,ia:ib,2,1+nguard0*k3d)
-        recvarz1e(1:nedges,ia:ib,nyb+(1+nguard0)*k2d,1+k3d) = & 
-     &      recvary1e(1:nedges,ia:ib,2,nzb+(1+nguard0)*k3d)
+        recvarz1e(ia:ib,nyb+(1+nguard0)*k2d,1,1:nedges) = & 
+     &      recvary1e(ia:ib,2,1+nguard0*k3d,1:nedges)
+        recvarz1e(ia:ib,nyb+(1+nguard0)*k2d,1+k3d,1:nedges) = & 
+     &      recvary1e(ia:ib,2,nzb+(1+nguard0)*k3d,1:nedges)
       endif
 
       if(ndim.eq.3.or.l2p5d.eq.1) then
@@ -193,22 +193,22 @@
       do j = ja , jb
       do i = ia , ib
         do n=1,nedges
-          recvary2e(n,i,j,k) = temprecv_buf(index)
+          recvary2e(i,j,k,n) = temprecv_buf(index)
           index  = index + 1
         enddo
       enddo
       enddo
       enddo
       if(dtype.eq.11) then
-         recvarx2e(1:nedges,1,1+nguard0*k2d,ka:kb) = & 
-     &        recvary2e(1:nedges,1+nguard0,1,ka:kb)
-         recvarx2e(1:nedges,2,1+nguard0*k2d,ka:kb) = & 
-     &        recvary2e(1:nedges,nxb+1+nguard0,1,ka:kb)
+         recvarx2e(1,1+nguard0*k2d,ka:kb,1:nedges) = & 
+     &        recvary2e(1+nguard0,1,ka:kb,1:nedges)
+         recvarx2e(2,1+nguard0*k2d,ka:kb,1:nedges) = & 
+     &        recvary2e(nxb+1+nguard0,1,ka:kb,1:nedges)
       elseif(dtype.eq.17) then
-         recvarx2e(1:nedges,1,nyb+(1+nguard0)*k2d,ka:kb) = & 
-     &        recvary2e(1:nedges,1+nguard0,2,ka:kb)
-         recvarx2e(1:nedges,2,nyb+(1+nguard0)*k2d,ka:kb) = & 
-     &        recvary2e(1:nedges,nxb+1+nguard0,2,ka:kb)
+         recvarx2e(1,nyb+(1+nguard0)*k2d,ka:kb,1:nedges) = & 
+     &        recvary2e(1+nguard0,2,ka:kb,1:nedges)
+         recvarx2e(2,nyb+(1+nguard0)*k2d,ka:kb,1:nedges) = & 
+     &        recvary2e(nxb+1+nguard0,2,ka:kb,1:nedges)
       endif
 
       endif
@@ -245,44 +245,44 @@
       do j = ja,jb
       do i = ia,ib
         do n=1,nedges
-          recvarz1e(n,i,j,k) = temprecv_buf(index)
+          recvarz1e(i,j,k,n) = temprecv_buf(index)
           index  = index + 1
         enddo
       enddo
       enddo
       enddo
       if(dtype.eq.5) then
-        recvary1e(1:nedges,ia:ib,1,1+nguard0*k3d) = & 
-     &        recvarz1e(1:nedges,ia:ib,1+nguard0*k2d,1)
-        recvary1e(1:nedges,ia:ib,2,1+nguard0*k3d) = & 
-     &        recvarz1e(1:nedges,ia:ib,nyb+(1+nguard0)*k2d,1)
+        recvary1e(ia:ib,1,1+nguard0*k3d,1:nedges) = & 
+     &        recvarz1e(ia:ib,1+nguard0*k2d,1,1:nedges)
+        recvary1e(ia:ib,2,1+nguard0*k3d,1:nedges) = & 
+     &        recvarz1e(ia:ib,nyb+(1+nguard0)*k2d,1,1:nedges)
       elseif(dtype.eq.23) then
-        recvary1e(1:nedges,ia:ib,1,nzb+(1+nguard0)*k3d) = & 
-     &        recvarz1e(1:nedges,ia:ib,1+nguard0*k2d,2)
-        recvary1e(1:nedges,ia:ib,2,nzb+(1+nguard0)*k3d) = & 
-     &        recvarz1e(1:nedges,ia:ib,nyb+(1+nguard0)*k2d,2)
+        recvary1e(ia:ib,1,nzb+(1+nguard0)*k3d,1:nedges) = & 
+     &        recvarz1e(ia:ib,1+nguard0*k2d,2,1:nedges)
+        recvary1e(ia:ib,2,nzb+(1+nguard0)*k3d,1:nedges) = & 
+     &        recvarz1e(ia:ib,nyb+(1+nguard0)*k2d,2,1:nedges)
       endif
 
       do k = ka,kb
       do j = ja,jb
       do i = ia,ib
         do n=1,nedges
-          recvarz2e(n,i,j,k) = temprecv_buf(index)
+          recvarz2e(i,j,k,n) = temprecv_buf(index)
           index  = index + 1
         enddo
       enddo
       enddo
       enddo
       if(dtype.eq.5) then
-        recvarx1e(1:nedges,1,ja:jb,1+nguard0*k3d) = & 
-     &        recvarz2e(1:nedges,1+nguard0,ja:jb,1)
-        recvarx1e(1:nedges,2,ja:jb,1+nguard0*k3d) = & 
-     &        recvarz2e(1:nedges,nxb+1+nguard0,ja:jb,1)
+        recvarx1e(1,ja:jb,1+nguard0*k3d,1:nedges) = & 
+     &        recvarz2e(1+nguard0,ja:jb,1,1:nedges)
+        recvarx1e(2,ja:jb,1+nguard0*k3d,1:nedges) = & 
+     &        recvarz2e(nxb+1+nguard0,ja:jb,1,1:nedges)
       elseif(dtype.eq.23) then
-        recvarx1e(1:nedges,1,ja:jb,nzb+(1+nguard0)*k3d) = & 
-     &        recvarz2e(1:nedges,1+nguard0,ja:jb,2)
-        recvarx1e(1:nedges,2,ja:jb,nzb+(1+nguard0)*k3d) = & 
-     &        recvarz2e(1:nedges,nxb+1+nguard0,ja:jb,2)
+        recvarx1e(1,ja:jb,nzb+(1+nguard0)*k3d,1:nedges) = & 
+     &        recvarz2e(1+nguard0,ja:jb,2,1:nedges)
+        recvarx1e(2,ja:jb,nzb+(1+nguard0)*k3d,1:nedges) = & 
+     &        recvarz2e(nxb+1+nguard0,ja:jb,2,1:nedges)
       endif
 
       endif
@@ -311,7 +311,7 @@
       endif
       do i = ia , ib
         do n=1,nedges
-          recvarz1e(n,i,j,k) = temprecv_buf(index)
+          recvarz1e(i,j,k,n) = temprecv_buf(index)
           index  = index + 1
         enddo
       enddo
@@ -331,7 +331,7 @@
       endif
       do i = ia , ib
         do n=1,nedges
-          recvary1e(n,i,j,k) = temprecv_buf(index)
+          recvary1e(i,j,k,n) = temprecv_buf(index)
           index  = index + 1
         enddo
       enddo
@@ -361,7 +361,7 @@
       endif
       do j = ja , jb
         do n=1,nedges
-          recvarx1e(n,i,j,k) = temprecv_buf(index)
+          recvarx1e(i,j,k,n) = temprecv_buf(index)
           index  = index + 1
         enddo
       enddo
@@ -381,7 +381,7 @@
       endif
       do j = ja , jb
         do n=1,nedges
-          recvarz2e(n,i,j,k) = temprecv_buf(index)
+          recvarz2e(i,j,k,n) = temprecv_buf(index)
           index  = index + 1
         enddo
       enddo
@@ -411,7 +411,7 @@
       endif
       do k = ka , kb
         do n=1,nedges
-          recvarx2e(n,i,j,k) = temprecv_buf(index)
+          recvarx2e(i,j,k,n) = temprecv_buf(index)
           index  = index + 1
         enddo
       enddo
@@ -431,7 +431,7 @@
       endif
       do k = ka , kb
         do n=1,nedges
-          recvary2e(n,i,j,k) = temprecv_buf(index)
+          recvary2e(i,j,k,n) = temprecv_buf(index)
           index  = index + 1
         enddo
       enddo

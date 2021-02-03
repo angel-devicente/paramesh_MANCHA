@@ -89,10 +89,10 @@
        If (lcc) Then
 
            If (no_permanent_guardcells) Then
-           t_unk(:,il_bnd:iu_bnd,jl_bnd:ju_bnd,kl_bnd:ku_bnd,lb)       & 
-             = unk1(:,il_bnd+nguard0:iu_bnd+nguard0,                   & 
+           t_unk(il_bnd:iu_bnd,jl_bnd:ju_bnd,kl_bnd:ku_bnd,:,lb)       & 
+             = unk1(il_bnd+nguard0:iu_bnd+nguard0,                   & 
                      jl_bnd+nguard0*k2d:ju_bnd+nguard0*k2d,            & 
-                     kl_bnd+nguard0*k3d:ku_bnd+nguard0*k3d,idest)
+                     kl_bnd+nguard0*k3d:ku_bnd+nguard0*k3d,:,idest)
            Else
            t_unk(:,:,:,:,lb) = unk1(:,:,:,:,idest)
            End If
@@ -103,41 +103,41 @@
        If (lfc) Then
 !--------x-face
          If (no_permanent_guardcells) Then
-         tfacevarx(1:nfacevar,il_bnd:iu_bnd+1,                         & 
-                             jl_bnd:ju_bnd,kl_bnd:ku_bnd,lb)           & 
-             = facevarx1(1:nfacevar,il_bnd+nguard0:iu_bnd+nguard0+1,   & 
+         tfacevarx(il_bnd:iu_bnd+1,                         & 
+                             jl_bnd:ju_bnd,kl_bnd:ku_bnd,1:nfacevar,lb)           & 
+             = facevarx1(il_bnd+nguard0:iu_bnd+nguard0+1,   & 
                      jl_bnd+nguard0*k2d:ju_bnd+nguard0*k2d,            & 
-                     kl_bnd+nguard0*k3d:ku_bnd+nguard0*k3d,idest)
+                     kl_bnd+nguard0*k3d:ku_bnd+nguard0*k3d,1:nfacevar,idest)
          Else
-         tfacevarx(1:nfacevar,:,:,:,lb) =                              & 
-                              facevarx1(1:nfacevar,:,:,:,idest)
+         tfacevarx(:,:,:,1:nfacevar,lb) =                              & 
+                              facevarx1(:,:,:,1:nfacevar,idest)
          End If
 
          If (ndim > 1) Then
 !--------y-face
          If (no_permanent_guardcells) Then
-         tfacevary(1:nfacevar,il_bnd:iu_bnd,jl_bnd:ju_bnd+k2d,         & 
-                               kl_bnd:ku_bnd,lb)                       & 
-             = facevary1(1:nfacevar,il_bnd+nguard0:iu_bnd+nguard0,     & 
+         tfacevary(il_bnd:iu_bnd,jl_bnd:ju_bnd+k2d,         & 
+                               kl_bnd:ku_bnd,1:nfacevar,lb)                       & 
+             = facevary1(il_bnd+nguard0:iu_bnd+nguard0,     & 
                      jl_bnd+nguard0*k2d:ju_bnd+nguard0*k2d+k2d,        & 
-                     kl_bnd+nguard0*k3d:ku_bnd+nguard0*k3d,idest)
+                     kl_bnd+nguard0*k3d:ku_bnd+nguard0*k3d,1:nfacevar,idest)
          Else
-         tfacevary(1:nfacevar,:,:,:,lb) =                              & 
-                              facevary1(1:nfacevar,:,:,:,idest)
+         tfacevary(:,:,:,1:nfacevar,lb) =                              & 
+                              facevary1(:,:,:,1:nfacevar,idest)
          End If
          End If  ! End If (ndim > 1)
 
          If (ndim == 3) Then
 !--------z-face
          If (no_permanent_guardcells) Then
-         tfacevarz(1:nfacevar,il_bnd:iu_bnd,jl_bnd:ju_bnd,             & 
-                               kl_bnd:ku_bnd+k3d,lb)                   & 
-             = facevarz1(1:nfacevar,il_bnd+nguard0:iu_bnd+nguard0,     & 
+         tfacevarz(il_bnd:iu_bnd,jl_bnd:ju_bnd,             & 
+                               kl_bnd:ku_bnd+k3d,1:nfacevar,lb)                   & 
+             = facevarz1(il_bnd+nguard0:iu_bnd+nguard0,     & 
                      jl_bnd+nguard0*k2d:ju_bnd+nguard0*k2d,            & 
-                     kl_bnd+nguard0*k3d:ku_bnd+nguard0*k3d+k3d,idest)
+                     kl_bnd+nguard0*k3d:ku_bnd+nguard0*k3d+k3d,1:nfacevar,idest)
          Else
-         tfacevarz(1:nfacevar,:,:,:,lb) =                              & 
-                              facevarz1(1:nfacevar,:,:,:,idest)
+         tfacevarz(:,:,:,1:nfacevar,lb) =                              & 
+                              facevarz1(:,:,:,1:nfacevar,idest)
          End If
          End If  ! End If (ndim == 3)
 
@@ -149,38 +149,38 @@
          If (ndim > 1) Then
 !--------x-edge
          If (no_permanent_guardcells) Then
-         t_unk_e_x(1:nvaredge,il_bnd:iu_bnd,                           & 
-                     jl_bnd:ju_bnd+k2d,kl_bnd:ku_bnd+k3d,lb)           & 
-             = unk_e_x1(1:nvaredge,il_bnd+nguard0:iu_bnd+nguard0,      & 
+         t_unk_e_x(il_bnd:iu_bnd,                           & 
+                     jl_bnd:ju_bnd+k2d,kl_bnd:ku_bnd+k3d,1:nvaredge,lb)           & 
+             = unk_e_x1(il_bnd+nguard0:iu_bnd+nguard0,      & 
                      jl_bnd+nguard0*k2d:ju_bnd+(nguard0+1)*k2d,        & 
-                     kl_bnd+nguard0*k3d:ku_bnd+(nguard0+1)*k3d,idest)
+                     kl_bnd+nguard0*k3d:ku_bnd+(nguard0+1)*k3d,1:nvaredge,idest)
          Else
-         t_unk_e_x(1:nvaredge,:,:,:,lb) =                              & 
-                              unk_e_x1(1:nvaredge,:,:,:,idest)
+         t_unk_e_x(:,:,:,1:nvaredge,lb) =                              & 
+                              unk_e_x1(:,:,:,1:nvaredge,idest)
          End If
 !--------y-edge
          If (no_permanent_guardcells) Then
-         t_unk_e_y(1:nvaredge,il_bnd:iu_bnd+1,                         & 
-                     jl_bnd:ju_bnd,kl_bnd:ku_bnd+k3d,lb)               & 
-             = unk_e_y1(1:nvaredge,il_bnd+nguard0:iu_bnd+1+nguard0,    & 
+         t_unk_e_y(il_bnd:iu_bnd+1,                         & 
+                     jl_bnd:ju_bnd,kl_bnd:ku_bnd+k3d,1:nvaredge,lb)               & 
+             = unk_e_y1(il_bnd+nguard0:iu_bnd+1+nguard0,    & 
                      jl_bnd+nguard0*k2d:ju_bnd+nguard0*k2d,            & 
-                     kl_bnd+nguard0*k3d:ku_bnd+(nguard0+1)*k3d,idest)
+                     kl_bnd+nguard0*k3d:ku_bnd+(nguard0+1)*k3d,1:nvaredge,idest)
          Else
-         t_unk_e_y(1:nvaredge,:,:,:,lb) =                              & 
-                              unk_e_y1(1:nvaredge,:,:,:,idest)
+         t_unk_e_y(:,:,:,1:nvaredge,lb) =                              & 
+                              unk_e_y1(:,:,:,1:nvaredge,idest)
          End If
 
          If (ndim == 3) Then
 !--------z-edge
          If (no_permanent_guardcells) Then
-         t_unk_e_z(1:nvaredge,il_bnd:iu_bnd+1,                         & 
-                     jl_bnd:ju_bnd+k2d,kl_bnd:ku_bnd,lb)               & 
-             = unk_e_z1(1:nvaredge,il_bnd+nguard0:iu_bnd+1+nguard0,    & 
+         t_unk_e_z(il_bnd:iu_bnd+1,                         & 
+                     jl_bnd:ju_bnd+k2d,kl_bnd:ku_bnd,1:nvaredge,lb)               & 
+             = unk_e_z1(il_bnd+nguard0:iu_bnd+1+nguard0,    & 
                      jl_bnd+nguard0*k2d:ju_bnd+(nguard0+1)*k2d,        & 
-                     kl_bnd+nguard0*k3d:ku_bnd+nguard0*k3d,idest)
+                     kl_bnd+nguard0*k3d:ku_bnd+nguard0*k3d,1:nvaredge,idest)
          Else
-         t_unk_e_z(1:nvaredge,:,:,:,lb) =                              & 
-                              unk_e_z1(1:nvaredge,:,:,:,idest)
+         t_unk_e_z(:,:,:,1:nvaredge,lb) =                              & 
+                              unk_e_z1(:,:,:,1:nvaredge,idest)
          End If
          End If  ! End If (ndim == 3)
 
@@ -190,14 +190,14 @@
 !------cell corner data
        If (lnc) Then
          If (no_permanent_guardcells) Then
-         t_unk_n(1:nvarcorn,il_bnd:iu_bnd+1,                           & 
-                     jl_bnd:ju_bnd+k2d,kl_bnd:ku_bnd+k3d,lb)           & 
-             = unk_n1(1:nvarcorn,il_bnd+nguard0:iu_bnd+1+nguard0,      & 
+         t_unk_n(il_bnd:iu_bnd+1,                           & 
+                     jl_bnd:ju_bnd+k2d,kl_bnd:ku_bnd+k3d,1:nvarcorn,lb)           & 
+             = unk_n1(il_bnd+nguard0:iu_bnd+1+nguard0,      & 
                      jl_bnd+nguard0*k2d:ju_bnd+(nguard0+1)*k2d,        & 
-                     kl_bnd+nguard0*k3d:ku_bnd+(nguard0+1)*k3d,idest)
+                     kl_bnd+nguard0*k3d:ku_bnd+(nguard0+1)*k3d,1:nvarcorn,idest)
          Else
-         t_unk_n(1:nvarcorn,:,:,:,lb) =                                & 
-                              unk_n1(1:nvarcorn,:,:,:,idest)
+         t_unk_n(:,:,:,1:nvarcorn,lb) =                                & 
+                              unk_n1(:,:,:,1:nvarcorn,idest)
         End If
        End If  ! End If (lnc)
 

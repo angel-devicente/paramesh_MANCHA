@@ -132,15 +132,16 @@
 
             Do ivar=1,nvar
               If (int_gcell_on_cc(ivar)) Then
-                 unk1(ivar,                                            &
+!                 PRINT*, "Copying for", ivar
+                 unk1(                                            &
                       1+nguard:nxb+nguard,                             &
                       1+nguard*k2d:nyb+nguard*k2d,                     & 
-                      1+nguard*k3d:nzb+nguard*k3d,                     &
+                      1+nguard*k3d:nzb+nguard*k3d,ivar,                     &
                       idest) =                                         & 
-                 unk(ivar,                                             &
+                 unk(                                             &
                      1+nguard0:nxb+nguard0,                            &
                      1+nguard0*k2d:nyb+nguard0*k2d,                    & 
-                     1+nguard0*k3d:nzb+nguard0*k3d,                    &
+                     1+nguard0*k3d:nzb+nguard0*k3d,ivar,                    &
                      lb)
               End If
             End Do
@@ -165,7 +166,7 @@
              Do i = ia,ib
                Do ivar=1,ngcell_on_cc
                  ivar_next = gcell_on_cc_pointer(ivar)
-                 unk1(ivar_next,i,j,k,idest) = temprecv_buf(index+ivar)
+                 unk1(i,j,k,ivar_next,idest) = temprecv_buf(index+ivar)
                End Do
                index = index + ngcell_on_cc
              End Do
@@ -182,15 +183,15 @@
 
             Do ivar=1,nfacevar
               If (int_gcell_on_fc(1,ivar)) Then
-                 facevarx1(ivar,                                       &
+                 facevarx1(                                       &
                            1+nguard:nxb+nguard+1,                      & 
                            1+nguard*k2d:nyb+nguard*k2d,                & 
-                           1+nguard*k3d:nzb+nguard*k3d,                &
+                           1+nguard*k3d:nzb+nguard*k3d,ivar,                &
                            idest) =                                    & 
-                 facevarx(ivar,                                        &
+                 facevarx(                                        &
                           1+nguard0:nxb+nguard0+1,                     & 
                           1+nguard0*k2d:nyb+nguard0*k2d,               & 
-                          1+nguard0*k3d:nzb+nguard0*k3d,lb)
+                          1+nguard0*k3d:nzb+nguard0*k3d,ivar,lb)
               End If
             End Do
 
@@ -216,7 +217,7 @@
              Do i = ia,ib
                Do ivar=1,ngcell_on_fc(1)
                  ivar_next = gcell_on_fc_pointer(1,ivar)
-                 facevarx1(ivar_next,i,j,k,idest) =                    & 
+                 facevarx1(i,j,k,ivar_next,idest) =                    & 
                           temprecv_buf(index+ivar)
                End Do
                index = index+ngcell_on_fc(1)
@@ -232,15 +233,15 @@
 
             Do ivar=1,nfacevar
               If (int_gcell_on_fc(2,ivar)) Then
-                 facevary1(ivar,                                       &
+                 facevary1(                                       &
                            1+nguard:nxb+nguard,                        & 
                            1+nguard*k2d:nyb+(nguard+1)*k2d,            & 
-                           1+nguard*k3d:nzb+nguard*k3d,                &
+                           1+nguard*k3d:nzb+nguard*k3d,ivar,                &
                            idest) =                                    & 
-                 facevary(ivar,                                        &
+                 facevary(                                        &
                           1+nguard0:nxb+nguard0,                       & 
                           1+nguard0*k2d:nyb+(nguard0+1)*k2d,           & 
-                          1+nguard0*k3d:nzb+nguard0*k3d,               &
+                          1+nguard0*k3d:nzb+nguard0*k3d,ivar,               &
                           lb)
               End If
             End Do
@@ -264,7 +265,7 @@
              Do i = ia,ib
                Do ivar=1,ngcell_on_fc(2)
                  ivar_next = gcell_on_fc_pointer(2,ivar)
-                 facevary1(ivar_next,i,j,k,idest) =                    & 
+                 facevary1(i,j,k,ivar_next,idest) =                    & 
                           temprecv_buf(index+ivar)
                End Do
                index = index + ngcell_on_fc(2)
@@ -282,15 +283,15 @@
 
             Do ivar=1,nfacevar
               If (int_gcell_on_fc(3,ivar)) Then
-                 facevarz1(ivar,                                       &
+                 facevarz1(                                       &
                            1+nguard:nxb+nguard,                        & 
                            1+nguard*k2d:nyb+nguard*k2d,                & 
-                           1+nguard*k3d:nzb+(nguard+1)*k3d,            &
+                           1+nguard*k3d:nzb+(nguard+1)*k3d,ivar,            &
                            idest) =                                    & 
-                  facevarz(ivar,                                       &
+                  facevarz(                                       &
                            1+nguard0:nxb+nguard0,                      & 
                            1+nguard0*k2d:nyb+nguard0*k2d,              & 
-                           1+nguard0*k3d:nzb+(nguard0+1)*k3d,          &
+                           1+nguard0*k3d:nzb+(nguard0+1)*k3d,ivar,          &
                            lb)
               End If
             End Do
@@ -314,7 +315,7 @@
              Do i = ia,ib
                Do ivar=1,ngcell_on_fc(3)
                  ivar_next = gcell_on_fc_pointer(3,ivar)
-                 facevarz1(ivar_next,i,j,k,idest) =                    & 
+                 facevarz1(i,j,k,ivar_next,idest) =                    & 
                           temprecv_buf(index+ivar)
                End Do
                index = index + ngcell_on_fc(3)
@@ -335,15 +336,15 @@
 
             Do ivar=1,nvaredge
               If (int_gcell_on_ec(1,ivar)) Then
-                 unk_e_x1(ivar,                                        &
+                 unk_e_x1(                                        &
                           1+nguard:nxb+nguard,                         & 
                           1+nguard*k2d:nyb+nguard*k2d+k2d,             & 
-                          1+nguard*k3d:nzb+nguard*k3d+k3d,             &
+                          1+nguard*k3d:nzb+nguard*k3d+k3d,ivar,             &
                           idest) =                                     & 
-                 unk_e_x(ivar,                                         &
+                 unk_e_x(                                         &
                          1+nguard0:nxb+nguard0,                        & 
                          1+nguard0*k2d:nyb+nguard0*k2d+k2d,            & 
-                         1+nguard0*k3d:nzb+nguard0*k3d+k3d,            &
+                         1+nguard0*k3d:nzb+nguard0*k3d+k3d,ivar,            &
                          lb)
               End If
             End Do
@@ -372,7 +373,7 @@
             Do i = ia,ib
               Do ivar=1,ngcell_on_ec(1)
                 ivar_next = gcell_on_ec_pointer(1,ivar)
-                unk_e_x1(ivar_next,i,j,k,idest) =                      & 
+                unk_e_x1(i,j,k,ivar_next,idest) =                      & 
                          temprecv_buf(index+ivar)
               End Do
               index = index + ngcell_on_ec(1)
@@ -386,15 +387,15 @@
 
             Do ivar=1,nvaredge
               If (int_gcell_on_ec(2,ivar)) Then
-                 unk_e_y1(ivar,                                        &
+                 unk_e_y1(                                        &
                           1+nguard:nxb+nguard+1,                       &  
                           1+nguard*k2d:nyb+nguard*k2d,                 & 
-                          1+nguard*k3d:nzb+(nguard+1)*k3d,             &
+                          1+nguard*k3d:nzb+(nguard+1)*k3d,ivar,             &
                           idest) =                                     & 
-                 unk_e_y(ivar,                                         &
+                 unk_e_y(                                         &
                          1+nguard0:nxb+nguard0+1,                      & 
                          1+nguard0*k2d:nyb+nguard0*k2d,                & 
-                         1+nguard0*k3d:nzb+(nguard0+1)*k3d,            &
+                         1+nguard0*k3d:nzb+(nguard0+1)*k3d,ivar,            &
                          lb)
               End If
             End Do
@@ -418,7 +419,7 @@
             Do i = ia,ib
               Do ivar=1,ngcell_on_ec(2)
                 ivar_next = gcell_on_ec_pointer(2,ivar)
-                unk_e_y1(ivar_next,i,j,k,idest) =                      & 
+                unk_e_y1(i,j,k,ivar_next,idest) =                      & 
                          temprecv_buf(index+ivar)
               End Do
               index = index + ngcell_on_ec(2)
@@ -434,15 +435,15 @@
 
             Do ivar=1,nvaredge
               If (int_gcell_on_ec(3,ivar)) Then
-                 unk_e_z1(ivar,                                        & 
+                 unk_e_z1(                                        & 
                           1+nguard:nxb+nguard+1,                       & 
                           1+nguard*k2d:nyb+(nguard+1)*k2d,             & 
-                          1+nguard*k3d:nzb+nguard*k3d,                 &
+                          1+nguard*k3d:nzb+nguard*k3d,ivar,                 &
                           idest) =                                     & 
-                 unk_e_z(ivar,                                         &
+                 unk_e_z(                                         &
                          1+nguard0:nxb+nguard0+1,                      & 
                          1+nguard0*k2d:nyb+(nguard0+1)*k2d,            & 
-                         1+nguard0*k3d:nzb+nguard0*k3d,                &
+                         1+nguard0*k3d:nzb+nguard0*k3d,ivar,                &
                          lb)
               End If
             End Do
@@ -466,7 +467,7 @@
             Do i = ia,ib
               Do ivar=1,ngcell_on_ec(3)
                 ivar_next = gcell_on_ec_pointer(3,ivar)
-                unk_e_z1(ivar_next,i,j,k,idest) =                      & 
+                unk_e_z1(i,j,k,ivar_next,idest) =                      & 
                         temprecv_buf(index+ivar)
               End Do
               index = index + ngcell_on_ec(3)
@@ -487,15 +488,15 @@
 
             Do ivar=1,nvarcorn
               If (int_gcell_on_nc(ivar)) Then
-                 unk_n1(ivar,                                          &
+                 unk_n1(                                          &
                         1+nguard:nxb+nguard+1,                         & 
                         1+nguard*k2d:nyb+(nguard+1)*k2d,               & 
-                        1+nguard*k3d:nzb+(nguard+1)*k3d,               &
+                        1+nguard*k3d:nzb+(nguard+1)*k3d,ivar,               &
                         idest) =                                       & 
-                 unk_n(ivar,                                           &
+                 unk_n(                                           &
                        1+nguard0:nxb+nguard0+1,                        & 
                        1+nguard0*k2d:nyb+(nguard0+1)*k2d,              & 
-                       1+nguard0*k3d:nzb+(nguard0+1)*k3d,              &
+                       1+nguard0*k3d:nzb+(nguard0+1)*k3d,ivar,              &
                        lb)
               End If
             End Do
@@ -526,7 +527,7 @@
             Do i = ia,ib
               Do ivar=1,ngcell_on_nc
                 ivar_next = gcell_on_nc_pointer(ivar)
-                unk_n1(ivar_next,i,j,k,idest) =                        &
+                unk_n1(i,j,k,ivar_next,idest) =                        &
                           temprecv_buf(index+ivar)
               End Do
               index = index+ngcell_on_nc

@@ -64,7 +64,7 @@
         if(allocated(glnblocks)) deallocate( glnblocks )
         allocate ( glnblocks(0:nprocs-1) )
         glnblocks(mype) = lnblocks
-        call MPI_ALLGATHER(glnblocks(mype), 1,MPI_INTEGER, & 
+        call MPI_ALLGATHER(lnblocks, 1,MPI_INTEGER, & 
      &                   glnblocks,1,MPI_INTEGER, & 
      &                   MPI_COMM_WORLD,ierror)
 #ifdef DEBUG

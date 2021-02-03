@@ -125,18 +125,18 @@
       Integer, Intent(in) ::  mype,iopt,nlayers
 
 !-----Local arrays and variables.
-      Real :: recvf(nbndvar,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,     & 
-                                            kl_bnd1:ku_bnd1+k3d)
-      Real :: recve(nbndvare,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,    & 
-                                            kl_bnd1:ku_bnd1+k3d)
-      Real :: recvn(nbndvarc,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,    & 
-                                            kl_bnd1:ku_bnd1+k3d)
-      Real :: recvfx(nbndvar,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,        & 
-                                            kl_bnd1:ku_bnd1)
-      Real :: recvfy(nbndvar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,      & 
-                                            kl_bnd1:ku_bnd1)
-      Real :: recvfz(nbndvar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,          & 
-                                            kl_bnd1:ku_bnd1+k3d)
+      Real :: recvf(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,     & 
+                                            kl_bnd1:ku_bnd1+k3d,nbndvar)
+      Real :: recve(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,    & 
+                                            kl_bnd1:ku_bnd1+k3d,nbndvare)
+      Real :: recvn(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,    & 
+                                            kl_bnd1:ku_bnd1+k3d,nbndvarc)
+      Real :: recvfx(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,        & 
+                                            kl_bnd1:ku_bnd1,nbndvar)
+      Real :: recvfy(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,      & 
+                                            kl_bnd1:ku_bnd1,nbndvar)
+      Real :: recvfz(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,          & 
+                                            kl_bnd1:ku_bnd1+k3d,nbndvar)
       Integer :: p_cache_addr(2),idest,nguard0,nguard_npgs
       Integer :: parent_blk,parent_pe
       Integer :: parent_list(2,maxblocks)
@@ -254,21 +254,21 @@
 !-----that gt_facevarx, etc are filled before prolongation begins
       If (nfacevar > 0) Then
         Do lb = 1,lnblocks
-          gt_facevarx(:,1,:,:,lb) =                                    & 
-                facevarx(:,1+nguard_npgs,:,:,lb)
-          gt_facevarx(:,2,:,:,lb) =                                    & 
-               facevarx(:,nxb+1+nguard_npgs,:,:,lb)
+          gt_facevarx(1,:,:,:,lb) =                                    & 
+                facevarx(1+nguard_npgs,:,:,:,lb)
+          gt_facevarx(2,:,:,:,lb) =                                    & 
+               facevarx(nxb+1+nguard_npgs,:,:,:,lb)
           If (ndim >= 2) Then
-          gt_facevary(:,:,1,:,lb) =                                    & 
-                  facevary(:,:,1+nguard_npgs*k2d,:,lb)
-          gt_facevary(:,:,1+k2d,:,lb) =                                & 
-                              facevary(:,:,nyb+(1+nguard_npgs)*k2d,:,lb)
+          gt_facevary(:,1,:,:,lb) =                                    & 
+                  facevary(:,1+nguard_npgs*k2d,:,:,lb)
+          gt_facevary(:,1+k2d,:,:,lb) =                                & 
+                              facevary(:,nyb+(1+nguard_npgs)*k2d,:,:,lb)
           End If
           If (ndim == 3) Then
-          gt_facevarz(:,:,:,1,lb) =                                    & 
-                  facevarz(:,:,:,1+nguard_npgs*k3d,lb)
-          gt_facevarz(:,:,:,1+k3d,lb) =                                & 
-                              facevarz(:,:,:,nzb+(1+nguard_npgs)*k3d,lb)
+          gt_facevarz(:,:,1,:,lb) =                                    & 
+                  facevarz(:,:,1+nguard_npgs*k3d,:,lb)
+          gt_facevarz(:,:,1+k3d,:,lb) =                                & 
+                              facevarz(:,:,nzb+(1+nguard_npgs)*k3d,:,lb)
           End If
         End Do
       End If  ! End If (nfacevar > 0)
@@ -371,20 +371,20 @@
       If (lfc) Then 
           If ( prol_fc_dbz) Then
 !------------prolong divergenceless b on fc
-             recvfx(1:nfacevar, il_bnd1:iu_bnd1+1,                     & 
-                  jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1)                     & 
-               = facevarx1(1:nfacevar, il_bnd1:iu_bnd1+1,              & 
-                  jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1, 1)
+             recvfx( il_bnd1:iu_bnd1+1,                     & 
+                  jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1,1:nfacevar)                     & 
+               = facevarx1( il_bnd1:iu_bnd1+1,              & 
+                  jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1,1:nfacevar, 1)
 
-             recvfy(1:nfacevar, il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,   & 
-                  kl_bnd1:ku_bnd1)                                     & 
-               = facevary1(1:nfacevar, il_bnd1:iu_bnd1,                & 
-                  jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1, 1)
+             recvfy( il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,   & 
+                  kl_bnd1:ku_bnd1,1:nfacevar)                                     & 
+               = facevary1( il_bnd1:iu_bnd1,                & 
+                  jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1,1:nfacevar, 1)
 
-             recvfz(1:nfacevar, il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,       & 
-                  kl_bnd1:ku_bnd1+k3d)                                 & 
-               = facevarz1(1:nfacevar, il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,& 
-                  kl_bnd1:ku_bnd1+k3d, 1)
+             recvfz( il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,       & 
+                  kl_bnd1:ku_bnd1+k3d,1:nfacevar)                                 & 
+               = facevarz1( il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,& 
+                  kl_bnd1:ku_bnd1+k3d,1:nfacevar, 1)
              Do iprol = 1, prol_fc_dbz_n
                 iv1 = prol_fc_dbz_ivar(1,iprol)
                 iv2 = prol_fc_dbz_ivar(2,iprol)
@@ -401,20 +401,20 @@
          Else
 !--------prolong using other methods
 !--------x-face
-         recvf(1:nfacevar, il_bnd1:iu_bnd1+1,                          & 
-                     jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1)                  & 
-            = facevarx1(1:nfacevar, il_bnd1:iu_bnd1+1,                 & 
-                     jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1, 1)
+         recvf( il_bnd1:iu_bnd1+1,                          & 
+                     jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1,1:nfacevar)                  & 
+            = facevarx1( il_bnd1:iu_bnd1+1,                 & 
+                     jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1,1:nfacevar, 1)
          Call amr_1blk_fc_prol_gen_fun(recvf, & 
                     ia,ib+1,ja,jb,ka,kb,idest,ioff,joff,koff,          & 
                     mype,lb,parent_pe,parent_blk,1)
 
          If (ndim > 1) Then
 !--------y-face
-         recvf(1:nfacevar, il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,        & 
-                    kl_bnd1:ku_bnd1)                                   & 
-            = facevary1(1:nfacevar, il_bnd1:iu_bnd1,                   & 
-                   jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1, 1)
+         recvf( il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d,        & 
+                    kl_bnd1:ku_bnd1,1:nfacevar)                                   & 
+            = facevary1( il_bnd1:iu_bnd1,                   & 
+                   jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1,1:nfacevar, 1)
          Call amr_1blk_fc_prol_gen_fun(recvf,                          & 
                     ia,ib,ja,jb+1,ka,kb,idest,ioff,joff,koff,          & 
                     mype,lb,parent_pe,parent_blk,2)
@@ -422,10 +422,10 @@
 
          If (ndim == 3) Then
 !--------z-face
-         recvf(1:nfacevar, il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,            & 
-                    kl_bnd1:ku_bnd1+k3d)                               & 
-            = facevarz1(1:nfacevar, il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,   & 
-                    kl_bnd1:ku_bnd1+k3d, 1)
+         recvf( il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,            & 
+                    kl_bnd1:ku_bnd1+k3d,1:nfacevar)                               & 
+            = facevarz1( il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,   & 
+                    kl_bnd1:ku_bnd1+k3d,1:nfacevar, 1)
          Call amr_1blk_fc_prol_gen_fun(recvf,                          & 
                     ia,ib,ja,jb,ka,kb+1,idest,ioff,joff,koff,          & 
                     mype,lb,parent_pe,parent_blk,3)
@@ -451,20 +451,20 @@
 !------edge-centered data
        If (lec) Then
 !--------x-edge
-         recve(1:nvaredge, il_bnd1:iu_bnd1,                            & 
-                     jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1+k3d)          & 
-            = unk_e_x1(1:nvaredge, il_bnd1:iu_bnd1,                    & 
-                     jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1+k3d, 1)
+         recve( il_bnd1:iu_bnd1,                            & 
+                     jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1+k3d,1:nvaredge)          & 
+            = unk_e_x1( il_bnd1:iu_bnd1,                    & 
+                     jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1+k3d,1:nvaredge, 1)
         
          Call amr_1blk_ec_prol_gen_fun(recve,                          & 
                                        ia,ib,ja,jb+k2d,ka,kb+k3d,      & 
                                        idest,ioff,joff,koff,mype,1)
 
 !--------y-edge
-         recve(1:nvaredge, il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,          & 
-                    kl_bnd1:ku_bnd1+k3d)                               & 
-            = unk_e_y1(1:nvaredge, il_bnd1:iu_bnd1+1,                  & 
-                   jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1+k3d, 1)
+         recve( il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1,          & 
+                    kl_bnd1:ku_bnd1+k3d,1:nvaredge)                               & 
+            = unk_e_y1( il_bnd1:iu_bnd1+1,                  & 
+                   jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1+k3d,1:nvaredge, 1)
 
          Call amr_1blk_ec_prol_gen_fun(recve,                          & 
                                        ia,ib+1,ja,jb,ka,kb+k3d,        & 
@@ -472,10 +472,10 @@
 
          If (ndim == 3) Then
 !--------z-edge
-         recve(1:nvaredge, il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,      & 
-                    kl_bnd1:ku_bnd1)                                   & 
-            = unk_e_z1(1:nvaredge, il_bnd1:iu_bnd1+1,                  & 
-                   jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1, 1)
+         recve( il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,      & 
+                    kl_bnd1:ku_bnd1,1:nvaredge)                                   & 
+            = unk_e_z1( il_bnd1:iu_bnd1+1,                  & 
+                   jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1,1:nvaredge, 1)
          Call amr_1blk_ec_prol_gen_fun(recve,                          & 
                                        ia,ib+1,ja,jb+k2d,ka,kb,        & 
                                        idest,ioff,joff,koff,mype,3)

@@ -111,62 +111,62 @@
 !-------copy the block faces in to block boundary edge-centered datastructure.
         If (lfullblock) Then
 
-          bedge_facex_y(1:nedges,                                      & 
-                        1,jl_bnd:ju_bnd,kl_bnd:ku_bnd+k3d,lb) =        & 
-                unk_e_y(1:nedges,                                      & 
-                        1+nguard0,jl_bnd:ju_bnd,kl_bnd:ku_bnd+k3d,lb)
-          bedge_facex_y(1:nedges,                                      & 
-                        2,jl_bnd:ju_bnd,kl_bnd:ku_bnd+k3d,lb) =        & 
-                unk_e_y(1:nedges,nxb+1+nguard0,                        & 
-                        jl_bnd:ju_bnd,kl_bnd:ku_bnd+k3d,lb)
+          bedge_facex_y(                                      & 
+                        1,jl_bnd:ju_bnd,kl_bnd:ku_bnd+k3d,1:nedges,lb) =        & 
+                unk_e_y(                                      & 
+                        1+nguard0,jl_bnd:ju_bnd,kl_bnd:ku_bnd+k3d,1:nedges,lb)
+          bedge_facex_y(                                      & 
+                        2,jl_bnd:ju_bnd,kl_bnd:ku_bnd+k3d,1:nedges,lb) =        & 
+                unk_e_y(nxb+1+nguard0,                        & 
+                        jl_bnd:ju_bnd,kl_bnd:ku_bnd+k3d,1:nedges,lb)
           If (ndim == 3.Or.l2p5d == 1) Then
-          bedge_facex_z(1:nedges,1,jl_bnd:ju_bnd+k2d,                  & 
-                        kl_bnd:ku_bnd,lb) =                            & 
-                unk_e_z(1:nedges,1+nguard0,jl_bnd:ju_bnd+k2d,          & 
-                        kl_bnd:ku_bnd,lb)
-          bedge_facex_z(1:nedges,2,jl_bnd:ju_bnd+k2d,                  & 
-                        kl_bnd:ku_bnd,lb) =                            & 
-                unk_e_z(1:nedges,nxb+1+nguard0,                        & 
-                        jl_bnd:ju_bnd+k2d,kl_bnd:ku_bnd,lb)
+          bedge_facex_z(1,jl_bnd:ju_bnd+k2d,                  & 
+                        kl_bnd:ku_bnd,1:nedges,lb) =                            & 
+                unk_e_z(1+nguard0,jl_bnd:ju_bnd+k2d,          & 
+                        kl_bnd:ku_bnd,1:nedges,lb)
+          bedge_facex_z(2,jl_bnd:ju_bnd+k2d,                  & 
+                        kl_bnd:ku_bnd,1:nedges,lb) =                            & 
+                unk_e_z(nxb+1+nguard0,                        & 
+                        jl_bnd:ju_bnd+k2d,kl_bnd:ku_bnd,1:nedges,lb)
           End If
-          bedge_facey_x(1:nedges,il_bnd:iu_bnd,1,                      & 
-                        kl_bnd:ku_bnd+k3d,lb) =                        & 
-                unk_e_x(1:nedges,il_bnd:iu_bnd,1+nguard0*k2d,          & 
-                        kl_bnd:ku_bnd+k3d,lb)
-          bedge_facey_x(1:nedges,il_bnd:iu_bnd,1+k2d,                  & 
-                        kl_bnd:ku_bnd+k3d,lb) =                        & 
-                unk_e_x(1:nedges,il_bnd:iu_bnd,                        & 
+          bedge_facey_x(il_bnd:iu_bnd,1,                      & 
+                        kl_bnd:ku_bnd+k3d,1:nedges,lb) =                        & 
+                unk_e_x(il_bnd:iu_bnd,1+nguard0*k2d,          & 
+                        kl_bnd:ku_bnd+k3d,1:nedges,lb)
+          bedge_facey_x(il_bnd:iu_bnd,1+k2d,                  & 
+                        kl_bnd:ku_bnd+k3d,1:nedges,lb) =                        & 
+                unk_e_x(il_bnd:iu_bnd,                        & 
                         nyb+k2d+nguard0*k2d,                           & 
-                        kl_bnd:ku_bnd+k3d,lb)
+                        kl_bnd:ku_bnd+k3d,1:nedges,lb)
           If (ndim == 3.Or.l2p5d == 1) Then
-          bedge_facey_z(1:nedges,il_bnd:iu_bnd+1,1,                    & 
-                        kl_bnd:ku_bnd,lb) =                            & 
-                unk_e_z(1:nedges,il_bnd:iu_bnd+1,1+nguard0*k2d,        & 
-                        kl_bnd:ku_bnd,lb)
-          bedge_facey_z(1:nedges,il_bnd:iu_bnd+1,1+k2d,                & 
-                        kl_bnd:ku_bnd,lb) =                            & 
-                unk_e_z(1:nedges,il_bnd:iu_bnd+1,                      & 
+          bedge_facey_z(il_bnd:iu_bnd+1,1,                    & 
+                        kl_bnd:ku_bnd,1:nedges,lb) =                            & 
+                unk_e_z(il_bnd:iu_bnd+1,1+nguard0*k2d,        & 
+                        kl_bnd:ku_bnd,1:nedges,lb)
+          bedge_facey_z(il_bnd:iu_bnd+1,1+k2d,                & 
+                        kl_bnd:ku_bnd,1:nedges,lb) =                            & 
+                unk_e_z(il_bnd:iu_bnd+1,                      & 
                         nyb+k2d+nguard0*k2d,                           & 
-                        kl_bnd:ku_bnd,lb)
+                        kl_bnd:ku_bnd,1:nedges,lb)
 
-          bedge_facez_x(1:nedges,il_bnd:iu_bnd,                        & 
-                        jl_bnd:ju_bnd+k2d,1,lb) =                      & 
-                unk_e_x(1:nedges,il_bnd:iu_bnd,                        & 
-                        jl_bnd:ju_bnd+k2d,1+nguard0*k3d,lb)
-          bedge_facez_y(1:nedges,il_bnd:iu_bnd+1,                      & 
-                        jl_bnd:ju_bnd,1,lb) =                          & 
-                unk_e_y(1:nedges,il_bnd:iu_bnd+1,                      & 
-                        jl_bnd:ju_bnd,1+nguard0*k3d,lb)
+          bedge_facez_x(il_bnd:iu_bnd,                        & 
+                        jl_bnd:ju_bnd+k2d,1,1:nedges,lb) =                      & 
+                unk_e_x(il_bnd:iu_bnd,                        & 
+                        jl_bnd:ju_bnd+k2d,1+nguard0*k3d,1:nedges,lb)
+          bedge_facez_y(il_bnd:iu_bnd+1,                      & 
+                        jl_bnd:ju_bnd,1,1:nedges,lb) =                          & 
+                unk_e_y(il_bnd:iu_bnd+1,                      & 
+                        jl_bnd:ju_bnd,1+nguard0*k3d,1:nedges,lb)
 
           If (ndim == 3) Then
-          bedge_facez_x(1:nedges,il_bnd:iu_bnd,                        & 
-                        jl_bnd:ju_bnd+k2d,1+k3d,lb) =                  & 
-                unk_e_x(1:nedges,il_bnd:iu_bnd,                        & 
-                        jl_bnd:ju_bnd+k2d,nzb+(1+nguard0)*k3d,lb)
-          bedge_facez_y(1:nedges,il_bnd:iu_bnd+1,                      & 
-                        jl_bnd:ju_bnd,1+k3d,lb) =                      & 
-                unk_e_y(1:nedges,il_bnd:iu_bnd+1,                      & 
-                        jl_bnd:ju_bnd,nzb+(1+nguard0)*k3d,lb)
+          bedge_facez_x(il_bnd:iu_bnd,                        & 
+                        jl_bnd:ju_bnd+k2d,1+k3d,1:nedges,lb) =                  & 
+                unk_e_x(il_bnd:iu_bnd,                        & 
+                        jl_bnd:ju_bnd+k2d,nzb+(1+nguard0)*k3d,1:nedges,lb)
+          bedge_facez_y(il_bnd:iu_bnd+1,                      & 
+                        jl_bnd:ju_bnd,1+k3d,1:nedges,lb) =                      & 
+                unk_e_y(il_bnd:iu_bnd+1,                      & 
+                        jl_bnd:ju_bnd,nzb+(1+nguard0)*k3d,1:nedges,lb)
           End If
           End If  ! End If (ndim == 3.Or.l2p5d == 1)
 
@@ -206,61 +206,61 @@
 
         If (nodetype(lb) == 1 .Or. advance_all_levels) Then
 
-          unk_e_y(1:nedges,1+nguard0,jl_bnd:ju_bnd,                    & 
-                  kl_bnd:ku_bnd+k3d,lb)     =                          & 
-            bedge_facex_y(1:nedges,1,jl_bnd:ju_bnd,                    & 
-                          kl_bnd:ku_bnd+k3d,lb)
-          unk_e_y(1:nedges,nxb+1+nguard0,jl_bnd:ju_bnd,                & 
-                  kl_bnd:ku_bnd+k3d,lb) =                              & 
-            bedge_facex_y(1:nedges,2,jl_bnd:ju_bnd,                    & 
-                          kl_bnd:ku_bnd+k3d,lb)
+          unk_e_y(1+nguard0,jl_bnd:ju_bnd,                    & 
+                  kl_bnd:ku_bnd+k3d,1:nedges,lb)     =                          & 
+            bedge_facex_y(1,jl_bnd:ju_bnd,                    & 
+                          kl_bnd:ku_bnd+k3d,1:nedges,lb)
+          unk_e_y(nxb+1+nguard0,jl_bnd:ju_bnd,                & 
+                  kl_bnd:ku_bnd+k3d,1:nedges,lb) =                              & 
+            bedge_facex_y(2,jl_bnd:ju_bnd,                    & 
+                          kl_bnd:ku_bnd+k3d,1:nedges,lb)
           If (ndim == 3.Or.l2p5d == 1) Then
-          unk_e_z(1:nedges,1+nguard0,jl_bnd:ju_bnd+k2d,                & 
-                          kl_bnd:ku_bnd,lb)     =                      & 
-            bedge_facex_z(1:nedges,1,jl_bnd:ju_bnd+k2d,                & 
-                          kl_bnd:ku_bnd,lb)
-          unk_e_z(1:nedges,nxb+1+nguard0,jl_bnd:ju_bnd+k2d,            & 
-                          kl_bnd:ku_bnd,lb) =                          & 
-            bedge_facex_z(1:nedges,2,jl_bnd:ju_bnd+k2d,                & 
-                          kl_bnd:ku_bnd,lb)
+          unk_e_z(1+nguard0,jl_bnd:ju_bnd+k2d,                & 
+                          kl_bnd:ku_bnd,1:nedges,lb)     =                      & 
+            bedge_facex_z(1,jl_bnd:ju_bnd+k2d,                & 
+                          kl_bnd:ku_bnd,1:nedges,lb)
+          unk_e_z(nxb+1+nguard0,jl_bnd:ju_bnd+k2d,            & 
+                          kl_bnd:ku_bnd,1:nedges,lb) =                          & 
+            bedge_facex_z(2,jl_bnd:ju_bnd+k2d,                & 
+                          kl_bnd:ku_bnd,1:nedges,lb)
           End If
-          unk_e_x(1:nedges,il_bnd:iu_bnd,1+nguard0*k2d,                & 
-                           kl_bnd:ku_bnd+k3d,lb)     =                 & 
-            bedge_facey_x(1:nedges,il_bnd:iu_bnd,1,                    & 
-                          kl_bnd:ku_bnd+k3d,lb)
-          unk_e_x(1:nedges,il_bnd:iu_bnd,ju_bnd+k2d,                   & 
-                           kl_bnd:ku_bnd+k3d,lb) =                     & 
-            bedge_facey_x(1:nedges,il_bnd:iu_bnd,2,                    & 
-                          kl_bnd:ku_bnd+k3d,lb)
+          unk_e_x(il_bnd:iu_bnd,1+nguard0*k2d,                & 
+                           kl_bnd:ku_bnd+k3d,1:nedges,lb)     =                 & 
+            bedge_facey_x(il_bnd:iu_bnd,1,                    & 
+                          kl_bnd:ku_bnd+k3d,1:nedges,lb)
+          unk_e_x(il_bnd:iu_bnd,ju_bnd+k2d,                   & 
+                           kl_bnd:ku_bnd+k3d,1:nedges,lb) =                     & 
+            bedge_facey_x(il_bnd:iu_bnd,2,                    & 
+                          kl_bnd:ku_bnd+k3d,1:nedges,lb)
           If (ndim == 3.Or.l2p5d == 1) Then
-          unk_e_z(1:nedges,il_bnd:iu_bnd+1,1+nguard0*k2d,              & 
-                            kl_bnd:ku_bnd,lb)     =                    & 
-            bedge_facey_z(1:nedges,il_bnd:iu_bnd+1,1,                  & 
-                          kl_bnd:ku_bnd,lb)
-          unk_e_z(1:nedges,il_bnd:iu_bnd+1,                            & 
+          unk_e_z(il_bnd:iu_bnd+1,1+nguard0*k2d,              & 
+                            kl_bnd:ku_bnd,1:nedges,lb)     =                    & 
+            bedge_facey_z(il_bnd:iu_bnd+1,1,                  & 
+                          kl_bnd:ku_bnd,1:nedges,lb)
+          unk_e_z(il_bnd:iu_bnd+1,                            & 
                           nyb+k2d+nguard0*k2d,                         & 
-                          kl_bnd:ku_bnd,lb) =                          & 
-            bedge_facey_z(1:nedges,il_bnd:iu_bnd+1,1+k2d,              & 
-                          kl_bnd:ku_bnd,lb)
+                          kl_bnd:ku_bnd,1:nedges,lb) =                          & 
+            bedge_facey_z(il_bnd:iu_bnd+1,1+k2d,              & 
+                          kl_bnd:ku_bnd,1:nedges,lb)
 
-          unk_e_x(1:nedges,il_bnd:iu_bnd,jl_bnd:ju_bnd+k2d,            & 
-                  1+nguard0*k3d,lb)     =                              & 
-            bedge_facez_x(1:nedges,il_bnd:iu_bnd,                      & 
-                          jl_bnd:ju_bnd+k2d,1,lb)
-          unk_e_y(1:nedges,il_bnd:iu_bnd+1,jl_bnd:ju_bnd,              & 
-                  1+nguard0*k3d,lb)     =                              & 
-            bedge_facez_y(1:nedges,il_bnd:iu_bnd+1,                    & 
-                          jl_bnd:ju_bnd,1,lb)
+          unk_e_x(il_bnd:iu_bnd,jl_bnd:ju_bnd+k2d,            & 
+                  1+nguard0*k3d,1:nedges,lb)     =                              & 
+            bedge_facez_x(il_bnd:iu_bnd,                      & 
+                          jl_bnd:ju_bnd+k2d,1,1:nedges,lb)
+          unk_e_y(il_bnd:iu_bnd+1,jl_bnd:ju_bnd,              & 
+                  1+nguard0*k3d,1:nedges,lb)     =                              & 
+            bedge_facez_y(il_bnd:iu_bnd+1,                    & 
+                          jl_bnd:ju_bnd,1,1:nedges,lb)
 
           If (ndim == 3) Then
-          unk_e_x(1:nedges,il_bnd:iu_bnd,jl_bnd:ju_bnd+k2d,            & 
-                  nzb+(1+nguard0)*k3d,lb) =                            & 
-            bedge_facez_x(1:nedges,il_bnd:iu_bnd,                      & 
-                          jl_bnd:ju_bnd+k2d,1+k3d,lb)
-          unk_e_y(1:nedges,il_bnd:iu_bnd+1,jl_bnd:ju_bnd,              & 
-                  nzb+(1+nguard0)*k3d,lb) =                            & 
-            bedge_facez_y(1:nedges,il_bnd:iu_bnd+1,                    & 
-                          jl_bnd:ju_bnd,1+k3d,lb)
+          unk_e_x(il_bnd:iu_bnd,jl_bnd:ju_bnd+k2d,            & 
+                  nzb+(1+nguard0)*k3d,1:nedges,lb) =                            & 
+            bedge_facez_x(il_bnd:iu_bnd,                      & 
+                          jl_bnd:ju_bnd+k2d,1+k3d,1:nedges,lb)
+          unk_e_y(il_bnd:iu_bnd+1,jl_bnd:ju_bnd,              & 
+                  nzb+(1+nguard0)*k3d,1:nedges,lb) =                            & 
+            bedge_facez_y(il_bnd:iu_bnd+1,                    & 
+                          jl_bnd:ju_bnd,1+k3d,1:nedges,lb)
           End If
           End If  ! End If (ndim == 3.Or.l2p5d == 1)
 

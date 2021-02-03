@@ -109,12 +109,12 @@
       Integer :: idest,i_dest,j_dest,k_dest,i_source,j_source,k_source
       Integer :: nguard0
       Integer :: nd, iblk
-      Real :: recvx(nbndvar,il_bnd:iu_bnd+1,jl_bnd:ju_bnd,             & 
-                    kl_bnd:ku_bnd)
-      Real :: recvy(nbndvar,il_bnd:iu_bnd,jl_bnd:ju_bnd+k2d,           & 
-                    kl_bnd:ku_bnd)
-      Real :: recvz(nbndvar,il_bnd:iu_bnd,jl_bnd:ju_bnd,               & 
-                    kl_bnd:ku_bnd+k3d)
+      Real :: recvx(il_bnd:iu_bnd+1,jl_bnd:ju_bnd,             & 
+                    kl_bnd:ku_bnd,nbndvar)
+      Real :: recvy(il_bnd:iu_bnd,jl_bnd:ju_bnd+k2d,           & 
+                    kl_bnd:ku_bnd,nbndvar)
+      Real :: recvz(il_bnd:iu_bnd,jl_bnd:ju_bnd,               & 
+                    kl_bnd:ku_bnd+k3d,nbndvar)
       Real :: tempx(jl_bnd:ju_bnd,kl_bnd:ku_bnd)
       Real :: tempy(il_bnd:iu_bnd,kl_bnd:ku_bnd)
       Real :: tempz(il_bnd:iu_bnd,jl_bnd:ju_bnd)
@@ -204,13 +204,13 @@
             If (jf == 1) Then
                i_dest   = nguard0 + 1 + iface_off
                i_source = nxb+nguard0 + 1 -gc_off_x + iface_off
-               tempx(:,:) = facevarx(idvx,i_dest,:,:,idest)
+               tempx(:,:) = facevarx(i_dest,:,:,idvx,idest)
 
                Call mpi_amr_get_remote_block_fvar(mype,                & 
                            remote_pe,remote_block,1,                   & 
                            recvx,recvy,recvz,idest)
-               facevarx(idvx,i_dest,:,:,idest) =                       & 
-                                   recvx(idvx,i_source,:,:)
+               facevarx(i_dest,:,:,idvx,idest) =                       & 
+                                   recvx(i_source,:,:,idvx)
 
                Do k=nguard0*k3d+1,nguard0*k3d + nzb-k3d,2
                Do j=nguard0+1,nguard0 + nyb-1,2
@@ -227,13 +227,13 @@
                 area22 = dy*dz
                 End If
 
-                b11 = (facevarx(idvx,nguard0+1,j,k,idest)              & 
+                b11 = (facevarx(nguard0+1,j,k,idvx,idest)              & 
                              -tempx(j,k))*area11
-                b21 = (facevarx(idvx,nguard0+1,j,k+k3d,idest)          & 
+                b21 = (facevarx(nguard0+1,j,k+k3d,idvx,idest)          & 
                              - tempx(j,k+k3d))*area21
-                b12 = (facevarx(idvx,nguard0+1,j+1,k,idest)            & 
+                b12 = (facevarx(nguard0+1,j+1,k,idvx,idest)            & 
                              - tempx(j+1,k))*area12
-                b22 = (facevarx(idvx,nguard0+1,j+1,k+k3d,idest)        & 
+                b22 = (facevarx(nguard0+1,j+1,k+k3d,idvx,idest)        & 
                              - tempx(j+1,k+k3d))*area22
                 bsum = b11+b12+b21+b22
 
@@ -251,17 +251,17 @@
                 areaz2= dx*dy
                 End If
 
-                 facevary(idvy,nguard0+1,j+1,k,idest) =                & 
-                   facevary(idvy,nguard0+1,j+1,k,idest)                & 
+                 facevary(nguard0+1,j+1,k,idvy,idest) =                & 
+                   facevary(nguard0+1,j+1,k,idvy,idest)                & 
                    - e1*efact/areay1
-                 facevary(idvy,nguard0+1,j+1,k+k3d,idest) =            & 
-                   facevary(idvy,nguard0+1,j+1,k+k3d,idest)            & 
+                 facevary(nguard0+1,j+1,k+k3d,idvy,idest) =            & 
+                   facevary(nguard0+1,j+1,k+k3d,idvy,idest)            & 
                    - e2*efact/areay2
-                 facevarz(idvz,nguard0+1,j,k+k3d,idest) =              & 
-                   facevarz(idvz,nguard0+1,j,k+k3d,idest)              & 
+                 facevarz(nguard0+1,j,k+k3d,idvz,idest) =              & 
+                   facevarz(nguard0+1,j,k+k3d,idvz,idest)              & 
                    + ea/areaz1
-                 facevarz(idvz,nguard0+1,j+1,k+k3d,idest) =            & 
-                   facevarz(idvz,nguard0+1,j+1,k+k3d,idest)            & 
+                 facevarz(nguard0+1,j+1,k+k3d,idvz,idest) =            & 
+                   facevarz(nguard0+1,j+1,k+k3d,idvz,idest)            & 
                    + eb/areaz2
 
                End Do  ! End Do j=nguard0+1,nguard0 + nyb-1,2
@@ -271,12 +271,12 @@
 
                i_dest   = nxb+1+nguard0 + iface_off
                i_source = 1+nguard0+gc_off_x + iface_off
-               tempx(:,:) = facevarx(idvx,i_dest,:,:,idest)
+               tempx(:,:) = facevarx(i_dest,:,:,idvx,idest)
                Call mpi_amr_get_remote_block_fvar(mype,                & 
                            remote_pe,remote_block,1,                   & 
                            recvx,recvy,recvz,idest)
-               facevarx(idvx,i_dest,:,:,idest) =                       & 
-                                   recvx(idvx,i_source,:,:)
+               facevarx(i_dest,:,:,idvx,idest) =                       & 
+                                   recvx(i_source,:,:,idvx)
  
                Do k=nguard0*k3d+1,nguard0*k3d + nzb-k3d,2
                Do j=nguard0+1,nguard0 + nyb-1,2
@@ -294,13 +294,13 @@
                 area22 = dy*dz
                 End If
 
-                b11 = (facevarx(idvx,nguard0+nxb+1,j,k,idest)          & 
+                b11 = (facevarx(nguard0+nxb+1,j,k,idvx,idest)          & 
                                - tempx(j,k))*area11
-                b21 = (facevarx(idvx,nguard0+nxb+1,j,k+k3d,idest)      & 
+                b21 = (facevarx(nguard0+nxb+1,j,k+k3d,idvx,idest)      & 
                                - tempx(j,k+k3d))*area21
-                b12 = (facevarx(idvx,nguard0+nxb+1,j+1,k,idest)        & 
+                b12 = (facevarx(nguard0+nxb+1,j+1,k,idvx,idest)        & 
                                - tempx(j+1,k))*area12
-                b22 = (facevarx(idvx,nguard0+nxb+1,j+1,k+k3d,idest)    & 
+                b22 = (facevarx(nguard0+nxb+1,j+1,k+k3d,idvx,idest)    & 
                                - tempx(j+1,k+k3d))*area22
                 bsum = b11+b12+b21+b22
                 Call compute_evalues(b11,b12,b21,b22,ea,eb,e1,e2,isw)
@@ -317,17 +317,17 @@
                 areaz2= dx*dy
                 End If
 
-                facevary(idvy,nguard0+nxb,j+1,k,idest) =               & 
-                   facevary(idvy,nguard0+nxb,j+1,k,idest)              & 
+                facevary(nguard0+nxb,j+1,k,idvy,idest) =               & 
+                   facevary(nguard0+nxb,j+1,k,idvy,idest)              & 
                    + e1*efact/areay1
-                facevary(idvy,nguard0+nxb,j+1,k+k3d,idest) =           & 
-                   facevary(idvy,nguard0+nxb,j+1,k+k3d,idest)          & 
+                facevary(nguard0+nxb,j+1,k+k3d,idvy,idest) =           & 
+                   facevary(nguard0+nxb,j+1,k+k3d,idvy,idest)          & 
                    + e2*efact/areay2
-                facevarz(idvz,nguard0+nxb,j,k+k3d,idest) =             & 
-                   facevarz(idvz,nguard0+nxb,j,k+k3d,idest)            & 
+                facevarz(nguard0+nxb,j,k+k3d,idvz,idest) =             & 
+                   facevarz(nguard0+nxb,j,k+k3d,idvz,idest)            & 
                    - ea/areaz1
-                facevarz(idvz,nguard0+nxb,j+1,k+k3d,idest) =           & 
-                   facevarz(idvz,nguard0+nxb,j+1,k+k3d,idest)          & 
+                facevarz(nguard0+nxb,j+1,k+k3d,idvz,idest) =           & 
+                   facevarz(nguard0+nxb,j+1,k+k3d,idvz,idest)          & 
                    - eb/areaz2
                End Do  ! End Do j=nguard0+1,nguard0 + nyb-1,2
                End Do  ! End Do k=nguard0*k3d+1,nguard0*k3d + nzb-k3d,2
@@ -336,12 +336,12 @@
 
                j_dest   = nguard0*k2d + 1 + iface_off*k2d
                j_source = nyb+nguard0 + 1 -gc_off_y + iface_off
-               tempy(:,:) = facevary(idvy,:,j_dest,:,idest)
+               tempy(:,:) = facevary(:,j_dest,:,idvy,idest)
                Call mpi_amr_get_remote_block_fvar(mype,                & 
                            remote_pe,remote_block,2,                   & 
                            recvx,recvy,recvz,idest)
-               facevary(idvy,:,j_dest,:,idest) =                       & 
-                                      recvy(idvy,:,j_source,:)
+               facevary(:,j_dest,:,idvy,idest) =                       & 
+                                      recvy(:,j_source,:,idvy)
 
                Do k=nguard0*k3d+1,nguard0*k3d + nzb-k3d,2
                Do i=nguard0+1,nguard0 + nxb-1,2
@@ -358,13 +358,13 @@
                 area22 = dx*dz
                 End If
 
-                b11 = (facevary(idvy,i,nguard0*k2d+1,k,idest)          & 
+                b11 = (facevary(i,nguard0*k2d+1,k,idvy,idest)          & 
                        - tempy(i,k) )*area11
-                b21 = (facevary(idvy,i,nguard0*k2d+1,k+k3d,idest)      & 
+                b21 = (facevary(i,nguard0*k2d+1,k+k3d,idvy,idest)      & 
                        - tempy(i,k+k3d) )*area21
-                b12 = (facevary(idvy,i+1,nguard0*k2d+1,k,idest)        & 
+                b12 = (facevary(i+1,nguard0*k2d+1,k,idvy,idest)        & 
                        - tempy(i+1,k) )*area12
-                b22 = (facevary(idvy,i+1,nguard0*k2d+1,k+k3d,idest)    & 
+                b22 = (facevary(i+1,nguard0*k2d+1,k+k3d,idvy,idest)    & 
                        - tempy(i+1,k+k3d) )*area22
                 bsum = b11+b12+b21+b22
                 Call compute_evalues(b11,b12,b21,b22,ea,eb,e1,e2,isw)
@@ -381,17 +381,17 @@
                 areaz2= dx*dy
                 End If
 
-                facevarx(idvx,i+1,nguard0*k2d+1,k,idest) =             & 
-                   facevarx(idvx,i+1,nguard0*k2d+1,k,idest)            & 
+                facevarx(i+1,nguard0*k2d+1,k,idvx,idest) =             & 
+                   facevarx(i+1,nguard0*k2d+1,k,idvx,idest)            & 
                    - e1*efact/areax1
-                facevarx(idvx,i+1,nguard0*k2d+1,k+k3d,idest) =         & 
-                   facevarx(idvx,i+1,nguard0*k2d+1,k+k3d,idest)        & 
+                facevarx(i+1,nguard0*k2d+1,k+k3d,idvx,idest) =         & 
+                   facevarx(i+1,nguard0*k2d+1,k+k3d,idvx,idest)        & 
                    - e2*efact/areax2
-                facevarz(idvz,i,nguard0*k2d+1,k+k3d,idest) =           & 
-                   facevarz(idvz,i,nguard0*k2d+1,k+k3d,idest)          & 
+                facevarz(i,nguard0*k2d+1,k+k3d,idvz,idest) =           & 
+                   facevarz(i,nguard0*k2d+1,k+k3d,idvz,idest)          & 
                    + ea/areaz1
-                facevarz(idvz,i+1,nguard0*k2d+1,k+k3d,idest) =         & 
-                   facevarz(idvz,i+1,nguard0*k2d+1,k+k3d,idest)        & 
+                facevarz(i+1,nguard0*k2d+1,k+k3d,idvz,idest) =         & 
+                   facevarz(i+1,nguard0*k2d+1,k+k3d,idvz,idest)        & 
                    + eb/areaz2
                End Do  ! End Do i=nguard0+1,nguard0 + nxb-1,2
                End Do  ! End Do k=nguard0*k3d+1,nguard0*k3d + nzb-k3d,2
@@ -400,12 +400,12 @@
 
                j_dest   = nyb*k2d + 1 + nguard0*k2d + iface_off*k2d
                j_source = 1+nguard0+gc_off_y + iface_off
-               tempy(:,:) = facevary(idvy,:,j_dest,:,idest)
+               tempy(:,:) = facevary(:,j_dest,:,idvy,idest)
                Call mpi_amr_get_remote_block_fvar(mype,                & 
                            remote_pe,remote_block,2,                   & 
                            recvx,recvy,recvz,idest)
-               facevary(idvy,:,j_dest,:,idest) =                       & 
-                                 recvy(idvy,:,j_source,:)
+               facevary(:,j_dest,:,idvy,idest) =                       & 
+                                 recvy(:,j_source,:,idvy)
 
                Do k=nguard0*k3d+1,nguard0*k3d + nzb-k3d,2
                Do i=nguard0+1,nguard0 + nxb-1,2
@@ -422,14 +422,14 @@
                 area22 = dx*dz
                 End If
 
-                b11 = ( facevary(idvy,i,nguard0*k2d+nyb+k2d,k,idest)   & 
+                b11 = ( facevary(i,nguard0*k2d+nyb+k2d,k,idvy,idest)   & 
                             - tempy(i,k) )*area11
-                b21 = (facevary(idvy,i,nguard0*k2d+nyb+k2d,k+k3d,idest)& 
+                b21 = (facevary(i,nguard0*k2d+nyb+k2d,k+k3d,idvy,idest)& 
                             - tempy(i,k+k3d) )*area21
-                b12 = ( facevary(idvy,i+1,nguard0*k2d+nyb+k2d,k,idest) & 
+                b12 = ( facevary(i+1,nguard0*k2d+nyb+k2d,k,idvy,idest) & 
                             - tempy(i+1,k) )*area12
-                b22 = ( facevary(idvy,i+1,nguard0*k2d+nyb+k2d,         & 
-                              k+k3d,idest) & 
+                b22 = ( facevary(i+1,nguard0*k2d+nyb+k2d,         & 
+                              k+k3d,idvy,idest) & 
                             - tempy(i+1,k+k3d) )*area22
                 bsum = b11+b12+b21+b22
                 Call compute_evalues(b11,b12,b21,b22,ea,eb,e1,e2,isw)
@@ -446,17 +446,17 @@
                 areaz2= dx*dy
                 End If
 
-                facevarx(idvx,i+1,nguard0*k2d+nyb,k,idest) =           & 
-                   facevarx(idvx,i+1,nguard0*k2d+nyb,k,idest)          & 
+                facevarx(i+1,nguard0*k2d+nyb,k,idvx,idest) =           & 
+                   facevarx(i+1,nguard0*k2d+nyb,k,idvx,idest)          & 
                         + e1*efact/areax1
-                facevarx(idvx,i+1,nguard0*k2d+nyb,k+k3d,idest) =       & 
-                   facevarx(idvx,i+1,nguard0*k2d+nyb,k+k3d,idest)      & 
+                facevarx(i+1,nguard0*k2d+nyb,k+k3d,idvx,idest) =       & 
+                   facevarx(i+1,nguard0*k2d+nyb,k+k3d,idvx,idest)      & 
                         + e2*efact/areax2
-                facevarz(idvz,i,nguard0*k2d+nyb,k+k3d,idest) =         & 
-                   facevarz(idvz,i,nguard0*k2d+nyb,k+k3d,idest)        & 
+                facevarz(i,nguard0*k2d+nyb,k+k3d,idvz,idest) =         & 
+                   facevarz(i,nguard0*k2d+nyb,k+k3d,idvz,idest)        & 
                         - ea/areaz1
-                facevarz(idvz,i+1,nguard0*k2d+nyb,k+k3d,idest) =       & 
-                   facevarz(idvz,i+1,nguard0*k2d+nyb,k+k3d,idest)      & 
+                facevarz(i+1,nguard0*k2d+nyb,k+k3d,idvz,idest) =       & 
+                   facevarz(i+1,nguard0*k2d+nyb,k+k3d,idvz,idest)      & 
                         - eb/areaz2
                End Do  ! End Do i=nguard0+1,nguard0 + nxb-1,2
                End Do  ! End Do k=nguard0*k3d+1,nguard0*k3d + nzb-k3d,2
@@ -465,12 +465,12 @@
 
                k_dest   = nguard0*k3d + 1 + iface_off*k3d
                k_source = nzb+nguard0 + 1 -gc_off_z + iface_off
-               tempz(:,:) = facevarz(idvz,:,:,k_dest,idest)
+               tempz(:,:) = facevarz(:,:,k_dest,idvz,idest)
                Call mpi_amr_get_remote_block_fvar(mype,                & 
                            remote_pe,remote_block,3,                   & 
                            recvx,recvy,recvz,idest)
-               facevarz(idvz,:,:,k_dest,idest) =                       & 
-                                  recvz(idvz,:,:,k_source)
+               facevarz(:,:,k_dest,idvz,idest) =                       & 
+                                  recvz(:,:,k_source,idvz)
 
                Do j=nguard0+1,nguard0 + nyb-1,2
                Do i=nguard0+1,nguard0 + nxb-1,2
@@ -487,13 +487,13 @@
                 area22 = dx*dy
                 End If
 
-                b11 = (facevarz(idvz,i,j,nguard0*k3d+1,idest)          & 
+                b11 = (facevarz(i,j,nguard0*k3d+1,idvz,idest)          & 
                         - tempz(i,j) )*area11
-                b21 = (facevarz(idvz,i,j+1,nguard0*k3d+1,idest)        & 
+                b21 = (facevarz(i,j+1,nguard0*k3d+1,idvz,idest)        & 
                         - tempz(i,j+1) )*area21
-                b12 = (facevarz(idvz,i+1,j,nguard0*k3d+1,idest)        & 
+                b12 = (facevarz(i+1,j,nguard0*k3d+1,idvz,idest)        & 
                         - tempz(i+1,j) )*area12
-                b22 = (facevarz(idvz,i+1,j+1,nguard0*k3d+1,idest)      & 
+                b22 = (facevarz(i+1,j+1,nguard0*k3d+1,idvz,idest)      & 
                         - tempz(i+1,j+1) )*area22
                 bsum = b11+b12+b21+b22
                 Call compute_evalues(b11,b12,b21,b22,ea,eb,e1,e2,isw)
@@ -510,17 +510,17 @@
                 areay2= dx*dz
                 End If
 
-                facevarx(idvx,i+1,j,nguard0*k3d+1,idest) =             & 
-                   facevarx(idvx,i+1,j,nguard0*k3d+1,idest)            & 
+                facevarx(i+1,j,nguard0*k3d+1,idvx,idest) =             & 
+                   facevarx(i+1,j,nguard0*k3d+1,idvx,idest)            & 
                    - e1/areax1
-                facevarx(idvx,i+1,j+1,nguard0*k3d+1,idest) =           & 
-                   facevarx(idvx,i+1,j+1,nguard0*k3d+1,idest)          & 
+                facevarx(i+1,j+1,nguard0*k3d+1,idvx,idest) =           & 
+                   facevarx(i+1,j+1,nguard0*k3d+1,idvx,idest)          & 
                    - e2/areax2
-                facevary(idvy,i,j+1,nguard0*k3d+1,idest) =             & 
-                   facevary(idvy,i,j+1,nguard0*k3d+1,idest)            & 
+                facevary(i,j+1,nguard0*k3d+1,idvy,idest) =             & 
+                   facevary(i,j+1,nguard0*k3d+1,idvy,idest)            & 
                    + ea/areay1
-                facevary(idvy,i+1,j+1,nguard0*k3d+1,idest) =           & 
-                   facevary(idvy,i+1,j+1,nguard0*k3d+1,idest)          & 
+                facevary(i+1,j+1,nguard0*k3d+1,idvy,idest) =           & 
+                   facevary(i+1,j+1,nguard0*k3d+1,idvy,idest)          & 
                    + eb/areay2
                End Do  ! End Do i=nguard0+1,nguard0 + nxb-1,2
                End Do  ! End Do j=nguard0+1,nguard0 + nyb-1,2
@@ -529,12 +529,12 @@
 
                k_dest   = nzb*k3d+1+nguard0*k3d + iface_off*k3d
                k_source = 1+nguard0+gc_off_z + iface_off
-               tempz(:,:) = facevarz(idvz,:,:,k_dest,idest)
+               tempz(:,:) = facevarz(:,:,k_dest,idvz,idest)
                Call mpi_amr_get_remote_block_fvar(mype,                & 
                            remote_pe,remote_block,3,                   & 
                            recvx,recvy,recvz,idest)
-               facevarz(idvz,:,:,k_dest,idest) =                       & 
-                                   recvz(idvz,:,:,k_source)
+               facevarz(:,:,k_dest,idvz,idest) =                       & 
+                                   recvz(:,:,k_source,idvz)
 
                Do j=nguard0+1,nguard0 + nyb -1,2
                Do i=nguard0+1,nguard0 + nxb -1,2
@@ -551,13 +551,13 @@
                 area22 = dx*dy
                 End If
 
-                b11 = (facevarz(idvz,i,j,nzb+(nguard0+1)*k3d,idest)    & 
+                b11 = (facevarz(i,j,nzb+(nguard0+1)*k3d,idvz,idest)    & 
                              - tempz(i,j) )*area11
-                b21 = (facevarz(idvz,i,j+1,nzb+(nguard0+1)*k3d,idest)  & 
+                b21 = (facevarz(i,j+1,nzb+(nguard0+1)*k3d,idvz,idest)  & 
                              - tempz(i,j+1) )*area21
-                b12 = (facevarz(idvz,i+1,j,nzb+(nguard0+1)*k3d,idest)  & 
+                b12 = (facevarz(i+1,j,nzb+(nguard0+1)*k3d,idvz,idest)  & 
                              - tempz(i+1,j) )*area12
-                b22 = (facevarz(idvz,i+1,j+1,nzb+(nguard0+1)*k3d,idest)& 
+                b22 = (facevarz(i+1,j+1,nzb+(nguard0+1)*k3d,idvz,idest)& 
                              - tempz(i+1,j+1) )*area22
                 bsum = b11+b12+b21+b22
                 Call compute_evalues(b11,b12,b21,b22,ea,eb,e1,e2,isw)
@@ -574,17 +574,17 @@
                 areay2= dx*dz
                 End If
 
-                facevarx(idvx,i+1,j,nguard0*k3d+nzb,idest) =           & 
-                   facevarx(idvx,i+1,j,nguard0*k3d+nzb,idest)          & 
+                facevarx(i+1,j,nguard0*k3d+nzb,idvx,idest) =           & 
+                   facevarx(i+1,j,nguard0*k3d+nzb,idvx,idest)          & 
                    + e1/areax1
-                facevarx(idvx,i+1,j+1,nguard0*k3d+nzb,idest) =         & 
-                   facevarx(idvx,i+1,j+1,nguard0*k3d+nzb,idest)        & 
+                facevarx(i+1,j+1,nguard0*k3d+nzb,idvx,idest) =         & 
+                   facevarx(i+1,j+1,nguard0*k3d+nzb,idvx,idest)        & 
                    + e2/areax2
-                facevary(idvy,i,j+1,nguard0*k3d+nzb,idest) =           & 
-                   facevary(idvy,i,j+1,nguard0*k3d+nzb,idest)          & 
+                facevary(i,j+1,nguard0*k3d+nzb,idvy,idest) =           & 
+                   facevary(i,j+1,nguard0*k3d+nzb,idvy,idest)          & 
                    - ea/areay1
-                facevary(idvy,i+1,j+1,nguard0*k3d+nzb,idest) =         & 
-                   facevary(idvy,i+1,j+1,nguard0*k3d+nzb,idest)        & 
+                facevary(i+1,j+1,nguard0*k3d+nzb,idvy,idest) =         & 
+                   facevary(i+1,j+1,nguard0*k3d+nzb,idvy,idest)        & 
                    - eb/areay2
                End Do  ! End Do i=nguard0+1,nguard0 + nxb -1,2
                End Do  ! End Do j=nguard0+1,nguard0 + nyb -1,2
@@ -611,9 +611,9 @@
                Do j=nguard0+1,nguard0 + nyb
                Do i=nguard0+1,nguard0 + nxb
                  divb = (                                              & 
-                  facevarx(1,i+1,j,k,isg) - facevarx(1,i,j,k,isg)      & 
-                  + facevary(1,i,j+1,k,isg) - facevary(1,i,j,k,isg)    & 
-                  + facevarz(1,i,j,k+k3d,isg) - facevarz(1,i,j,k,isg))
+                  facevarx(i+1,j,k,1,isg) - facevarx(i,j,k,1,isg)      & 
+                  + facevary(i,j+1,k,1,isg) - facevary(i,j,k,1,isg)    & 
+                  + facevarz(i,j,k+k3d,1,isg) - facevarz(i,j,k,1,isg))
                 divbmax = max(divbmax,abs(divb))
                End Do
                End Do

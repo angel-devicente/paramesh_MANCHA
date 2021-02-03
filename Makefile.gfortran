@@ -35,8 +35,8 @@ export paramesh_dir = $(cur-dir)
 # Define the fortran compiler
 export FC = h5pfc
 export CC = h5pcc
-export FFLAGS = -O3 -r8 -I$(paramesh_dir)/headers -DH5_USE_16_API
-#export FFLAGS = -O0 -g -traceback -check bounds -r8 -I$(paramesh_dir)/headers -DH5_USE_16_API
+export FFLAGS = -O3 -fdefault-real-8 -ffree-line-length-0 -I$(paramesh_dir)/headers -DH5_USE_16_API
+#export FFLAGS = -O0 -g -traceback -check bounds -fdefault-real-8 -ffree-line-length-0 -I$(paramesh_dir)/headers -DH5_USE_16_API
 export CFLAGS = -O3  -I$(paramesh_dir)/headers -DH5_USE_16_API
 #export CFLAGS = -O0 -g -traceback  -I$(paramesh_dir)/headers -DH5_USE_16_API
 

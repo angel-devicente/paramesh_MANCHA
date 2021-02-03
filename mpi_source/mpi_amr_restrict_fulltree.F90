@@ -71,15 +71,15 @@
 ! local arrays
 
 
-      real temp(nvar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1)
+      real temp(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1,nvar)
       real send(nvar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1)
 
-      real recvn0(nbndvarc,il_bnd:iu_bnd+1,jl_bnd:ju_bnd+k2d, & 
-     &                                      kl_bnd:ku_bnd+k3d)
-      real tempn(nbndvarc,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
-     &                                      kl_bnd1:ku_bnd1+k3d)
-      real sendn(nbndvarc,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
-     &                                      kl_bnd1:ku_bnd1+k3d)
+      real recvn0(il_bnd:iu_bnd+1,jl_bnd:ju_bnd+k2d, & 
+     &                                      kl_bnd:ku_bnd+k3d,nbndvarc)
+      real tempn(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
+     &                                      kl_bnd1:ku_bnd1+k3d,nbndvarc)
+      real sendn(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
+     &                                      kl_bnd1:ku_bnd1+k3d,nbndvarc)
 
       integer ::  maxbnd
       real,allocatable :: tempf(:,:,:,:)
@@ -117,11 +117,11 @@
 
       maxbnd = max(nbndvare,nbndvarc,nbndvar)
       allocate(  & 
-     & tempf(maxbnd,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
-     &       kl_bnd1:ku_bnd1+k3d))
+     & tempf(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
+     &       kl_bnd1:ku_bnd1+k3d,maxbnd))
       allocate( & 
-     & sendf(maxbnd,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
-     &       kl_bnd1:ku_bnd1+k3d))
+     & sendf(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
+     &       kl_bnd1:ku_bnd1+k3d,maxbnd))
 
       if (.not.diagonals) then
          write(*,*) 'amr_1blk_restrict:  diagonals off'
@@ -311,8 +311,8 @@
 ! Compute volume weighted cell center data for conservative restriction
            do ivar = 1,nvar
              if(int_gcell_on_cc(ivar)) then
-                    unk1(ivar,i1:i2,j1:j2,k1:k2,1) = & 
-     &                  unk1(ivar,i1:i2,j1:j2,k1:k2,1) & 
+                    unk1(i1:i2,j1:j2,k1:k2,ivar,1) = & 
+     &                  unk1(i1:i2,j1:j2,k1:k2,ivar,1) & 
      &                  *cell_vol(i1:i2,j1:j2,k1:k2)
 
              endif
@@ -320,31 +320,31 @@
 ! Compute area weighted cell face-center data for conservative restriction
            do ivar = 1,nfacevar
              if(int_gcell_on_fc(1,ivar)) & 
-     &           facevarx1(ivar,i1:i2+1,j1:j2,k1:k2,1) = & 
-     &              facevarx1(ivar,i1:i2+1,j1:j2,k1:k2,1) & 
+     &           facevarx1(i1:i2+1,j1:j2,k1:k2,ivar,1) = & 
+     &              facevarx1(i1:i2+1,j1:j2,k1:k2,ivar,1) & 
      &               *cell_area1(i1:i2+1,j1:j2,k1:k2)
              if(int_gcell_on_fc(2,ivar)) & 
-     &           facevary1(ivar,i1:i2,j1:j2+k2d,k1:k2,1) = & 
-     &              facevary1(ivar,i1:i2,j1:j2+k2d,k1:k2,1) & 
+     &           facevary1(i1:i2,j1:j2+k2d,k1:k2,ivar,1) = & 
+     &              facevary1(i1:i2,j1:j2+k2d,k1:k2,ivar,1) & 
      &               *cell_area2(i1:i2,j1:j2+k2d,k1:k2)
              if(int_gcell_on_fc(2,ivar)) & 
-     &           facevarz1(ivar,i1:i2,j1:j2,k1:k2+k3d,1) = & 
-     &              facevarz1(ivar,i1:i2,j1:j2,k1:k2+k3d,1) & 
+     &           facevarz1(i1:i2,j1:j2,k1:k2+k3d,ivar,1) = & 
+     &              facevarz1(i1:i2,j1:j2,k1:k2+k3d,ivar,1) & 
      &               *cell_area3(i1:i2,j1:j2,k1:k2+k3d)
            enddo
 ! Compute distance weighted cell edge-center data for conservative restriction
            do ivar = 1,nvaredge
              if(int_gcell_on_ec(1,ivar)) & 
-     &             unk_e_x1(ivar,i1:i2,j1:j2+k2d,k1:k2+k3d,1) = & 
-     &              unk_e_x1(ivar,i1:i2,j1:j2+k2d,k1:k2+k3d,1) & 
+     &             unk_e_x1(i1:i2,j1:j2+k2d,k1:k2+k3d,ivar,1) = & 
+     &              unk_e_x1(i1:i2,j1:j2+k2d,k1:k2+k3d,ivar,1) & 
      &               *cell_leng1(i1:i2,j1:j2+k2d,k1:k2+k3d)
              if(int_gcell_on_ec(2,ivar)) & 
-     &             unk_e_y1(ivar,i1:i2+1,j1:j2,k1:k2+k3d,1) = & 
-     &              unk_e_y1(ivar,i1:i2+1,j1:j2,k1:k2+k3d,1) & 
+     &             unk_e_y1(i1:i2+1,j1:j2,k1:k2+k3d,ivar,1) = & 
+     &              unk_e_y1(i1:i2+1,j1:j2,k1:k2+k3d,ivar,1) & 
      &               *cell_leng2(i1:i2+1,j1:j2,k1:k2+k3d)
              if(int_gcell_on_ec(3,ivar)) & 
-     &             unk_e_z1(ivar,i1:i2+1,j1:j2+k2d,k1:k2,1) = & 
-     &              unk_e_z1(ivar,i1:i2+1,j1:j2+k2d,k1:k2,1) & 
+     &             unk_e_z1(i1:i2+1,j1:j2+k2d,k1:k2,ivar,1) = & 
+     &              unk_e_z1(i1:i2+1,j1:j2+k2d,k1:k2,ivar,1) & 
      &               *cell_leng3(i1:i2+1,j1:j2+k2d,k1:k2)
            enddo
 
@@ -388,7 +388,7 @@
                  ii = (i-nguard)/2+1+nguard
                  do ivar=1,nvar
                    if(int_gcell_on_cc(ivar)) then
-                   send(ivar,ii,jj,kk) = temp(ivar,i,j,k)
+                   send(ivar,ii,jj,kk) = temp(i,j,k,ivar)
                    endif
                  enddo
                enddo
@@ -403,19 +403,19 @@
                    if(int_gcell_on_cc(ivar)) then
                    if (curvilinear) then
                    if (curvilinear_conserve) then
-                   unk(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                      k+nguard0*k3d+koff,lb) = & 
+                   unk(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                      k+nguard0*k3d+koff,ivar,lb) = & 
      &                send(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d) & 
      &           / cell_vol(i+nguard+ioff,j+nguard*k2d+joff, & 
      &                      k+nguard*k3d+koff)
                    else
-                   unk(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                      k+nguard0*k3d+koff,lb) = & 
+                   unk(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                      k+nguard0*k3d+koff,ivar,lb) = & 
      &                send(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
                    endif
                    else
-                   unk(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                      k+nguard0*k3d+koff,lb) = & 
+                   unk(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                      k+nguard0*k3d+koff,ivar,lb) = & 
      &                send(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
                    endif
                    endif
@@ -444,7 +444,7 @@
                do i=1+nguard,nxb+nguard+1,2
                  ii = (i-nguard)/2+1+nguard
                  do ivar=1,nvarcorn
-                   sendn(ivar,ii,jj,kk) = tempn(ivar,i,j,k)
+                   sendn(ii,jj,kk,ivar) = tempn(i,j,k,ivar)
                  enddo
                enddo
              enddo
@@ -456,9 +456,9 @@
              do j=1,nyb+(-nyb/2+1)*k2d
                do i=1,nxb-nxb/2+1
                  do ivar=1,nvarcorn
-                   unk_n(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                           k+nguard0*k3d+koff,lb)= & 
-     &              sendn(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+                   unk_n(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                           k+nguard0*k3d+koff,ivar,lb)= & 
+     &              sendn(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                  enddo
                enddo
              enddo
@@ -473,10 +473,10 @@
 ! Compute restricted cell-face-centered data from the data in the buffer
            if(lfc) then
 ! Compute restricted data from the data in the buffer
-       sendf(:nfacevar,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1, & 
-     &                                   kl_bnd1:ku_bnd1) & 
-     &   =  facevarx1(:nfacevar,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1, & 
-     &                  kl_bnd1:ku_bnd1,1)
+       sendf(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1, & 
+     &                                   kl_bnd1:ku_bnd1,:nfacevar) & 
+     &   =  facevarx1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1, & 
+     &                  kl_bnd1:ku_bnd1,:nfacevar,1)
 
        call amr_restrict_fc_fun(sendf,tempf,1)
 
@@ -487,7 +487,7 @@
            do i=1+nguard,nxb+nguard+1,2
              ii = (i-nguard)/2+1+nguard
              do ivar=1,nfacevar
-               sendf(ivar,ii,jj,kk) = tempf(ivar,i,j,k)
+               sendf(ii,jj,kk,ivar) = tempf(i,j,k,ivar)
              enddo
            enddo
          enddo
@@ -501,20 +501,20 @@
 
                if (curvilinear) then
                if (curvilinear_conserve) then
-               facevarx(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d) & 
+               facevarx(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar) & 
      &           / cell_area1(i+nguard+ioff,j+nguard*k2d+joff, & 
      &                      k+nguard*k3d+koff)
                else
-               facevarx(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               facevarx(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                endif
                else
-               facevarx(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               facevarx(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                endif
              enddo
            enddo
@@ -526,10 +526,10 @@
        if(ndim.ge.2) then
 
 ! Compute restricted data from the data in the buffer
-       sendf(:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
-     &                        kl_bnd1:ku_bnd1) & 
-     &   = facevary1(:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
-     &                 kl_bnd1:ku_bnd1,1)
+       sendf(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
+     &                        kl_bnd1:ku_bnd1,:nfacevar) & 
+     &   = facevary1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
+     &                 kl_bnd1:ku_bnd1,:nfacevar,1)
        call amr_restrict_fc_fun(sendf,tempf,2)
 
        do k=1+nguard*k3d,nzb+nguard*k3d,2
@@ -539,7 +539,7 @@
            do i=1+nguard,nxb+nguard,2
              ii = (i-nguard)/2+1+nguard
              do ivar=1,nfacevar
-               sendf(ivar,ii,jj,kk) = tempf(ivar,i,j,k)
+               sendf(ii,jj,kk,ivar) = tempf(i,j,k,ivar)
              enddo
            enddo
          enddo
@@ -552,20 +552,20 @@
              do ivar=1,nfacevar
                if (curvilinear) then
                if (curvilinear_conserve) then
-               facevary(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d) & 
+               facevary(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar) & 
      &           / (cell_area2(i+nguard+ioff,j+nguard*k2d+joff, & 
      &                      k+nguard*k3d+koff) + tiny)
                else
-               facevary(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               facevary(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                endif
                else
-               facevary(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               facevary(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                endif
              enddo
            enddo
@@ -577,10 +577,10 @@
        if(ndim.eq.3) then
 
 ! Compute restricted data from the data in the buffer
-       sendf(:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1, & 
-     &                                 kl_bnd1:ku_bnd1+k3d) & 
-     &    = facevarz1(:nfacevar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1, & 
-     &                  kl_bnd1:ku_bnd1+k3d,1)
+       sendf(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1, & 
+     &                                 kl_bnd1:ku_bnd1+k3d,:nfacevar) & 
+     &    = facevarz1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1, & 
+     &                  kl_bnd1:ku_bnd1+k3d,:nfacevar,1)
        call amr_restrict_fc_fun(sendf,tempf,3)
 
        do k=1+nguard*k3d,nzb+(nguard+1)*k3d,2
@@ -590,7 +590,7 @@
            do i=1+nguard,nxb+nguard,2
              ii = (i-nguard)/2+1+nguard
              do ivar=1,nfacevar
-               sendf(ivar,ii,jj,kk) = tempf(ivar,i,j,k)
+               sendf(ii,jj,kk,ivar) = tempf(i,j,k,ivar)
              enddo
            enddo
          enddo
@@ -603,20 +603,20 @@
              do ivar=1,nfacevar
                if (curvilinear) then
                if (curvilinear_conserve) then
-               facevarz(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d) & 
+               facevarz(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar) & 
      &           / cell_area3(i+nguard+ioff,j+nguard*k2d+joff, & 
      &                      k+nguard*k3d+koff)
                else
-               facevarz(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               facevarz(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                endif
                else
-               facevarz(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               facevarz(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                endif
              enddo
            enddo
@@ -632,10 +632,10 @@
            if(lec) then
 
 ! Compute restricted data from the data in the buffer
-       sendf(:nvaredge,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
-     &                         kl_bnd1:ku_bnd1+k3d) & 
-     &   =  unk_e_x1(:nvaredge,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
-     &                  kl_bnd1:ku_bnd1+k3d,1)
+       sendf(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
+     &                         kl_bnd1:ku_bnd1+k3d,:nvaredge) & 
+     &   =  unk_e_x1(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1+k2d, & 
+     &                  kl_bnd1:ku_bnd1+k3d,:nvaredge,1)
        call amr_restrict_ec_fun(sendf,tempf,1)
 
 
@@ -647,7 +647,7 @@
            do i=1+nguard,nxb+nguard,2
              ii = (i-nguard)/2+1+nguard
              do ivar=1,nvaredge
-               sendf(ivar,ii,jj,kk) = tempf(ivar,i,j,k)
+               sendf(ii,jj,kk,ivar) = tempf(i,j,k,ivar)
              enddo
            enddo
          enddo
@@ -661,20 +661,20 @@
              do ivar=1,nvaredge
                if (curvilinear) then
                if (curvilinear_conserve) then
-               unk_e_x(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d) & 
+               unk_e_x(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar) & 
      &           / cell_leng1(i+nguard+ioff,j+nguard*k2d+joff, & 
      &                      k+nguard*k3d+koff)
                else
-               unk_e_x(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               unk_e_x(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                endif
                else
-               unk_e_x(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               unk_e_x(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                endif
              enddo
            enddo
@@ -684,10 +684,10 @@
 
 ! y edge next
 ! Compute restricted data from the data in the buffer
-       sendf(:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1, & 
-     &                 kl_bnd1:ku_bnd1+k3d) & 
-     &   = unk_e_y1(:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1, & 
-     &                 kl_bnd1:ku_bnd1+k3d,1)
+       sendf(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1, & 
+     &                 kl_bnd1:ku_bnd1+k3d,:nvaredge) & 
+     &   = unk_e_y1(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1, & 
+     &                 kl_bnd1:ku_bnd1+k3d,:nvaredge,1)
        call amr_restrict_ec_fun(sendf,tempf,2)
 
        do k=1+nguard*k3d,nzb+(nguard+1)*k3d,2
@@ -697,7 +697,7 @@
            do i=1+nguard,nxb+nguard+1,2
              ii = (i-nguard)/2+1+nguard
              do ivar=1,nvaredge
-               sendf(ivar,ii,jj,kk) = tempf(ivar,i,j,k)
+               sendf(ii,jj,kk,ivar) = tempf(i,j,k,ivar)
              enddo
            enddo
          enddo
@@ -710,20 +710,20 @@
              do ivar=1,nvaredge
                if (curvilinear) then
                if (curvilinear_conserve) then
-               unk_e_y(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d) & 
+               unk_e_y(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar) & 
      &           / cell_leng2(i+nguard+ioff,j+nguard*k2d+joff, & 
      &                      k+nguard*k3d+koff)
                else
-               unk_e_y(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               unk_e_y(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                endif
                else
-               unk_e_y(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               unk_e_y(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                endif
              enddo
            enddo
@@ -733,10 +733,10 @@
        if (ndim == 3) then
 ! z edge last
 ! Compute restricted data from the data in the buffer
-       sendf(:nvaredge,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
-     &                                   kl_bnd1:ku_bnd1) & 
-     &    = unk_e_z1(:nvaredge,il_bnd1:iu_bnd1+1, & 
-     &       jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1,1)
+       sendf(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d, & 
+     &                                   kl_bnd1:ku_bnd1,:nvaredge) & 
+     &    = unk_e_z1(il_bnd1:iu_bnd1+1, & 
+     &       jl_bnd1:ju_bnd1+k2d,kl_bnd1:ku_bnd1,:nvaredge,1)
        call amr_restrict_ec_fun(sendf,tempf,3)
 
        do k=1+nguard*k3d,nzb+nguard*k3d,2
@@ -746,7 +746,7 @@
            do i=1+nguard,nxb+nguard+1,2
              ii = (i-nguard)/2+1+nguard
              do ivar=1,nvaredge
-               sendf(ivar,ii,jj,kk) = tempf(ivar,i,j,k)
+               sendf(ii,jj,kk,ivar) = tempf(i,j,k,ivar)
              enddo
            enddo
          enddo
@@ -759,20 +759,20 @@
              do ivar=1,nvaredge
                if (curvilinear) then
                if (curvilinear_conserve) then
-               unk_e_z(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d) & 
+               unk_e_z(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar) & 
      &           / cell_leng3(i+nguard+ioff,j+nguard*k2d+joff, & 
      &                      k+nguard*k3d+koff)
                else
-               unk_e_z(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               unk_e_z(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                endif
                else
-               unk_e_z(ivar,i+nguard0+ioff,j+nguard0*k2d+joff, & 
-     &                       k+nguard0*k3d+koff,lb)= & 
-     &          sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               unk_e_z(i+nguard0+ioff,j+nguard0*k2d+joff, & 
+     &                       k+nguard0*k3d+koff,ivar,lb)= & 
+     &          sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                endif
              enddo
            enddo
@@ -887,7 +887,7 @@
 #ifdef DEBUG
              write(*,*) 'mpi_amr_1blk_restrict: pe ',mype,' neigh ', & 
      &          neigh(:,jface,lb),' located in buffer slot ', & 
-     &          iblk,' unk of neigh ',unk(1,:,:,:,iblk)
+     &          iblk,' unk of neigh ',unk(:,:,:,1,iblk)
 #endif /* DEBUG */
             endif
             iblk = iblk+1
@@ -944,8 +944,8 @@
          if(iopt.eq.1) then
            if(remote_block.le.lnblocks & 
      &                .and.remote_pe.eq.mype) then
-             unk_n(:,ia:ib,ja:jb,ka:kb,lb) =  & 
-     &                      unk_n(:,isa:isb,jsa:jsb,ksa:ksb,remote_block)
+             unk_n(ia:ib,ja:jb,ka:kb,:,lb) =  & 
+     &                      unk_n(isa:isb,jsa:jsb,ksa:ksb,:,remote_block)
 
            else
 
@@ -1011,12 +1011,12 @@
      &                 ip1,jp1,kp1,ip3,jp3,kp3,0)
 
              ng1 = nguard*(1-npgs)
-             unk_n(:,id-ng1:id+ilays-ng1, & 
+             unk_n(id-ng1:id+ilays-ng1, & 
      &               jd-ng1*k2d:jd+(jlays-ng1)*k2d, & 
-     &               kd-ng1*k3d:kd+(klays-ng1)*k3d,lb) = & 
-     &        unk_n1(:,id:id+ilays, & 
+     &               kd-ng1*k3d:kd+(klays-ng1)*k3d,:,lb) = & 
+     &        unk_n1(id:id+ilays, & 
      &                 jd:jd+jlays*k2d, & 
-     &                 kd:kd+klays*k3d,iblock)
+     &                 kd:kd+klays*k3d,:,iblock)
 
 
          endif

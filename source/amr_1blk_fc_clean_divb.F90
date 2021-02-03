@@ -147,9 +147,9 @@
         iv3 = prol_fc_clean_divb_ivar(3,iprol)
 
         call clean_field(                                          &  
-        facevarx1(iv1,iminx:imaxx,jminx:jmaxx,kminx:kmaxx,idest),  & 
-        facevary1(iv2,iminy:imaxy,jminy:jmaxy,kminy:kmaxy,idest),  &
-        facevarz1(iv3,iminz:imaxz,jminz:jmaxz,kminz:kmaxz,idest),  &
+        facevarx1(iminx:imaxx,jminx:jmaxx,kminx:kmaxx,iv1,idest),  & 
+        facevary1(iminy:imaxy,jminy:jmaxy,kminy:kmaxy,iv2,idest),  &
+        facevarz1(iminz:imaxz,jminz:jmaxz,kminz:kmaxz,iv3,idest),  &
         iminx,imaxx,jminx,jmaxx,kminx,kmaxx,   &
         iminy,imaxy,jminy,jmaxy,kminy,kmaxy,   &
         iminz,imaxz,jminz,jmaxz,kminz,kmaxz,   &

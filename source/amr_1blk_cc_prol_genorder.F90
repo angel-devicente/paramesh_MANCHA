@@ -426,7 +426,7 @@
       Do j = jfmin,jfmax
       Do i = ifmin,ifmax
          
-         unk1(ivar,i,j,k,idest) = 0.
+         unk1(i,j,k,ivar,idest) = 0.
 
          If (ndim == 3) Then
                
@@ -437,12 +437,12 @@
             Do ipar = imina(i,order),imaxa(i,order)
                tempx = tempx +                                         & 
                     weightx(ipar,i,order)*                             & 
-                    recv(ivar,ipar+offi,jpar+offj,kpar+offk)
+                    recv(ipar+offi,jpar+offj,kpar+offk,ivar)
             End Do  ! End Do ipar = imina(i,order),imaxa(i,order)
                tempy = tempy +                                         & 
                     weighty(jpar,j,order)*tempx
             End Do  ! End Do jpar = jmina(j,order),jmaxa(j,order)
-               unk1(ivar,i,j,k,idest) = unk1(ivar,i,j,k,idest) +       & 
+               unk1(i,j,k,ivar,idest) = unk1(i,j,k,ivar,idest) +       & 
                     weightz(kpar,k,order)*tempy
             End Do  ! End Do kpar = kmina(k,order),kmaxa(k,order)
 
@@ -451,10 +451,10 @@
             kpar = 1
             Do jpar = jmina(j,order),jmaxa(j,order)
             Do ipar = imina(i,order),imaxa(i,order)
-               unk1(ivar,i,j,k,idest) = unk1(ivar,i,j,k,idest) +       & 
+               unk1(i,j,k,ivar,idest) = unk1(i,j,k,ivar,idest) +       & 
                     weightx(ipar,i,order)*                             & 
                     weighty(jpar,j,order)*                             & 
-                    recv(ivar,ipar+offi,jpar+offj,kpar+offk)
+                    recv(ipar+offi,jpar+offj,kpar+offk,ivar)
             End Do  ! End Do ipar = imina(i,order),imaxa(i,order)
             End Do  ! End Do jpar = jmina(j,order),jmaxa(j,order)
 
@@ -463,9 +463,9 @@
             kpar = 1
             jpar = 1
             Do ipar = imina(i,order),imaxa(i,order)
-               unk1(ivar,i,j,k,idest) = unk1(ivar,i,j,k,idest) +       & 
+               unk1(i,j,k,ivar,idest) = unk1(i,j,k,ivar,idest) +       & 
                     weightx(ipar,i,order)*                             & 
-                    recv(ivar,ipar+offi,jpar+offj,kpar+offk)
+                    recv(ipar+offi,jpar+offj,kpar+offk,ivar)
             End Do  ! End Do ipar = imina(i,order),imaxa(i,order)
 
          End If  ! End If (ndim == 3)

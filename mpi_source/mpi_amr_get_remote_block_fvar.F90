@@ -204,7 +204,7 @@
           Do k = ka,kb
           Do j = ja,jb
           Do i = ia,ib
-            recvx(1:nbndvar,i,j,k) =                                   & 
+            recvx(i,j,k,1:nbndvar) =                                   & 
                     temprecv_buf(index+1:index+nbndvar)
             index = index+nbndvar
           End Do
@@ -223,7 +223,7 @@
             Do k = ka,kb
             Do j = ja,jb
             Do i = ia,ib
-              recvy(1:nbndvar,i,j,k) =                                 & 
+              recvy(i,j,k,1:nbndvar) =                                 & 
                     temprecv_buf(index+1:index+nbndvar)
               index = index+nbndvar
             End Do
@@ -244,7 +244,7 @@
            Do k = ka,kb
            Do j = ja,jb
            Do i = ia,ib
-             recvz(1:nbndvar,i,j,k) =                                  & 
+             recvz(i,j,k,1:nbndvar) =                                  & 
                     temprecv_buf(index+1:index+nbndvar)
              index = index+nbndvar
            End Do

@@ -167,7 +167,7 @@
       Do j0 = jparmin,jparmax,2
       Do i0 = iparmin,iparmax,2
 
-        dataout(ivar,i0,j0,k0) = 0.
+        dataout(i0,j0,k0,ivar) = 0.
 
         If (ndim == 3) Then
            If (k0 == kparmin) Then
@@ -241,13 +241,13 @@
                  End If
 
                  If (curvilinear_conserve) Then
-                    dataout(ivar,i0,j0,k0) =                           & 
-                      dataout(ivar,i0,j0,k0) +                         & 
-                      (datain(ivar,i,j,k))
+                    dataout(i0,j0,k0,ivar) =                           & 
+                      dataout(i0,j0,k0,ivar) +                         & 
+                      (datain(i,j,k,ivar))
                  Else
-                    dataout(ivar,i0,j0,k0) =                           & 
-                      dataout(ivar,i0,j0,k0) +                         & 
-                      (www*datain(ivar,i,j,k))
+                    dataout(i0,j0,k0,ivar) =                           & 
+                      dataout(i0,j0,k0,ivar) +                         & 
+                      (www*datain(i,j,k,ivar))
                  End If
 
                  i = i + 1

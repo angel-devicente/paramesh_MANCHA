@@ -203,8 +203,8 @@
 
         Do ivar=1, nvar
           If (int_gcell_on_cc(ivar)) Then
-            unk1(ivar,id:id+il,jd:jd+jl,kd:kd+kl,idest) = & 
-              gt_unk(ivar,ia:ib,ja:jb:jstride,ka:kb,remote_block)
+            unk1(id:id+il,jd:jd+jl,kd:kd+kl,ivar,idest) = & 
+              gt_unk(ia:ib,ja:jb:jstride,ka:kb,ivar,remote_block)
           End If  ! End If (int_gcell_on_cc(ivar))
         End Do  ! End Do ivar = 1, nvar
 
@@ -212,8 +212,8 @@
 
         Do ivar=1, nvar
           If (int_gcell_on_cc(ivar)) Then
-            unk1(ivar,id:id+il,jd:jd+jl,kd:kd+kl,idest) = & 
-              unk(ivar,ia:ib,ja:jb:jstride,ka:kb,remote_block)
+            unk1(id:id+il,jd:jd+jl,kd:kd+kl,ivar,idest) = & 
+              unk(ia:ib,ja:jb:jstride,ka:kb,ivar,remote_block)
           End If  ! End If (int_gcell_on_cc(ivar))
         End Do  ! End Do ivar = 1, nvar
 
@@ -352,7 +352,7 @@
 
             Do ivar = 1, ngcell_on_cc
               ivar_next = gcell_on_cc_pointer(ivar)
-              unk1(ivar_next,ii,jj,kk,idest) =                         & 
+              unk1(ii,jj,kk,ivar_next,idest) =                         & 
                        temprecv_buf(indx+ivar)
             End Do  !  End Do ivar=1,ngcell_on_cc
 

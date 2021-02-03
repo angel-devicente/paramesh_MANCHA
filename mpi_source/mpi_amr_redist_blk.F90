@@ -164,7 +164,7 @@
       ke_unk = nguard*k3d*npgs+nzb
 
 !-----This code added for reordering script
-      Allocate(unk_test(nvar,nxb,nyb,nzb))
+      Allocate(unk_test(nxb,nyb,nzb,nvar))
       Do i = 1,4
          udim_tot(i) = size(unk,dim=i) 
          udim(i) = size(unk_test,dim=i)
@@ -221,7 +221,7 @@
       ke_facez = nguard*k3d*npgs+nzb + k3d
 
 !-----the following code added for reordering script
-      Allocate(facex_test(nfacevar,nxb+1,nyb,nzb))
+      Allocate(facex_test(nxb+1,nyb,nzb,nfacevar))
       Do i = 1,4
          udim_tot(i) = size(facevarx,dim=i) 
          udim(i) = size(facex_test,dim=i)
@@ -253,7 +253,7 @@
       Call MPI_TYPE_COMMIT(facex_int_type,ierr)
 
 
-      Allocate(facey_test(nfacevar,nxb,nyb+k2d,nzb))
+      Allocate(facey_test(nxb,nyb+k2d,nzb,nfacevar))
       Do i = 1,4
          udim_tot(i) = size(facevary,dim=i) 
          udim(i) = size(facey_test,dim=i)
@@ -285,7 +285,7 @@
       Call MPI_TYPE_COMMIT(facey_int_type,ierr)
 
 
-      Allocate(facez_test(nfacevar,nxb,nyb,nzb+k3d))
+      Allocate(facez_test(nxb,nyb,nzb+k3d,nfacevar))
       Do i = 1,4
          udim_tot(i) = size(facevarz,dim=i) 
          udim(i) = size(facez_test,dim=i)
@@ -342,7 +342,7 @@
       ke_edgez = nguard*k3d*npgs+nzb
 
 !-----Code added for reordering script
-      Allocate(edgex_test(nvaredge,nxb,nyb+k2d,nzb+k3d))
+      Allocate(edgex_test(nxb,nyb+k2d,nzb+k3d,nvaredge))
       Do i = 1,4
          udim_tot(i) = size(unk_e_x,dim=i) 
          udim(i) = size(edgex_test,dim=i)
@@ -374,7 +374,7 @@
       Call MPI_TYPE_COMMIT(edgex_int_type,ierr)
 
 
-      Allocate(edgey_test(nvaredge,nxb+1,nyb,nzb+k3d))
+      Allocate(edgey_test(nxb+1,nyb,nzb+k3d,nvaredge))
       Do i = 1,4
          udim_tot(i) = size(unk_e_y,dim=i) 
          udim(i) = size(edgey_test,dim=i)
@@ -406,7 +406,7 @@
       Call MPI_TYPE_COMMIT(edgey_int_type,ierr)
 
 
-      Allocate(edgez_test(nvaredge,nxb+1,nyb+k2d,nzb))
+      Allocate(edgez_test(nxb+1,nyb+k2d,nzb,nvaredge))
       Do i = 1,4
          udim_tot(i) = size(unk_e_z,dim=i) 
          udim(i) = size(edgez_test,dim=i)
@@ -449,7 +449,7 @@
       ke_unkn = nguard*k3d*npgs+nzb + k3d
 
 !-----Code added for reordering script.
-      Allocate(unkn_test(nvarcorn,nxb+1,nyb+k2d,nzb+k3d))
+      Allocate(unkn_test(nxb+1,nyb+k2d,nzb+k3d,nvarcorn))
       Do i = 1,4
          udim_tot(i) = size(unk_n,dim=i) 
          udim(i) = size(unkn_test,dim=i)
@@ -499,7 +499,7 @@
             If (.Not.newchild(lb)) Then
                If (old_loc(2,lb).ne.mype) Then
                   nrecv = nrecv + 1
-                  Call MPI_IRECV (unk(1,is_unk,js_unk,ks_unk,lb),      & 
+                  Call MPI_IRECV (unk(is_unk,js_unk,ks_unk,1,lb),      & 
                                   1,                                   & 
                                   unk_int_type,                        & 
                                   old_loc(2,lb),                       & 
@@ -522,7 +522,7 @@
             If (.Not.newchild(lb)) Then
                If (old_loc(2,lb).ne.mype) Then
                   nrecv = nrecv + 1
-            Call MPI_IRECV (facevarx(1,is_facex,js_facex,ks_facex,lb), & 
+            Call MPI_IRECV (facevarx(is_facex,js_facex,ks_facex,1,lb), & 
                                   1,                                   & 
                                   facex_int_type,                      & 
                                   old_loc(2,lb),                       & 
@@ -540,7 +540,7 @@
             If (.Not.newchild(lb)) Then
                If (old_loc(2,lb).ne.mype) Then
                   nrecv = nrecv + 1
-            Call MPI_IRECV (facevary(1,is_facey,js_facey,ks_facey,lb), & 
+            Call MPI_IRECV (facevary(is_facey,js_facey,ks_facey,1,lb), & 
                                   1,                                   & 
                                   facey_int_type,                      & 
                                   old_loc(2,lb),                       & 
@@ -559,7 +559,7 @@
             If (.Not.newchild(lb)) Then
                If (old_loc(2,lb).ne.mype) Then
                   nrecv = nrecv + 1
-            Call MPI_IRECV (facevarz(1,is_facez,js_facez,ks_facez,lb), & 
+            Call MPI_IRECV (facevarz(is_facez,js_facez,ks_facez,1,lb), & 
                                   1,                                   & 
                                   facez_int_type,                      & 
                                   old_loc(2,lb),                       & 
@@ -582,7 +582,7 @@
             If (.Not.newchild(lb)) Then
                If (old_loc(2,lb).ne.mype) Then
                   nrecv = nrecv + 1
-             Call MPI_IRECV (unk_e_x(1,is_edgex,js_edgex,ks_edgex,lb), & 
+             Call MPI_IRECV (unk_e_x(is_edgex,js_edgex,ks_edgex,1,lb), & 
                                   1,                                   & 
                                   edgex_int_type,                      & 
                                   old_loc(2,lb),                       & 
@@ -600,7 +600,7 @@
             If (.Not.newchild(lb)) Then
                If (old_loc(2,lb).ne.mype) Then
                   nrecv = nrecv + 1
-             Call MPI_IRECV (unk_e_y(1,is_edgey,js_edgey,ks_edgey,lb), & 
+             Call MPI_IRECV (unk_e_y(is_edgey,js_edgey,ks_edgey,1,lb), & 
                                   1,                                   & 
                                   edgey_int_type,                      & 
                                   old_loc(2,lb),                       & 
@@ -619,7 +619,7 @@
             If (.Not.newchild(lb)) Then
                If (old_loc(2,lb).ne.mype) Then
                   nrecv = nrecv + 1
-             Call MPI_IRECV (unk_e_z(1,is_edgez,js_edgez,ks_edgez,lb), & 
+             Call MPI_IRECV (unk_e_z(is_edgez,js_edgez,ks_edgez,1,lb), & 
                                   1,                                   & 
                                   edgez_int_type,                      & 
                                   old_loc(2,lb),                       & 
@@ -641,7 +641,7 @@
             If (.Not.newchild(lb)) Then
                If (old_loc(2,lb).ne.mype) Then
                   nrecv = nrecv + 1
-                  Call MPI_IRECV (unk_n(1,is_unkn,js_unkn,ks_unkn,lb), & 
+                  Call MPI_IRECV (unk_n(is_unkn,js_unkn,ks_unkn,1,lb), & 
                                   1,                                   & 
                                   unkn_int_type,                       & 
                                   old_loc(2,lb),                       & 

@@ -275,7 +275,7 @@
                 (mod(ii,2)  ==  0 .and. mod(nguard,2) .ne. 0)) Then
                                        ! this point is on one of parent's points
                                        ! and Does not need to be interpolated
-               f_intx(ii,j,k) = recv(ivar,i,j,k)
+               f_intx(ii,j,k) = recv(i,j,k,ivar)
             Else
 
                If (ii < nguard + nxb/2) Then
@@ -289,7 +289,7 @@
 
                Do ipar = imin,imax
                   f_intx(ii,j,k) = f_intx(ii,j,k) +                    & 
-                       weight(iw,ipar-i,order)*recv(ivar,ipar,j,k)
+                       weight(iw,ipar-i,order)*recv(ipar,j,k,ivar)
                End Do
                ! update parent index
                i = i + 1
@@ -303,7 +303,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  unk_n1(ivar,i,j,k,idest) = f_intx(i,j,k)
+                  unk_n1(i,j,k,ivar,idest) = f_intx(i,j,k)
                End Do
             End Do
          End Do
@@ -364,7 +364,7 @@
          Do k = kfmin,kfmax
             Do j = jfmin,jfmax
                Do i = ifmin,ifmax
-                  unk_n1(ivar,i,j,k,idest) = f_inty(i,j,k)
+                  unk_n1(i,j,k,ivar,idest) = f_inty(i,j,k)
                End Do
             End Do
          End Do
@@ -387,10 +387,10 @@
 
          Do kk = kfmin,kfmax
             
-            unk_n1(ivar,i,j,kk,idest) = 0.
+            unk_n1(i,j,kk,ivar,idest) = 0.
             If ((mod(kk,2) .ne. 0 .and. mod(nguard,2)  == 0) .or.      & 
                 (mod(kk,2)  ==  0 .and. mod(nguard,2) .ne.  0)) Then
-               unk_n1(ivar,i,j,kk,idest) = f_inty(i,j,k)
+               unk_n1(i,j,kk,ivar,idest) = f_inty(i,j,k)
             Else
 
                If (kk < nguard + nzb/2) Then
@@ -403,8 +403,8 @@
                kmax = imaxh(kw,order) + k
 
                Do kpar = kmin,kmax
-                  unk_n1(ivar,i,j,kk,idest) =                          & 
-                       unk_n1(ivar,i,j,kk,idest) +                     & 
+                  unk_n1(i,j,kk,ivar,idest) =                          & 
+                       unk_n1(i,j,kk,ivar,idest) +                     & 
                        weight(kw,kpar-k,order)*f_inty(i,j,kpar)
                End Do
                ! update parent index

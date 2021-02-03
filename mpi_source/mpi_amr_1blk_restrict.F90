@@ -148,14 +148,14 @@
       Logical, Intent(in)  :: filling_guardcells
 
 !-----Local Variables and Arrays
-      Real temp(nvar,il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1)
+      Real temp(il_bnd1:iu_bnd1,jl_bnd1:ju_bnd1,kl_bnd1:ku_bnd1,nvar)
 
-      Real recvn0(nbndvarc,il_bnd:iu_bnd+1,jl_bnd:ju_bnd+k2d,          & 
-                                            kl_bnd:ku_bnd+k3d)
-      Real tempn(nbndvarc,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,       & 
-                                            kl_bnd1:ku_bnd1+k3d)
-      Real sendn(nbndvarc,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,       & 
-                                            kl_bnd1:ku_bnd1+k3d)
+      Real recvn0(il_bnd:iu_bnd+1,jl_bnd:ju_bnd+k2d,          & 
+                                            kl_bnd:ku_bnd+k3d,nbndvarc)
+      Real tempn(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,       & 
+                                            kl_bnd1:ku_bnd1+k3d,nbndvarc)
+      Real sendn(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,       & 
+                                            kl_bnd1:ku_bnd1+k3d,nbndvarc)
       Real,Allocatable :: tempf(:,:,:,:)
       Real,Allocatable :: sendf(:,:,:,:)
       Real,Parameter :: eps = 1.e-30
@@ -195,11 +195,11 @@
 
       maxbnd = max(1,nbndvare,nbndvar)
       Allocate(                                                        & 
-       tempf(maxbnd,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,             & 
-             kl_bnd1:ku_bnd1+k3d))
+       tempf(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,             & 
+             kl_bnd1:ku_bnd1+k3d,maxbnd))
       Allocate(                                                        & 
-       sendf(maxbnd,il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,             & 
-             kl_bnd1:ku_bnd1+k3d))
+       sendf(il_bnd1:iu_bnd1+1,jl_bnd1:ju_bnd1+k2d,             & 
+             kl_bnd1:ku_bnd1+k3d,maxbnd))
 
       If (.Not.diagonals) Then
          Write(*,*) 'amr_1blk_restrict:  diagonals off'
@@ -351,40 +351,40 @@
 !----------Compute volume weighted cell center data for conservative restriction
            Do ivar = 1,nvar
              If (int_gcell_on_cc(ivar))                                & 
-                     unk1(ivar,i1:i2,j1:j2,k1:k2,1) =                  & 
-                        unk1(ivar,i1:i2,j1:j2,k1:k2,1)                 & 
+                     unk1(i1:i2,j1:j2,k1:k2,ivar,1) =                  & 
+                        unk1(i1:i2,j1:j2,k1:k2,ivar,1)                 & 
                         *cell_vol(i1:i2,j1:j2,k1:k2)
            End Do
 !----------Compute area weighted cell face-center data for conservative 
 !----------restriction
            Do ivar = 1,nfacevar
              If (int_gcell_on_fc(1,ivar))                              & 
-                 facevarx1(ivar,i1:i2+1,j1:j2,k1:k2,1) =               & 
-                    facevarx1(ivar,i1:i2+1,j1:j2,k1:k2,1)              & 
+                 facevarx1(i1:i2+1,j1:j2,k1:k2,ivar,1) =               & 
+                    facevarx1(i1:i2+1,j1:j2,k1:k2,ivar,1)              & 
                      *cell_area1(i1:i2+1,j1:j2,k1:k2)
              If (int_gcell_on_fc(2,ivar))                              & 
-                 facevary1(ivar,i1:i2,j1:j2+k2d,k1:k2,1) =             & 
-                    facevary1(ivar,i1:i2,j1:j2+k2d,k1:k2,1)            & 
+                 facevary1(i1:i2,j1:j2+k2d,k1:k2,ivar,1) =             & 
+                    facevary1(i1:i2,j1:j2+k2d,k1:k2,ivar,1)            & 
                      *cell_area2(i1:i2,j1:j2+k2d,k1:k2)
              If (int_gcell_on_fc(2,ivar))                              & 
-                 facevarz1(ivar,i1:i2,j1:j2,k1:k2+k3d,1) =             & 
-                    facevarz1(ivar,i1:i2,j1:j2,k1:k2+k3d,1)            & 
+                 facevarz1(i1:i2,j1:j2,k1:k2+k3d,ivar,1) =             & 
+                    facevarz1(i1:i2,j1:j2,k1:k2+k3d,ivar,1)            & 
                      *cell_area3(i1:i2,j1:j2,k1:k2+k3d)
            End Do
 !----------Compute distance weighted cell edge-center data for conservative 
 !----------restriction
            Do ivar = 1,nvaredge
              If (int_gcell_on_ec(1,ivar))                              & 
-                   unk_e_x1(ivar,i1:i2,j1:j2+k2d,k1:k2+k3d,1) =        & 
-                    unk_e_x1(ivar,i1:i2,j1:j2+k2d,k1:k2+k3d,1)         & 
+                   unk_e_x1(i1:i2,j1:j2+k2d,k1:k2+k3d,ivar,1) =        & 
+                    unk_e_x1(i1:i2,j1:j2+k2d,k1:k2+k3d,ivar,1)         & 
                      *cell_leng1(i1:i2,j1:j2+k2d,k1:k2+k3d)
              If (int_gcell_on_ec(2,ivar))                              & 
-                   unk_e_y1(ivar,i1:i2+1,j1:j2,k1:k2+k3d,1) =          & 
-                    unk_e_y1(ivar,i1:i2+1,j1:j2,k1:k2+k3d,1)           & 
+                   unk_e_y1(i1:i2+1,j1:j2,k1:k2+k3d,ivar,1) =          & 
+                    unk_e_y1(i1:i2+1,j1:j2,k1:k2+k3d,ivar,1)           & 
                      *cell_leng2(i1:i2+1,j1:j2,k1:k2+k3d)
              If (int_gcell_on_ec(3,ivar))                              & 
-                   unk_e_z1(ivar,i1:i2+1,j1:j2+k2d,k1:k2,1) =          & 
-                    unk_e_z1(ivar,i1:i2+1,j1:j2+k2d,k1:k2,1)           & 
+                   unk_e_z1(i1:i2+1,j1:j2+k2d,k1:k2,ivar,1) =          & 
+                    unk_e_z1(i1:i2+1,j1:j2+k2d,k1:k2,ivar,1)           & 
                      *cell_leng3(i1:i2+1,j1:j2+k2d,k1:k2)
            End Do
 
@@ -433,13 +433,13 @@
                  Do ivar=1,nvar
                    If (int_gcell_on_cc(ivar)) Then
                      If (curvilinear_conserve) Then
-                       unk(ivar,ii,jj,kk,lb) =                         & 
-                       temp(ivar,i,j,k)                                & 
+                       unk(ii,jj,kk,ivar,lb) =                         & 
+                       temp(i,j,k,ivar)                                & 
                        / cell_vol(ii+nguard1,jj+nguard1*k2d,           & 
                                 kk+nguard1*k3d)
                    Else
-                     unk(ivar,ii,jj,kk,lb) =                           & 
-                     temp(ivar,i,j,k)
+                     unk(ii,jj,kk,ivar,lb) =                           & 
+                     temp(i,j,k,ivar)
                    End If
                    End If
                  End Do
@@ -463,7 +463,7 @@
                  ii = (i-nguard)/2+1+nguard
                  Do ivar=1,nvarcorn
                    If (int_gcell_on_nc(ivar)) Then
-                    sendn(ivar,ii,jj,kk) = tempn(ivar,i,j,k)
+                    sendn(ii,jj,kk,ivar) = tempn(i,j,k,ivar)
                    End If
                  End Do
                End Do
@@ -476,9 +476,9 @@
                do i=1,nxb-nxb/2+1
                  Do ivar=1,nvarcorn
                    If (int_gcell_on_nc(ivar)) Then
-                    unk_n(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,      & 
-                                 k+nguard0*k3d+koff,lb)=               & 
-                     sendn(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+                    unk_n(i+nguard0+ioff,j+nguard0*k2d+joff,      & 
+                                 k+nguard0*k3d+koff,ivar,lb)=               & 
+                     sendn(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                    End If
                  End Do
                End Do
@@ -501,7 +501,7 @@
                ii = (i-nguard)/2+1+nguard
                Do ivar=1,nfacevar
                  If(int_gcell_on_fc(1,ivar)) Then
-                   sendf(ivar,ii,jj,kk) = tempf(ivar,i,j,k)
+                   sendf(ii,jj,kk,ivar) = tempf(i,j,k,ivar)
                  End If
                End Do
              End Do
@@ -515,15 +515,15 @@
                Do ivar=1,nfacevar
                  If (int_gcell_on_fc(1,ivar)) Then
                    If (curvilinear_conserve) Then
-                     facevarx(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,  & 
-                                   k+nguard0*k3d+koff,lb)=             & 
-                     sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)    & 
+                     facevarx(i+nguard0+ioff,j+nguard0*k2d+joff,  & 
+                                   k+nguard0*k3d+koff,ivar,lb)=             & 
+                     sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)    & 
                      / cell_area1(i+nguard+ioff,j+nguard*k2d+joff,     & 
                               k+nguard*k3d+koff)
                    Else
-                     facevarx(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,  & 
-                                   k+nguard0*k3d+koff,lb)=             & 
-                      sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+                     facevarx(i+nguard0+ioff,j+nguard0*k2d+joff,  & 
+                                   k+nguard0*k3d+koff,ivar,lb)=             & 
+                      sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                    End If
                  End If
                End Do
@@ -546,7 +546,7 @@
                ii = (i-nguard)/2+1+nguard
                Do ivar=1,nfacevar
                  If (int_gcell_on_fc(2,ivar)) Then
-                  sendf(ivar,ii,jj,kk) = tempf(ivar,i,j,k)
+                  sendf(ii,jj,kk,ivar) = tempf(i,j,k,ivar)
                  End If
                End Do
              End Do
@@ -560,15 +560,15 @@
                Do ivar=1,nfacevar
                  If (int_gcell_on_fc(2,ivar)) Then
                  If (curvilinear_conserve) Then
-                     facevary(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,  & 
-                               k+nguard0*k3d+koff,lb)=                 & 
-                      sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)   & 
+                     facevary(i+nguard0+ioff,j+nguard0*k2d+joff,  & 
+                               k+nguard0*k3d+koff,ivar,lb)=                 & 
+                      sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)   & 
                      / max(cell_area2(i+nguard+ioff,j+nguard*k2d+joff, & 
                              k+nguard*k3d+koff),eps)
                  Else
-                   facevary(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,    & 
-                                 k+nguard0*k3d+koff,lb)=               & 
-                   sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+                   facevary(i+nguard0+ioff,j+nguard0*k2d+joff,    & 
+                                 k+nguard0*k3d+koff,ivar,lb)=               & 
+                   sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                  End If
                  End If
                End Do
@@ -593,7 +593,7 @@
                ii = (i-nguard)/2+1+nguard
                Do ivar=1,nfacevar
                  If (int_gcell_on_fc(3,ivar)) Then
-                  sendf(ivar,ii,jj,kk) = tempf(ivar,i,j,k)
+                  sendf(ii,jj,kk,ivar) = tempf(i,j,k,ivar)
                  End If
                End Do
              End Do
@@ -607,15 +607,15 @@
                Do ivar=1,nfacevar
                  If (int_gcell_on_fc(3,ivar)) Then
                    If (curvilinear_conserve) Then
-                     facevarz(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,  & 
-                               k+nguard0*k3d+koff,lb)=                 & 
-                      sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)   & 
+                     facevarz(i+nguard0+ioff,j+nguard0*k2d+joff,  & 
+                               k+nguard0*k3d+koff,ivar,lb)=                 & 
+                      sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)   & 
                        / cell_area3(i+nguard+ioff,j+nguard*k2d+joff,   & 
                               k+nguard*k3d+koff)
                    Else
-                     facevarz(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,  & 
-                                 k+nguard0*k3d+koff,lb)=               & 
-                      sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+                     facevarz(i+nguard0+ioff,j+nguard0*k2d+joff,  & 
+                                 k+nguard0*k3d+koff,ivar,lb)=               & 
+                      sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                    End If
                  End If
                End Do
@@ -642,7 +642,7 @@
              ii = (i-nguard)/2+1+nguard
              Do ivar=1,nvaredge
                If (int_gcell_on_ec(1,ivar)) Then
-                sendf(ivar,ii,jj,kk) = tempf(ivar,i,j,k)
+                sendf(ii,jj,kk,ivar) = tempf(i,j,k,ivar)
                End If
              End Do
            End Do
@@ -656,15 +656,15 @@
              Do ivar=1,nvaredge
                If (int_gcell_on_ec(1,ivar)) Then
                If (curvilinear_conserve) Then
-                unk_e_x(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,        & 
-                              k+nguard0*k3d+koff,lb)=                  & 
-                 sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)        & 
+                unk_e_x(i+nguard0+ioff,j+nguard0*k2d+joff,        & 
+                              k+nguard0*k3d+koff,ivar,lb)=                  & 
+                 sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)        & 
                   / cell_leng1(i+nguard+ioff,j+nguard*k2d+joff,        & 
                              k+nguard*k3d+koff)
                Else
-                unk_e_x(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,        & 
-                              k+nguard0*k3d+koff,lb)=                  & 
-                 sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+                unk_e_x(i+nguard0+ioff,j+nguard0*k2d+joff,        & 
+                              k+nguard0*k3d+koff,ivar,lb)=                  & 
+                 sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                End If
                End If
              End Do
@@ -685,7 +685,7 @@
              ii = (i-nguard)/2+1+nguard
              Do ivar=1,nvaredge
                If (int_gcell_on_ec(2,ivar)) Then
-                sendf(ivar,ii,jj,kk) = tempf(ivar,i,j,k)
+                sendf(ii,jj,kk,ivar) = tempf(i,j,k,ivar)
                End If
              End Do
            End Do
@@ -699,15 +699,15 @@
              Do ivar=1,nvaredge
                If (int_gcell_on_ec(2,ivar)) Then
                If (curvilinear_conserve) then
-                unk_e_y(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,        & 
-                              k+nguard0*k3d+koff,lb)=                  & 
-                 sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)        & 
+                unk_e_y(i+nguard0+ioff,j+nguard0*k2d+joff,        & 
+                              k+nguard0*k3d+koff,ivar,lb)=                  & 
+                 sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)        & 
                   / cell_leng2(i+nguard+ioff,j+nguard*k2d+joff,        & 
                              k+nguard*k3d+koff)
                Else
-               unk_e_y(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,         & 
-                             k+nguard0*k3d+koff,lb)=                   & 
-                sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+               unk_e_y(i+nguard0+ioff,j+nguard0*k2d+joff,         & 
+                             k+nguard0*k3d+koff,ivar,lb)=                   & 
+                sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                End If
                End If
              End Do
@@ -729,7 +729,7 @@
              ii = (i-nguard)/2+1+nguard
              Do ivar=1,nvaredge
                If(int_gcell_on_ec(3,ivar)) Then
-                sendf(ivar,ii,jj,kk) = tempf(ivar,i,j,k)
+                sendf(ii,jj,kk,ivar) = tempf(i,j,k,ivar)
                End If
              End Do
            End Do
@@ -743,15 +743,15 @@
              Do ivar=1,nvaredge
                If (int_gcell_on_ec(3,ivar)) Then
                If (curvilinear_conserve) Then
-                unk_e_z(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,        & 
-                              k+nguard0*k3d+koff,lb)=                  & 
-                 sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)        & 
+                unk_e_z(i+nguard0+ioff,j+nguard0*k2d+joff,        & 
+                              k+nguard0*k3d+koff,ivar,lb)=                  & 
+                 sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)        & 
                   / cell_leng3(i+nguard+ioff,j+nguard*k2d+joff,        & 
                              k+nguard*k3d+koff)
                Else
-                unk_e_z(ivar,i+nguard0+ioff,j+nguard0*k2d+joff,        & 
-                              k+nguard0*k3d+koff,lb)=                  & 
-                 sendf(ivar,i+nguard,j+nguard*k2d,k+nguard*k3d)
+                unk_e_z(i+nguard0+ioff,j+nguard0*k2d+joff,        & 
+                              k+nguard0*k3d+koff,ivar,lb)=                  & 
+                 sendf(i+nguard,j+nguard*k2d,k+nguard*k3d,ivar)
                End If
                End If
              End Do
@@ -892,8 +892,8 @@
          If(iopt == 1) Then
            If (remote_block <= lnblocks                                & 
                       .and.remote_pe == mype) Then
-             unk_n(:,ia:ib,ja:jb,ka:kb,lb) = &
-              unk_n(:,isa:isb,jsa:jsb,ksa:ksb,remote_block)
+             unk_n(ia:ib,ja:jb,ka:kb,:,lb) = &
+              unk_n(isa:isb,jsa:jsb,ksa:ksb,:,remote_block)
            Else
 !------------The next section is largely borrowed from amr_1blk_guardcell_srl.
 !------------It sets the index ranges for copying the common face unk_n data.
@@ -953,12 +953,12 @@
                        ip1,jp1,kp1,ip3,jp3,kp3,0)
 
              ng1 = nguard*(1-npgs)
-             unk_n(:,id-ng1:id+ilays-ng1,                              & 
+             unk_n(id-ng1:id+ilays-ng1,                              & 
                      jd-ng1*k2d:jd+(jlays-ng1)*k2d,                    & 
-                     kd-ng1*k3d:kd+(klays-ng1)*k3d,lb) =               & 
-              unk_n1(:,id:id+ilays,                                    & 
+                     kd-ng1*k3d:kd+(klays-ng1)*k3d,:,lb) =               & 
+              unk_n1(id:id+ilays,                                    & 
                        jd:jd+jlays*k2d,                                & 
-                       kd:kd+klays*k3d,iblock)
+                       kd:kd+klays*k3d,:,iblock)
 
 
          End If  ! End If (remote_block <= lnblocks ...

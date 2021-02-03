@@ -156,16 +156,16 @@
       If (force_consistency) Then
 
       If (no_permanent_guardcells) Then
-       Allocate(recvxf(nbndvar,il_bnd:iu_bnd+1,jl_bnd:ju_bnd,          & 
-                       kl_bnd:ku_bnd))
-       Allocate(recvyf(nbndvar,il_bnd:iu_bnd,jl_bnd:ju_bnd+k2d,        & 
-                       kl_bnd:ku_bnd))
-       Allocate(recvzf(nbndvar,il_bnd:iu_bnd,jl_bnd:ju_bnd,            & 
-                       kl_bnd:ku_bnd+k3d))
+       Allocate(recvxf(il_bnd:iu_bnd+1,jl_bnd:ju_bnd,          & 
+                       kl_bnd:ku_bnd,nbndvar))
+       Allocate(recvyf(il_bnd:iu_bnd,jl_bnd:ju_bnd+k2d,        & 
+                       kl_bnd:ku_bnd,nbndvar))
+       Allocate(recvzf(il_bnd:iu_bnd,jl_bnd:ju_bnd,            & 
+                       kl_bnd:ku_bnd+k3d,nbndvar))
       Else
-       Allocate(recvxf(nbndvar,1:2,jl_bnd:ju_bnd,kl_bnd:ku_bnd))
-       Allocate(recvyf(nbndvar,il_bnd:iu_bnd,1:1+k2d,kl_bnd:ku_bnd))
-       Allocate(recvzf(nbndvar,il_bnd:iu_bnd,jl_bnd:ju_bnd,1:1+k3d))
+       Allocate(recvxf(1:2,jl_bnd:ju_bnd,kl_bnd:ku_bnd,nbndvar))
+       Allocate(recvyf(il_bnd:iu_bnd,1:1+k2d,kl_bnd:ku_bnd,nbndvar))
+       Allocate(recvzf(il_bnd:iu_bnd,jl_bnd:ju_bnd,1:1+k3d,nbndvar))
       End If  ! End If (no_permanent_guardcells)
 
       recvxf = 0.
@@ -225,73 +225,73 @@
 
        If (no_permanent_guardcells) Then
 
-       facevarx1(1:nbndvar,id1:id1+il+ip2,jd:jd+jl,kd:kd+kl,idest)     & 
-          = gt_facevarx(1:nbndvar,is1:is1+il+ip2,                      & 
+       facevarx1(id1:id1+il+ip2,jd:jd+jl,kd:kd+kl,1:nbndvar,idest)     & 
+          = gt_facevarx(is1:is1+il+ip2,                      & 
                                   ja:jb:jstride,                       & 
-                                  ks:ks+kl,                            & 
+                                  ks:ks+kl,1:nbndvar,                            & 
                                   remote_block)
 
        If (ndim >= 2) Then
-         facevary1(1:nbndvar,id:id+il,jd1:jd1+jl+jp2,kd:kd+kl,idest)   & 
-            = gt_facevary(1:nbndvar,is:is+il,                          & 
+         facevary1(id:id+il,jd1:jd1+jl+jp2,kd:kd+kl,1:nbndvar,idest)   & 
+            = gt_facevary(is:is+il,                          & 
                                     js1:js1+(jl+jp2)*jstride:jstride,  & 
-                                    ks:ks+kl,                          & 
+                                    ks:ks+kl,1:nbndvar,                          & 
                                     remote_block)
        End If  ! End If (ndim >= 2)
 
        If (ndim == 3) Then
-         facevarz1(1:nbndvar,id:id+il,jd:jd+jl,kd1:kd1+kl+kp2,idest)   & 
-            = gt_facevarz(1:nbndvar,is:is+il,                          & 
+         facevarz1(id:id+il,jd:jd+jl,kd1:kd1+kl+kp2,1:nbndvar,idest)   & 
+            = gt_facevarz(is:is+il,                          & 
                                     ja:jb:jstride,                     & 
-                                    ks1:ks1+kl+kp2,                    & 
+                                    ks1:ks1+kl+kp2,1:nbndvar,                    & 
                                     remote_block)
        End If  ! End If (ndim == 3)
 
        If (force_consistency) Then
-        recvxf(:,1,:,:) = gt_facevarx(:,1,:,:,remote_block)
-        recvxf(:,2,:,:) = gt_facevarx(:,nxb+1,:,:,remote_block)
+        recvxf(1,:,:,:) = gt_facevarx(1,:,:,:,remote_block)
+        recvxf(2,:,:,:) = gt_facevarx(nxb+1,:,:,:,remote_block)
         If (ndim >= 2) Then
-        recvyf(:,:,1,:) = gt_facevary(:,:,1,:,remote_block)
-        recvyf(:,:,1+k2d,:) = gt_facevary(:,:,nyb+k2d,:,remote_block)
+        recvyf(:,1,:,:) = gt_facevary(:,1,:,:,remote_block)
+        recvyf(:,1+k2d,:,:) = gt_facevary(:,nyb+k2d,:,:,remote_block)
         End If  ! End If (ndim >= 2)
         If (ndim == 3) Then
-        recvzf(:,:,:,1) = gt_facevarz(:,:,:,1,remote_block)
-        recvzf(:,:,:,1+k3d) = gt_facevarz(:,:,:,nzb+k3d,remote_block)
+        recvzf(:,:,1,:) = gt_facevarz(:,:,1,:,remote_block)
+        recvzf(:,:,1+k3d,:) = gt_facevarz(:,:,nzb+k3d,:,remote_block)
         End If  ! End If (ndim == 3)
        End If  ! End If (force_consistency)
 
       Else !  If (no_permanent_guardcells)
 
-       facevarx1(1:nbndvar,id1:id1+il+ip2,jd:jd+jl,kd:kd+kl,idest)     & 
-          = facevarx(1:nbndvar,is1:is1+il+ip2,ja:jb:jstride,           & 
-                               ks:ks+kl,                               & 
+       facevarx1(id1:id1+il+ip2,jd:jd+jl,kd:kd+kl,1:nbndvar,idest)     & 
+          = facevarx(is1:is1+il+ip2,ja:jb:jstride,           & 
+                               ks:ks+kl,1:nbndvar,                               & 
                                remote_block)
 
        If (ndim >= 2) Then
-         facevary1(1:nbndvar,id:id+il,jd1:jd1+jl+jp2,kd:kd+kl,idest)   & 
-            = facevary(1:nbndvar,is:is+il,                             & 
+         facevary1(id:id+il,jd1:jd1+jl+jp2,kd:kd+kl,1:nbndvar,idest)   & 
+            = facevary(is:is+il,                             & 
                                  js1:js2:jstride,                      & 
-                                 ks:ks+kl,                             & 
+                                 ks:ks+kl,1:nbndvar,                             & 
                                  remote_block)
        End If  ! End If (ndim >= 2)
 
        If (ndim == 3) Then
-         facevarz1(1:nbndvar,id:id+il,jd:jd+jl,kd1:kd1+kl+kp2,idest)   & 
-           = facevarz(1:nbndvar,is:is+il,ja:jb:jstride,                &
-                                ks1:ks1+kl+kp2,                        & 
+         facevarz1(id:id+il,jd:jd+jl,kd1:kd1+kl+kp2,1:nbndvar,idest)   & 
+           = facevarz(is:is+il,ja:jb:jstride,                &
+                                ks1:ks1+kl+kp2,1:nbndvar,                        & 
                                 remote_block)
        End If  ! If (ndim == 3)
 
        If (force_consistency) Then
-        recvxf(:,1,:,:) = gt_facevarx(:,1,:,:,remote_block)
-        recvxf(:,2,:,:) = gt_facevarx(:,2,:,:,remote_block)
+        recvxf(1,:,:,:) = gt_facevarx(1,:,:,:,remote_block)
+        recvxf(2,:,:,:) = gt_facevarx(2,:,:,:,remote_block)
         If (ndim >= 2) Then
-        recvyf(:,:,1,:) = gt_facevary(:,:,1,:,remote_block)
-        recvyf(:,:,1+k2d,:) = gt_facevary(:,:,1+k2d,:,remote_block)
+        recvyf(:,1,:,:) = gt_facevary(:,1,:,:,remote_block)
+        recvyf(:,1+k2d,:,:) = gt_facevary(:,1+k2d,:,:,remote_block)
         End If  ! End If (ndim >= 2)
         If (ndim == 3) Then
-        recvzf(:,:,:,1) = gt_facevarz(:,:,:,1,remote_block)
-        recvzf(:,:,:,1+k3d) = gt_facevarz(:,:,:,1+k3d,remote_block)
+        recvzf(:,:,1,:) = gt_facevarz(:,:,1,:,remote_block)
+        recvzf(:,:,1+k3d,:) = gt_facevarz(:,:,1+k3d,:,remote_block)
         End If  ! End If (ndim == 3)
        End If  ! End If (force_consistency)
 
@@ -386,14 +386,14 @@
 
           If (i == 1+nguard0 .and. iface == 2) Then
             If (force_consistency) Then
-             recvxf(ivar_next,1,j,k) = temprecv_buf(index0+ivar)
+             recvxf(1,j,k,ivar_next) = temprecv_buf(index0+ivar)
             End If  ! End If (force_consistency)
           Else If (i == nxb+1+nguard0 .and. iface == 1) Then
             If (force_consistency) Then 
-             recvxf(ivar_next,2,j,k) = temprecv_buf(index0+ivar)
+             recvxf(2,j,k,ivar_next) = temprecv_buf(index0+ivar)
             End If  ! End If (force_consistency)
           Else
-            facevarx1(ivar_next,ii,jj,kk,idest) =                      &
+            facevarx1(ii,jj,kk,ivar_next,idest) =                      &
                            temprecv_buf(index0+ivar)
           End If  ! End If (If(i == 1+nguard0 .and. iface == 2)
 
@@ -477,14 +477,14 @@
 
           If (j == 1+nguard0*k2d .and. iface == 4) then
             If (force_consistency) Then
-            recvyf(ivar_next,i,1,k) = temprecv_buf(index0+ivar)
+            recvyf(i,1,k,ivar_next) = temprecv_buf(index0+ivar)
             End If  ! End If (force_consistency)
           Elseif (j == nyb+1+nguard0*k2d .and. iface == 3) Then
              If (force_consistency) Then
-             recvyf(ivar_next,i,1+k2d,k) = temprecv_buf(index0+ivar)
+             recvyf(i,1+k2d,k,ivar_next) = temprecv_buf(index0+ivar)
             End If  ! End (force_consistency)
           Else
-            facevary1(ivar_next,ii,jj,kk,idest) =                      & 
+            facevary1(ii,jj,kk,ivar_next,idest) =                      & 
                                     temprecv_buf(index0+ivar)
           End If  ! End If (j == 1+nguard0*k2d .and. iface == 4)
 
@@ -565,14 +565,14 @@
 
           If (k == 1+nguard0*k3d .and. iface == 6) Then
             If (force_consistency) Then
-             recvzf(ivar_next,i,j,1) = temprecv_buf(index0+ivar)
+             recvzf(i,j,1,ivar_next) = temprecv_buf(index0+ivar)
             End If  ! End If (force_consistency)
           Elseif(k == nzb+1+nguard0*k3d .and. iface == 5) Then
             If (force_consistency) Then
-             recvzf(ivar_next,i,j,1+k3d) = temprecv_buf(index0+ivar)
+             recvzf(i,j,1+k3d,ivar_next) = temprecv_buf(index0+ivar)
             End If  ! End If (force_consistency)
           Else
-            facevarz1(ivar_next,ii,jj,kk,idest) =                    &
+            facevarz1(ii,jj,kk,ivar_next,idest) =                    &
                        temprecv_buf(index0+ivar)
           End If  ! End If (k == 1+nguard0*k3d .and. iface == 6)
 
@@ -605,13 +605,13 @@
        Do ivar=1,ngcell_on_fc(1)
          ivar_next = gcell_on_fc_pointer(1,ivar)
 
-         facevarx1(ivar_next,1+nguard,1+nguard*k2d:nyb+nguard*k2d,     & 
-                             1+nguard*k3d:nzb+nguard*k3d,idest) =      & 
+         facevarx1(1+nguard,1+nguard*k2d:nyb+nguard*k2d,     & 
+                             1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest) =      & 
          .5*(                                                          & 
-         facevarx1(ivar_next,1+nguard,1+nguard*k2d:nyb+nguard*k2d,     & 
-                             1+nguard*k3d:nzb+nguard*k3d,idest) +      & 
-           recvxf(ivar_next,2,1+nguard0*k2d:nyb+nguard0*k2d,           & 
-                              1+nguard0*k3d:nzb+nguard0*k3d) ) 
+         facevarx1(1+nguard,1+nguard*k2d:nyb+nguard*k2d,     & 
+                             1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest) +      & 
+           recvxf(2,1+nguard0*k2d:nyb+nguard0*k2d,           & 
+                              1+nguard0*k3d:nzb+nguard0*k3d,ivar_next) ) 
        End Do  ! End Do ivar=1,ngcell_on_fc(1)
 
        Elseif (iface == 2) Then
@@ -619,13 +619,13 @@
        Do ivar=1,ngcell_on_fc(1)
          ivar_next = gcell_on_fc_pointer(1,ivar)
 
-         facevarx1(ivar_next,nxb+1+nguard,1+nguard*k2d:nyb+nguard*k2d, & 
-                            1+nguard*k3d:nzb+nguard*k3d,idest) =       & 
+         facevarx1(nxb+1+nguard,1+nguard*k2d:nyb+nguard*k2d, & 
+                            1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest) =       & 
          .5*(                                                          & 
-           recvxf(ivar_next,1,1+nguard0*k2d:nyb+nguard0*k2d,           & 
-                              1+nguard0*k3d:nzb+nguard0*k3d) +         & 
-         facevarx1(ivar_next,nxb+1+nguard,1+nguard*k2d:nyb+nguard*k2d, & 
-                             1+nguard*k3d:nzb+nguard*k3d,idest) )      
+           recvxf(1,1+nguard0*k2d:nyb+nguard0*k2d,           & 
+                              1+nguard0*k3d:nzb+nguard0*k3d,ivar_next) +         & 
+         facevarx1(nxb+1+nguard,1+nguard*k2d:nyb+nguard*k2d, & 
+                             1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest) )      
        End Do  ! End Do ivar=1,ngcell_on_fc(1)
 
        Elseif (iface == 3) Then
@@ -637,13 +637,13 @@
        Do ivar=1,ngcell_on_fc(2)
          ivar_next = gcell_on_fc_pointer(2,ivar)
 
-         facevary1(ivar_next,1+nguard:nxb+nguard,1+nguard*k2d,         & 
-                             1+nguard*k3d:nzb+nguard*k3d,idest) =      & 
+         facevary1(1+nguard:nxb+nguard,1+nguard*k2d,         & 
+                             1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest) =      & 
          .5*(                                                          & 
-         facevary1(ivar_next,1+nguard:nxb+nguard,1+nguard*k2d,         & 
-                             1+nguard*k3d:nzb+nguard*k3d,idest) +      & 
-           recvyf(ivar_next,1+nguard0:nxb+nguard0,jbface,              & 
-                           1+nguard0*k3d:nzb+nguard0*k3d) )
+         facevary1(1+nguard:nxb+nguard,1+nguard*k2d,         & 
+                             1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest) +      & 
+           recvyf(1+nguard0:nxb+nguard0,jbface,              & 
+                           1+nguard0*k3d:nzb+nguard0*k3d,ivar_next) )
        End Do  ! End Do ivar=1,ngcell_on_fc(2)
 
        Elseif (iface == 4) Then
@@ -655,13 +655,13 @@
        Do ivar=1,ngcell_on_fc(2)
          ivar_next = gcell_on_fc_pointer(2,ivar)
 
-         facevary1(ivar_next,1+nguard:nxb+nguard,nyb+k2d+nguard*k2d,   & 
-                             1+nguard*k3d:nzb+nguard*k3d,idest) =      & 
+         facevary1(1+nguard:nxb+nguard,nyb+k2d+nguard*k2d,   & 
+                             1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest) =      & 
          .5*(                                                          & 
-           recvyf(ivar_next,1+nguard0:nxb+nguard0,jbface,              & 
-                           1+nguard0*k3d:nzb+nguard0*k3d)  +           & 
-           facevary1(ivar_next,1+nguard:nxb+nguard,nyb+k2d+nguard*k2d, & 
-                             1+nguard*k3d:nzb+nguard*k3d,idest) ) 
+           recvyf(1+nguard0:nxb+nguard0,jbface,              & 
+                           1+nguard0*k3d:nzb+nguard0*k3d,ivar_next)  +           & 
+           facevary1(1+nguard:nxb+nguard,nyb+k2d+nguard*k2d, & 
+                             1+nguard*k3d:nzb+nguard*k3d,ivar_next,idest) ) 
        End Do  ! End Do ivar=1,ngcell_on_fc(2)
 
        Elseif (iface == 5) Then
@@ -669,13 +669,13 @@
        Do ivar=1,ngcell_on_fc(3)
          ivar_next = gcell_on_fc_pointer(3,ivar)
 
-         facevarz1(ivar_next,1+nguard:nxb+nguard,                      & 
-                   1+nguard*k2d:nyb+nguard*k2d,1+nguard*k3d,idest) =   & 
+         facevarz1(1+nguard:nxb+nguard,                      & 
+                   1+nguard*k2d:nyb+nguard*k2d,1+nguard*k3d,ivar_next,idest) =   & 
          .5*(                                                          & 
-         facevarz1(ivar_next,1+nguard:nxb+nguard,                      & 
-                   1+nguard*k2d:nyb+nguard*k2d,1+nguard*k3d,idest) +   & 
-           recvzf(ivar_next,1+nguard0:nxb+nguard0,                     & 
-                           1+nguard0*k2d:nyb+nguard0*k2d,1+k3d) )
+         facevarz1(1+nguard:nxb+nguard,                      & 
+                   1+nguard*k2d:nyb+nguard*k2d,1+nguard*k3d,ivar_next,idest) +   & 
+           recvzf(1+nguard0:nxb+nguard0,                     & 
+                           1+nguard0*k2d:nyb+nguard0*k2d,1+k3d,ivar_next) )
        End Do  ! End Do ivar=1,ngcell_on_fc(3)
 
        Elseif(iface == 6) Then
@@ -683,13 +683,13 @@
        Do ivar=1,ngcell_on_fc(3)
          ivar_next = gcell_on_fc_pointer(3,ivar)
 
-         facevarz1(ivar_next,1+nguard:nxb+nguard,                      & 
-             1+nguard*k2d:nyb+nguard*k2d,nzb+k3d+nguard*k3d,idest) =   & 
+         facevarz1(1+nguard:nxb+nguard,                      & 
+             1+nguard*k2d:nyb+nguard*k2d,nzb+k3d+nguard*k3d,ivar_next,idest) =   & 
          .5*(                                                          & 
-           recvzf(ivar_next,1+nguard0:nxb+nguard0,                     &  
-                           1+nguard0*k2d:nyb+nguard0*k2d,1) +          & 
-           facevarz1(ivar_next,1+nguard:nxb+nguard,                    & 
-             1+nguard*k2d:nyb+nguard*k2d,nzb+k3d+nguard*k3d,idest) )   
+           recvzf(1+nguard0:nxb+nguard0,                     &  
+                           1+nguard0*k2d:nyb+nguard0*k2d,1,ivar_next) +          & 
+           facevarz1(1+nguard:nxb+nguard,                    & 
+             1+nguard*k2d:nyb+nguard*k2d,nzb+k3d+nguard*k3d,ivar_next,idest) )   
 
        End Do  ! End Do ivar=1,ngcell_on_fc(3)
        End If  ! End If (iface == 1)

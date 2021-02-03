@@ -237,13 +237,13 @@
      &                   k2d, k3d, mype )
 
              if (j <= jcu .And. k <= kcu) then
-              facevarx1(iv1,i,j,k,idest) = fx_0
+              facevarx1(i,j,k,iv1,idest) = fx_0
              end if
              if (i <= icu .And. k <= kcu) then
-              facevary1(iv2,i,j,k,idest) = fy_0
+              facevary1(i,j,k,iv2,idest) = fy_0
              end if
              if (i <= icu .And. j <= jcu) then
-              facevarz1(iv1,i,j,k,idest) = fz_0
+              facevarz1(i,j,k,iv1,idest) = fz_0
              end if
 
 !             if(left)then

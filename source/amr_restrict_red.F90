@@ -82,11 +82,11 @@
            Do j=1+nguard0*k2d,nyb+nguard0*k2d,2
              Do i=1,2
                Do ivar=1,nfluxes
-                 bndtempx1(ivar,i,j,k) = (                             & 
-                              recvarxf(ivar,i,j,k) +                   & 
-                              recvarxf(ivar,i,j+k2d,k) +               & 
-                              recvarxf(ivar,i,j,k+k3d) +               & 
-                              recvarxf(ivar,i,j+k2d,k+k3d))            & 
+                 bndtempx1(i,j,k,ivar) = (                             & 
+                              recvarxf(i,j,k,ivar) +                   & 
+                              recvarxf(i,j+k2d,k,ivar) +               & 
+                              recvarxf(i,j,k+k3d,ivar) +               & 
+                              recvarxf(i,j+k2d,k+k3d,ivar))            & 
                              *red_f
                End Do
              End Do
@@ -99,11 +99,11 @@
           Do j=1,2
             Do i=1+nguard0,nxb+nguard0,2
               Do ivar=1,nfluxes
-                bndtempy1(ivar,i,j,k) = (                              & 
-                             recvaryf(ivar,i,j,k) +                    & 
-                             recvaryf(ivar,i+1,j,k) +                  & 
-                             recvaryf(ivar,i,j,k+k3d) +                & 
-                             recvaryf(ivar,i+1,j,k+k3d))               & 
+                bndtempy1(i,j,k,ivar) = (                              & 
+                             recvaryf(i,j,k,ivar) +                    & 
+                             recvaryf(i+1,j,k,ivar) +                  & 
+                             recvaryf(i,j,k+k3d,ivar) +                & 
+                             recvaryf(i+1,j,k+k3d,ivar))               & 
                             *red_f
                End Do
              End Do
@@ -116,11 +116,11 @@
           Do j=1+nguard0,nyb+nguard0,2
             Do i=1+nguard0,nxb+nguard0,2
               Do ivar=1,nfluxes
-                bndtempz1(ivar,i,j,k) = (                              & 
-                             recvarzf(ivar,i,j,k) +                    & 
-                             recvarzf(ivar,i+1,j,k) +                  & 
-                             recvarzf(ivar,i,j+1,k) +                  & 
-                             recvarzf(ivar,i+1,j+1,k))                 & 
+                bndtempz1(i,j,k,ivar) = (                              & 
+                             recvarzf(i,j,k,ivar) +                    & 
+                             recvarzf(i+1,j,k,ivar) +                  & 
+                             recvarzf(i,j+1,k,ivar) +                  & 
+                             recvarzf(i+1,j+1,k,ivar))                 & 
                             *red_f
                End Do
              End Do

@@ -192,7 +192,7 @@
                  jj = (j-nguard0)/2+nguard0+1
                  ttbedge_facex_y(:,i,jj+joff,kk+koff,lb) = & 
      &                 ttbedge_facex_y(:,i,jj+joff,kk+koff,lb) & 
-     &                                    + recvarx1e(:,i,j,k)
+     &                                    + recvarx1e(i,j,k,:)
                enddo
              enddo
 
@@ -203,7 +203,7 @@
                    jj = (j-nguard0)/2+nguard0+1
                    ttbedge_facex_z(:,i,jj+joff,kk+koff,lb) =  & 
      &                   ttbedge_facex_z(:,i,jj+joff,kk+koff,lb) & 
-     &                                      + recvarx2e(:,i,j,k)
+     &                                      + recvarx2e(i,j,k,:)
                  enddo
                enddo
              endif
@@ -224,7 +224,7 @@
                  ii = (i-nguard0)/2+nguard0+1
                  ttbedge_facey_x(:,ii+ioff,j,kk+koff,lb) = & 
      &                 ttbedge_facey_x(:,ii+ioff,j,kk+koff,lb)  & 
-     &                                    + recvary2e(:,i,j,k)
+     &                                    + recvary2e(i,j,k,:)
 
                enddo
              enddo
@@ -236,7 +236,7 @@
                    ii = (i-nguard0)/2+nguard0+1
                    ttbedge_facey_z(:,ii+ioff,j,kk+koff,lb) = & 
      &                   ttbedge_facey_z(:,ii+ioff,j,kk+koff,lb) & 
-     &                                      + recvary1e(:,i,j,k)
+     &                                      + recvary1e(i,j,k,:)
                  enddo
                enddo
              endif
@@ -256,7 +256,7 @@
                  ii = (i-nguard0)/2+nguard0+1
                  ttbedge_facez_x(:,ii+ioff,jj+joff,k,lb) = & 
      &                 ttbedge_facez_x(:,ii+ioff,jj+joff,k,lb) & 
-     &                                    + recvarz1e(:,i,j,k)
+     &                                    + recvarz1e(i,j,k,:)
                enddo
              enddo
              do j=1+nguard0,nyb+nguard0,2
@@ -265,7 +265,7 @@
                  ii = (i-nguard0)/2+nguard0+1
                  ttbedge_facez_y(:,ii+ioff,jj+joff,k,lb) = & 
      &                 ttbedge_facez_y(:,ii+ioff,jj+joff,k,lb) & 
-     &                                    + recvarz2e(:,i,j,k)
+     &                                    + recvarz2e(i,j,k,:)
                enddo
              enddo
 

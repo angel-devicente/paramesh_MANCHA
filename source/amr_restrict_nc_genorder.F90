@@ -75,7 +75,7 @@
       Do j=1+nguard*k2d,nyb+nguard*k2d+k2d
       Do i=1+nguard,nxb+nguard+1
 
-         dataout(ivar,i,j,k) = datain(ivar,i,j,k)
+         dataout(i,j,k,ivar) = datain(i,j,k,ivar)
 
       End Do
       End Do
